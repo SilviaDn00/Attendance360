@@ -13,17 +13,8 @@ export class LoginService {
   constructor() {
     this._userServices.getUsers().subscribe((data) => {
       this._users = data;
-
     });
   }
-
-
-  // ngOnInit(): void {
-  //   this._userServices.getUsers().subscribe((data) => {
-  //     this._users = data;
-
-  //   });
-  // }
 
   login(username: string, password: string): boolean {
     console.log('Lista degli utenti:', this._users);

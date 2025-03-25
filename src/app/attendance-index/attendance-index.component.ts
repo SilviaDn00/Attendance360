@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { NavbarComponent } from '../navbar/navbar.component';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-attendance-index',
-  imports: [DashboardComponent, NavbarComponent],
+  imports: [RouterOutlet, NavbarComponent ],
   templateUrl: './attendance-index.component.html',
   styleUrl: './attendance-index.component.scss'
 })
