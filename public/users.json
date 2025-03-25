@@ -1,16 +1,16 @@
 [
     {
-        "username": "davide@coodearchitects.com",
+        "username": "davide@codearchitects.com",
         "password": "12345",
         "role": "admin"
     },
     {
-        "username": "mighele@coodearchitects.com",
+        "username": "mighele@codearchitects.com",
         "password": "12345",
         "role": "admin"
     },
     {
-        "username": "silvia@coodearchitects.com",
+        "username": "silvia@codearchitects.com",
         "password": "12345",
         "role": "admin"
     },

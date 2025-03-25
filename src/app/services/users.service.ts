@@ -15,7 +15,7 @@ export class UsersService {
 
   constructor() { }
 
-  getUsers() : Observable<User[]> {
+getUsers() : Observable<User[]> {
     return this._http.get<User[]>(this._url);
   }
 
