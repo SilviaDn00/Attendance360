@@ -1,0 +1,32 @@
+[
+    {
+        "username": "davide@coodearchitects.com",
+        "password": "12345",
+        "role": "admin"
+    },
+    {
+        "username": "mighele@coodearchitects.com",
+        "password": "12345",
+        "role": "admin"
+    },
+    {
+        "username": "silvia@coodearchitects.com",
+        "password": "12345",
+        "role": "admin"
+    },
+    {
+        "username": "admin",
+        "password": "123",
+        "role": "admin"
+    },
+    {
+        "username": "mario",
+        "password": "123",
+        "role": "employee"
+    }, 
+    {
+        "username": "lucia",
+        "password": "123",
+        "role": "employee"
+    }
+]
