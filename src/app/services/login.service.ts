@@ -10,6 +10,7 @@ export class LoginService {
   private _users: User[] = [];
   private _userServices: UsersService = inject(UsersService);
 
+
   constructor() {
     this._userServices.getUsers().subscribe((data) => {
       this._users = data;
@@ -23,10 +24,10 @@ export class LoginService {
 
     // Se esiste un utente che corrisponde, restituiamo true (accesso consentito)
     if (user) {
-      localStorage.setItem('username', user.username);
       localStorage.setItem('role', user.role);
       return true;
-    } else {
+    }
+    else {
       // Altrimenti, restituiamo false (accesso negato)
       return false;
     }
@@ -37,6 +38,6 @@ export class LoginService {
   }
 
   isLoggedIn(): boolean {
-    return !!localStorage.getItem('username');
+    return !!localStorage.getItem('id');
   }
 }
