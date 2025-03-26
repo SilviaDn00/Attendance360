@@ -3,26 +3,22 @@ import { LoginService } from '../services/login.service';
 import { inject } from '@angular/core';
 
 export const activateAuthGuard: CanActivateFn = (route, state) => {
-
-  const loginService = inject(LoginService)
+  const loginService = inject(LoginService);
   const role = loginService.getRole();
-  
-  const router = inject(Router)
+
+  const router = inject(Router);
 
   if (role === 'admin' && state.url !== '/dashboard') {
-    router.navigate(['/dashboard']);  // Admin deve andare a /dashboard
+    router.navigate(['/dashboard']); // Admin deve andare a /dashboard
     return false;
   } else if (role === 'employee' && state.url !== '/employee-management') {
-    router.navigate(['/employee-management']);  // Employee deve andare a /employee-area
+    router.navigate(['/employee-management']); // Employee deve andare a /employee-area
     return false;
   }
-
 
   if (loginService.isLoggedIn()) {
     return true;
-  }
-
-  else {
+  } else {
     router.navigate(['/login']);
     return false;
   }

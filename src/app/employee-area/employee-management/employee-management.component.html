@@ -1,8 +1,9 @@
 <div class="container">
     <div class="row">
+      <h1 class="text-center my-5"> BENVENUTO USER </h1>
         <div class="col-lg-6 col-12">
-            <form class="d-flex flex-column"> 
-              <h2 class="text-center mt-3">TIMBRA</h2>                 
+          <h2 class="text-center mt-lg-3 mb-5 pe-none">TIMBRA</h2>                 
+            <form class="d-flex flex-column bg-secondary bg-opacity-50 p-3 rounded-2"> 
                   <mat-form-field class="my-3">
                     <mat-label>Choose a date</mat-label>
                     <input matInput [matDatepicker]="picker">
@@ -14,11 +15,11 @@
                     <mat-radio-button value="1">Ingresso</mat-radio-button>
                     <mat-radio-button value="2">Uscita</mat-radio-button>
                   </mat-radio-group>
-                  <button type="button" class="btn btn-secondary my-3">Timbra</button>
+                  <button type="button" class="btn btn-success my-3">Timbra</button>
             </form>
         </div>
         <div class="col-lg-6 col-12 d-flex flex-column">
-          <h2 class="text-center my-3">STORICO</h2>                 
+          <h2 class="text-center mt-lg-3 mt-5 mb-5 pe-none">STORICO</h2>                 
             <table class="table">
                 <thead>
                   <tr>

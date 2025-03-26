@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { User } from '../models/users';
+import { User } from '../../models/users';
 import { UsersService } from '../services/users.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -13,11 +13,9 @@ import { LoginService } from '../services/login.service';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
-
-  private _loginService: LoginService = inject(LoginService)
+  private _loginService: LoginService = inject(LoginService);
   public formBuild = inject(FormBuilder);
   private _router: Router = inject(Router);
-
 
   loginFormGroup: FormGroup;
 
@@ -29,12 +27,18 @@ export class LoginComponent {
   }
 
   onLogin() {
-    if (this.loginFormGroup.value.username && this.loginFormGroup.value.password) {
-      if (this._loginService.login(this.loginFormGroup.value.username, this.loginFormGroup.value.password))
-        this._router.navigate(["/dashboard"]);
-      else
-        alert('login fallito')
+    if (
+      this.loginFormGroup.value.username &&
+      this.loginFormGroup.value.password
+    ) {
+      if (
+        this._loginService.login(
+          this.loginFormGroup.value.username,
+          this.loginFormGroup.value.password
+        )
+      )
+        this._router.navigate(['/dashboard']);
+      else alert('login fallito');
     }
   }
-
 }
