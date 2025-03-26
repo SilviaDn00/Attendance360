@@ -1,0 +1,22 @@
+
+.calendar {
+    background-color: rgb(0, 0, 0) !important;
+  }
+  
+
+.mat-mdc-radio-button~.mat-mdc-radio-button {
+    margin-left: 16px;
+}
+
+.container {
+    height: 100vh;
+}
+
+.table{
+    --bs-table-bg: #bebebe;
+    --bs-table-border-color: black;
+}
+
+.mat-calendar #mat-datepicker-2{
+    background-color: beige !important;
+}
