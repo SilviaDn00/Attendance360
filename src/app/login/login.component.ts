@@ -28,7 +28,7 @@ export class LoginComponent {
     });
   }
 
-  login() {
+  onLogin() {
     if (this.loginFormGroup.value.username && this.loginFormGroup.value.password) {
       if (this._loginService.login(this.loginFormGroup.value.username, this.loginFormGroup.value.password))
         this._router.navigate(["/dashboard"]);
