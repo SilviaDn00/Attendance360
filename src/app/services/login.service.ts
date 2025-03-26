@@ -25,6 +25,7 @@ export class LoginService {
     // Se esiste un utente che corrisponde, restituiamo true (accesso consentito)
     if (user) {
       localStorage.setItem('role', user.role);
+      localStorage.setItem('id', user.id)
       return true;
     }
     else {
