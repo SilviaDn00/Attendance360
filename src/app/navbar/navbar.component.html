@@ -1,6 +1,6 @@
 <nav class="navbar navbar-dark bg-dark" aria-label="First navbar example">
     <div class="container-fluid">
-        <a class="navbar-brand pe-none" > ATTENDANCE 360</a>
+        <a class="navbar-brand pe-none"> ATTENDANCE 360</a>
         <button class="navbar-toggler collapsed" type="button" data-bs-toggle="offcanvas"
             data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
             <span class="navbar-toggler-icon"></span>
@@ -10,14 +10,20 @@
             aria-labelledby="offcanvasExampleLabel">
             <div class="offcanvas-header">
                 <h4 class="offcanvas-title text-white pe-none" id="offcanvasExampleLabel">ATTENDANCE 360</h4>
-                <button type="button" class="btn-close bg-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-              </div>
-              <div class="offcanvas-body">
-            <ul class="navbar-nav me-auto mb-2 text-white">
-                <li class="pt-3 ps-3">
-                    <h2></h2>
-                </li>
-                <li class="nav-item">
+                <button type="button" class="btn-close bg-white" data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul class="navbar-nav me-auto mb-2 text-white">
+                    @for (item of items; track item.link) {
+                    <li class="nav-item">
+                        <a class="nav-link active ps-3" [routerLink]="[item.link]" routerLinkActive="active"
+                            aria-current="page" href="#">
+                            <h5><i class="bi bi-speedometer2 pe-2"></i>{{item.displayName}}</h5>
+                        </a>
+                    </li>
+                    }
+                    <!-- <li class="nav-item">
                     <a class="nav-link active ps-3" aria-current="page" routerLink="/dashboard">
                         <h5><i class="bi bi-speedometer2 pe-2"></i>Dashboard</h5>
                     </a>
@@ -26,19 +32,22 @@
                     <a class="nav-link ps-3" href="#">
                         <h5><i class="bi bi-person-badge-fill pe-2"></i>Dipendenti</h5>
                     </a>
-                </li>
-            </ul>
-        </div>
+                </li> -->
+
+                </ul>
+            </div>
             <div class="btn-group dropup  mb-2 ms-3 me-3">
-                <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                  Utente
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    Utente
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Profilo</a></li>
-                    <li><a class="dropdown-item" href="#">Impostazioni</a></li>
-                    <li><a class="dropdown-item text-danger fw-bold" href="#">Esci</a></li>
-                  </ul>
-              </div>              
+                    <li><a class="dropdown-item" routerLink="/employee-management">Profilo</a></li>
+                    <li><a class="dropdown-item" routerLink="/employee-management">Impostazioni</a></li>
+                    <li><a class="dropdown-item text-danger fw-bold" routerLink="/login"
+                            (click)="logoutService.logout()">Esci</a></li>
+                </ul>
+            </div>
         </div>
     </div>
 </nav>

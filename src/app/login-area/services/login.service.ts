@@ -40,4 +40,9 @@ export class LoginService {
   isLoggedIn(): boolean {
     return !!localStorage.getItem('id');
   }
+
+  logout(): void{
+    localStorage.removeItem('role')
+    localStorage.removeItem('id')
+  }
 }

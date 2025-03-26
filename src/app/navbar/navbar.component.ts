@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { LoginService } from '../login-area/services/login.service';
 
 @Component({
   selector: 'app-navbar',
@@ -9,4 +10,12 @@ import { RouterModule } from '@angular/router';
 })
 export class NavbarComponent {
 
+  logoutService = inject(LoginService)
+
+  protected readonly items = [
+    { displayName: 'HOME', link: 'homepage' },
+    { displayName: 'CHI SIAMO', link: 'about-us' },
+    { displayName: 'PROGETTI', link: 'projects' },
+    { displayName: 'CONTATTI', link: 'contacts-reactive' },
+  ]
 }
