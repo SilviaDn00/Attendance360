@@ -1,0 +1,19 @@
+<table>
+    <thead>
+      <tr>
+        @for (col of columns; track col) {
+          <th>{{ col.label }}</th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @for (row of rows; track row) {
+        <tr>
+          @for (col of columns; track col) {
+            <td>{{ row[col.key] }}</td>
+          }
+        </tr>
+      }
+    </tbody>
+  </table>
+  
