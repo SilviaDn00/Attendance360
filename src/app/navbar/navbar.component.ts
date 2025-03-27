@@ -10,12 +10,19 @@ import { LoginService } from '../login-area/services/login.service';
 })
 export class NavbarComponent {
 
-  logoutService = inject(LoginService)
+  logService = inject(LoginService)
 
-  protected readonly items = [
-    { displayName: 'HOME', link: 'homepage' },
-    { displayName: 'CHI SIAMO', link: 'about-us' },
-    { displayName: 'PROGETTI', link: 'projects' },
-    { displayName: 'CONTATTI', link: 'contacts-reactive' },
+  protected readonly employeeItems = [
+    { displayName: 'HOME', link: 'employee-management' },
+    { displayName: 'employee', link: 'login' },
   ]
+  
+  protected readonly adminItems = [
+    { displayName: 'DASHBOARD', link: 'dashboard' },
+    { displayName: 'admin', link: 'login' },
+  ]
+
+  get menuItems() {
+    return this.logService.getRole() === 'admin' ? this.adminItems : this.employeeItems;
+  }
 }
