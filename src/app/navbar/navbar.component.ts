@@ -14,12 +14,12 @@ export class NavbarComponent {
 
   protected readonly employeeItems = [
     { displayName: 'HOME', link: 'employee-management' },
-    { displayName: 'employee', link: 'dashboard' },
+    { displayName: 'employee', link: 'AAAAAAAAA' },
   ]
 
   protected readonly adminItems = [
     { displayName: 'DASHBOARD', link: 'dashboard' },
-    { displayName: 'admin', link: 'login' },
+    { displayName: 'admin', link: 'AAAAAAA' },
   ]
 
   get menuItems() {
