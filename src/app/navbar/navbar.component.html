@@ -13,7 +13,7 @@
             </div>
             <div class="offcanvas-body">
                 <ul class="navbar-nav me-auto mb-2 text-white">
-                    
+
                     @for (item of menuItems; track item.link) {
                     <li class="nav-item">
                         <a class="nav-link active ps-3" [routerLink]="[item.link]" routerLinkActive="active">
@@ -35,11 +35,11 @@
                 </ul>
             </div>
             <div class="btn-group dropup  mb-2 ms-3 me-3">
-                <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">User</button>
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">user</button>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" routerLink="/employee-management">Profilo</a></li>
                     <li><a class="dropdown-item" routerLink="/employee-management">Impostazioni</a></li>
-                    <li><a class="dropdown-item text-danger fw-bold" routerLink="/login" (click)="logService.logout()">Logout</a></li>
+                    <li><a class="dropdown-item text-danger fw-bold" routerLink="/login" (click)="logService.logout()">Esci</a></li>
                 </ul>
             </div>
         </div>

@@ -14,9 +14,9 @@ export class NavbarComponent {
 
   protected readonly employeeItems = [
     { displayName: 'HOME', link: 'employee-management' },
-    { displayName: 'employee', link: 'login' },
+    { displayName: 'employee', link: 'dashboard' },
   ]
-  
+
   protected readonly adminItems = [
     { displayName: 'DASHBOARD', link: 'dashboard' },
     { displayName: 'admin', link: 'login' },

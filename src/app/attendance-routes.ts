@@ -7,8 +7,8 @@ export const attendanceRoutes: Routes = [
     path: '', component: AttendanceIndexComponent,
 
     children: [
-      { path: 'dashboard', loadComponent: () => import('./admin-area/dashboard/dashboard.component').then(c => c.DashboardComponent), canActivate: [activateAuthGuard] },
-      { path: 'employee-management', loadComponent: () => import('./employee-area/employee-management/employee-management.component').then(c => c.EmployeeManagementComponent), canActivate: [activateAuthGuard], },
+      { path: 'dashboard', loadComponent: () => import('./admin-area/dashboard/dashboard.component').then(c => c.DashboardComponent) },
+      { path: 'employee-management', loadComponent: () => import('./employee-area/employee-management/employee-management.component').then(c => c.EmployeeManagementComponent)},
     ],
   },
 ];

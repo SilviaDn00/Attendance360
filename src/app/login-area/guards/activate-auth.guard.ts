@@ -9,9 +9,12 @@ export const activateAuthGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
 
   if (role === 'admin' && state.url !== '/dashboard') {
+    console.log(role);
     router.navigate(['/dashboard']); // Admin deve andare a /dashboard
     return false;
-  } else if (role === 'employee' && state.url !== '/employee-management') {
+  } 
+  else if (role === 'employee' && state.url !== '/employee-management') {
+    console.log(role);
     router.navigate(['/employee-management']); // Employee deve andare a /employee-area
     return false;
   }
