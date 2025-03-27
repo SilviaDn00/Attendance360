@@ -14,29 +14,22 @@ import { LoginService } from '../services/login.service';
 })
 export class LoginComponent {
   private _loginService: LoginService = inject(LoginService);
-  public formBuild = inject(FormBuilder);
   private _router: Router = inject(Router);
+  public formBuild = inject(FormBuilder);
 
   loginFormGroup: FormGroup;
 
   constructor() {
     this.loginFormGroup = this.formBuild.group({
-      username: [''],
+      email: [''],
       password: [''],
     });
   }
 
   onLogin() {
-    if (
-      this.loginFormGroup.value.username &&
-      this.loginFormGroup.value.password
-    ) {
-      if (
-        this._loginService.login(
-          this.loginFormGroup.value.username,
-          this.loginFormGroup.value.password
-        )
-      )
+    if (this.loginFormGroup.value.email && this.loginFormGroup.value.password) 
+      {
+      if (this._loginService.login(this.loginFormGroup.value.email.trim(), this.loginFormGroup.value.password))
         this._router.navigate(['/dashboard']);
       else alert('login fallito');
     }

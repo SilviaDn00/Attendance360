@@ -6,8 +6,9 @@ import { User } from '../../models/users';
   providedIn: 'root',
 })
 export class LoginService {
-  private _users: User[] = [];
+
   private _userServices: UsersService = inject(UsersService);
+  private _users: User[] = [];
 
   constructor() {
     this._userServices.getUsers().subscribe((data) => {
@@ -15,17 +16,16 @@ export class LoginService {
     });
   }
 
-  login(username: string, password: string): boolean {
+  login(email: string, password: string): boolean {
     console.log('Lista degli utenti:', this._users);
     // Cerchiamo un utente con username e password che corrispondono
-    const user = this._users.find(
-      (u) => u.username === username && u.password === password
-    );
+    const user = this._users.find(u => u.email === email && u.password === password);
 
     // Se esiste un utente che corrisponde, restituiamo true (accesso consentito)
     if (user) {
-      localStorage.setItem('role', user.role);
       localStorage.setItem('id', user.id);
+      localStorage.setItem('username', user.username)
+      localStorage.setItem('role', user.role);
       return true;
     } else {
       // Altrimenti, restituiamo false (accesso negato)
@@ -37,12 +37,11 @@ export class LoginService {
     return localStorage.getItem('role') || null;
   }
 
-  isLoggedIn(): boolean {
-    return !!localStorage.getItem('id');
+  getUsername(): string | null {
+    return localStorage.getItem('username')
   }
 
   logout(): void{
-    localStorage.removeItem('role')
-    localStorage.removeItem('id')
+    localStorage.clear()
   }
 }
