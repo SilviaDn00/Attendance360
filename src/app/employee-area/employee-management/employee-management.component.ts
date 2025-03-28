@@ -12,6 +12,7 @@ import { AngularJSUrlCodec } from '@angular/common/upgrade';
 import { TableComponent } from '../../table/table.component';
 import { User } from '../../models/users';
 import { DatePipe } from '@angular/common';
+import { LoginService } from '../../login-area/services/login.service';
 
 @Component({
   selector: 'app-employee-management',
@@ -24,8 +25,8 @@ import { DatePipe } from '@angular/common';
 export class EmployeeManagementComponent implements OnInit{
 
   private _employeeService = inject(StampService);
-
   public formBuild = inject(FormBuilder);
+  public logService = inject(LoginService);
 
 
   public stampFormGroup!: FormGroup;
