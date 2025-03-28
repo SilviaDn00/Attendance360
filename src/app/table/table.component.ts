@@ -10,7 +10,7 @@ import { Stamp } from '../models/stamp';
   styleUrl: './table.component.scss',
   standalone: true,
 })
-export class TableComponent<T extends User | Stamp> {
+export class TableComponent< T extends User | Stamp > {
 
   @Input() public columns: { key: keyof T, label: string }[] = [];
 

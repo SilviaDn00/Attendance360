@@ -10,6 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { Stamp, StampType } from '../../models/stamp';
 import { AngularJSUrlCodec } from '@angular/common/upgrade';
 import { TableComponent } from '../../table/table.component';
+import { User } from '../../models/users';
 
 @Component({
   selector: 'app-employee-management',
@@ -26,27 +27,23 @@ export class EmployeeManagementComponent implements OnInit{
   public formBuild = inject(FormBuilder);
 
 
-  stampFormGroup: FormGroup;
+  public stampFormGroup!: FormGroup;
 
   selected = '';
 
-  constructor() {
-    this.stampFormGroup = this.formBuild.group({
-      data: [''],
-      time: [''],
-      type: [''],
-    });
-  }
+  constructor() {}
+
   ngOnInit(): void {
-    this._employeeService.GetStamp();
-    console.log(this._employeeService.listaStamp);
-    
+    this.stampFormGroup = this.formBuild.group({
+      date: [new Date()],
+      time: [0],
+      type: [StampType],
+    });
   }
 
   onStamp() {
-    if (this.stampFormGroup.value.data && this.stampFormGroup.value.type) {
-      this._employeeService.PostStamp(this.stampFormGroup.value);
-      this._employeeService.GetStamp();
+    if (this.stampFormGroup.valid) {
+      this._employeeService.PostStamp(this.stampFormGroup);
     }
   }
 
@@ -56,12 +53,6 @@ export class EmployeeManagementComponent implements OnInit{
     { key: 'type', label: 'Tipo di timbratura' }
   ];
 
-  // public rows : { data: Stamp }[] = [
-  //   { data: this._employeeService.listaStamp[0] },
-  //   { data: this._employeeService.listaStamp[1] },
-  //   // { data: this._employeeService.listaStamp[2] }
-  // ];
-
   public rows: Stamp[] = this._employeeService.listaStamp;
-  
+
 }
