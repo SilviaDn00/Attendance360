@@ -11,11 +11,12 @@ import { Stamp, StampType } from '../../models/stamp';
 import { AngularJSUrlCodec } from '@angular/common/upgrade';
 import { TableComponent } from '../../table/table.component';
 import { User } from '../../models/users';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-employee-management',
   imports: [MatRadioModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, ReactiveFormsModule, MatSelectModule, TableComponent],
-  providers: [provideNativeDateAdapter()],
+  providers: [provideNativeDateAdapter(), DatePipe],
   templateUrl: './employee-management.component.html',
   styleUrl: './employee-management.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -31,16 +32,18 @@ export class EmployeeManagementComponent implements OnInit{
 
   selected = '';
 
-  constructor() {}
+  formattedDate = inject(DatePipe).transform(new Date(), 'yyyy-MM-dd')!;
+
+  constructor() { }
 
   ngOnInit(): void {
     this.stampFormGroup = this.formBuild.group({
-      date: [new Date()],
+      date: [this.formattedDate],
       time: [0],
       type: [StampType],
     });
   }
-
+  
   onStamp() {
     if (this.stampFormGroup.valid) {
       this._employeeService.PostStamp(this.stampFormGroup);

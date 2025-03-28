@@ -9,11 +9,7 @@ import { FormGroup } from '@angular/forms';
 })
 export class StampService {
 
-  listaStamp: Stamp[] = [
-    { date: new Date('2021-09-01'), time: 8,  type: StampType.checkOut },
-    { date: new Date('2021-09-01'), time: 13, type: StampType.checkIn },
-    { date: new Date('2021-09-01'), time: 14, type: StampType.checkOut }
-  ];
+  listaStamp: Stamp[] = [];
 
   private _http = inject(HttpClient);
   private _url = 'stamp.json';
