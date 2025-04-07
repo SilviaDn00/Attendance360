@@ -16,22 +16,11 @@
 
                     @for (item of menuItems; track item.link) {
                     <li class="nav-item">
-                        <a class="nav-link active ps-3" [routerLink]="[item.link]" routerLinkActive="active">
+                        <a class="nav-link active ps-3" [routerLink]="[item.link]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
                             <h5><i class="bi bi-speedometer2 pe-2"></i>{{item.displayName}}</h5>
                         </a>
                     </li>
                     }
-                    <!-- <li class="nav-item">
-                    <a class="nav-link active ps-3" aria-current="page" routerLink="/dashboard">
-                        <h5><i class="bi bi-speedometer2 pe-2"></i>Dashboard</h5>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link ps-3" href="#">
-                        <h5><i class="bi bi-person-badge-fill pe-2"></i>Dipendenti</h5>
-                    </a>
-                </li> -->
-
                 </ul>
             </div>
             <div class="btn-group dropup  mb-2 ms-3 me-3">
