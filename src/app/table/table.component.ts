@@ -14,6 +14,6 @@ export class TableComponent< T extends User | Stamp > {
 
   @Input() public columns: { key: keyof T, label: string }[] = [];
 
-  @Input() public rows: T[] = []; //corretto
+  @Input() public rows: T[] = []; 
 
 }
