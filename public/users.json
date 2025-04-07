@@ -32,13 +32,15 @@
         "username": "Mario Rossi",
         "email": "mario",
         "password": "123",
-        "role": "employee"
+        "role": "employee",
+        "department": "tech"
     }, 
     {
         "id": "e515c2be-3952-4ed7-8480-313548d4f9c9",
         "username": "Lucia Verdi",
         "email": "lucia",
         "password": "123",
-        "role": "employee"
+        "role": "employee",
+        "department": "tech"
     }
 ]

@@ -1,7 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, input, Input } from '@angular/core';
-import { User } from '../models/users';
+import { Component, Input } from '@angular/core';
 import { Stamp } from '../models/stamp';
+import { User } from '../models/users';
+
+export type Column<T> = {
+  key: keyof T;
+  label: string;
+  type: 'number' | 'date' | 'string' | 'boolean';
+}
 
 @Component({
   selector: 'app-table',
@@ -10,9 +16,9 @@ import { Stamp } from '../models/stamp';
   styleUrl: './table.component.scss',
   standalone: true,
 })
-export class TableComponent< T extends User | Stamp > {
+export class TableComponent<T extends User | Stamp > {
 
-  @Input() public columns: { key: keyof T, label: string }[] = [];
+  @Input() public columns: Column<T>[] = [];
 
   @Input() public rows: T[] = []; 
 

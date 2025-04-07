@@ -25,8 +25,8 @@ export class StampService {
     return this.listaStamp;
   }
 
-  PostStamp(stampForm: FormGroup): void {
-    this.listaStamp.push(stampForm.value);
+  PostStamp(stampForm: Stamp): void {
+    this.listaStamp.push(stampForm);
     localStorage.setItem('stampList', JSON.stringify(this.listaStamp))
   }
 

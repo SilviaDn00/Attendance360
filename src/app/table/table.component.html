@@ -10,10 +10,22 @@
       @for (row of rows; track row) {
         <tr class="text-center">
           @for (col of columns; track col) {
-            <td class="py-2 px-5 border-2">{{ row[col.key] }}</td>
+            @let value = row[col.key];
+            @switch (col.type) {
+              @case('date') {
+                <ng-container *ngTemplateOutlet="valueTemplate; context: { $implicit: $any(value) | date: 'dd-MM-yyyy' }" /> 
+              }
+              @default {
+                <ng-container *ngTemplateOutlet="valueTemplate; context: { $implicit: value  }" /> 
+              }
+            }
           }
         </tr>
       }
     </tbody>
   </table>
+
+  <ng-template #valueTemplate let-value>
+    <td class="py-2 px-5 border-2">{{ value }}</td>
+  </ng-template>
    

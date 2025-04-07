@@ -42,6 +42,8 @@ export class LoginService {
   }
 
   logout(): void{
-    localStorage.clear()
+    localStorage.removeItem('id')
+    localStorage.removeItem('username')
+    localStorage.removeItem('role')
   }
 }

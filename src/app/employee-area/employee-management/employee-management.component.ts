@@ -1,62 +1,60 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
-import { StampService } from '../services/stamp.service';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
-import { Stamp, StampType } from '../../models/stamp';
-import { AngularJSUrlCodec } from '@angular/common/upgrade';
-import { TableComponent } from '../../table/table.component';
-import { User } from '../../models/users';
-import { DatePipe } from '@angular/common';
 import { LoginService } from '../../login-area/services/login.service';
+import { Stamp, StampType } from '../../models/stamp';
+import { Column, TableComponent } from '../../table/table.component';
+import { StampService } from '../services/stamp.service';
 
 @Component({
   selector: 'app-employee-management',
   imports: [MatRadioModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, ReactiveFormsModule, MatSelectModule, TableComponent],
-  providers: [provideNativeDateAdapter(), DatePipe],
+  providers: [provideNativeDateAdapter()],
   templateUrl: './employee-management.component.html',
-  styleUrl: './employee-management.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './employee-management.component.scss'
 })
-export class EmployeeManagementComponent implements OnInit{
+export class EmployeeManagementComponent implements OnInit {
 
   private _employeeService = inject(StampService);
   public formBuild = inject(FormBuilder);
   public logService = inject(LoginService);
 
-
   public stampFormGroup!: FormGroup;
 
   selected = '';
 
-  formattedDate = inject(DatePipe).transform(new Date(), 'yyyy-MM-dd')!;
-
-  constructor() { }
-
   ngOnInit(): void {
+    // Imposta la data iniziale formattata
     this.stampFormGroup = this.formBuild.group({
-      date: [this.formattedDate],
+      date: [new Date().toISOString().split('T')[0]],
       time: [0],
       type: [StampType],
     });
   }
-  
+
   onStamp() {
     if (this.stampFormGroup.valid) {
-      this._employeeService.PostStamp(this.stampFormGroup);
+      const formValue = this.stampFormGroup.value;
+      const stampData = { 
+        date: formValue.date, // La data è già nel formato 'yyyy-MM-dd'
+        time: formValue.time,
+        type: formValue.type 
+      };
+      this.rows.push(stampData);
+      this._employeeService.PostStamp(stampData);
     }
   }
 
-  public columns: { key: keyof Stamp, label: string }[] = [
-    { key: 'date', label: 'Data' },
-    { key: 'time', label: 'Orario' },
-    { key: 'type', label: 'Tipo di timbratura' }
+  public columns: Column<Stamp>[] = [
+    { key: 'date', label: 'Data', type: 'date' },
+    { key: 'time', label: 'Orario', type: 'string' },
+    { key: 'type', label: 'Tipo di timbratura', type: 'string' }
   ];
 
-  public rows: Stamp[] = this._employeeService.listaStamp;
-
+  public rows: Stamp[] = [];
 }
