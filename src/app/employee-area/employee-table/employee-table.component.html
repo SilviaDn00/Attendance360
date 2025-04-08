@@ -1,2 +1,8 @@
-<p>employee-table works!</p>
-<app-table [columns]="columns" [rows]="rows"></app-table>
+<div class="container-fluid">
+    <div class="row text-center my-5">
+        <div class="col-12"><h1>STORICO TIMBRATURE: {{loginService.getUsername()?.toUpperCase()}}</h1></div>
+    </div>
+    <div class="col-12 d-flex justify-content-center">
+        <app-table [columns]="columns" [rows]="rows"></app-table>
+    </div>
+</div>

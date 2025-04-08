@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { Stamp } from '../../models/stamp';
 import { StampService } from '../services/stamp.service';
 import { Column, TableComponent } from '../../table/table.component';
+import { LoginService } from '../../login-area/services/login.service';
 
 @Component({
   selector: 'app-employee-table',
@@ -10,7 +11,7 @@ import { Column, TableComponent } from '../../table/table.component';
   styleUrl: './employee-table.component.scss'
 })
 export class EmployeeTableComponent {
-
+  loginService = inject(LoginService)
   private _employeeService = inject(StampService);
 
   public columns: Column<Stamp>[] = [
