@@ -3,10 +3,11 @@ import { Stamp } from '../../models/stamp';
 import { StampService } from '../services/stamp.service';
 import { Column, TableComponent } from '../../table/table.component';
 import { LoginService } from '../../login-area/services/login.service';
+import { FilterComponent } from '../../filter/filter.component';
 
 @Component({
   selector: 'app-employee-table',
-  imports: [TableComponent],
+  imports: [TableComponent, FilterComponent],
   templateUrl: './employee-table.component.html',
   styleUrl: './employee-table.component.scss'
 })

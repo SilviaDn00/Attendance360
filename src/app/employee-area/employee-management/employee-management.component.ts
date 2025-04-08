@@ -45,7 +45,7 @@ export class EmployeeManagementComponent implements OnInit {
         time: formValue.time,
         type: formValue.type 
       };
-      this.rows.push(stampData);
+      // this.rows.push(stampData);
       this._employeeService.PostStamp(stampData);
     }
   }
@@ -56,5 +56,5 @@ export class EmployeeManagementComponent implements OnInit {
     { key: 'type', label: 'Tipo di timbratura', type: 'string' }
   ];
 
-  public rows: Stamp[] = [];
+  public rows: Stamp[] = this._employeeService.listaStamp;
 }
