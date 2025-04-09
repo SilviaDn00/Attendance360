@@ -25,61 +25,7 @@ export class EmployeeManagementComponent implements OnInit {
   public logService = inject(LoginService);
 
   public stampFormGroup!: FormGroup;
-
-  // selected = '';
-
-  ngOnInit(): void {
-    // Imposta la data iniziale formattata
-    this.stampFormGroup = this.formBuild.group({
-      date: [new Date().toISOString().split('T')[0]],
-      time: [0],
-      type: [StampType],
-    });
-
-    this._employeeService.GetStamp().subscribe(response => {
-      console.log('Timbrature:', response);
-      this.rows = response;
-    });
-
-    this.rows = this.getLastFourStamps();
-  }
-
-  getLastFourStamps(): Stamp[] {
-    return [...this._employeeService.listaStamp]
-      .sort((a, b) => {
-        const dateA = new Date(`${a.date}`);
-        const dateB = new Date(`${b.date}`);
-        return dateB.getTime() - dateA.getTime(); // Ordina dalla più recente
-      })
-      .slice(0, 4); // Prendi le prime 4
-  }
-
-  onStamp() {
-    if (this.stampFormGroup.valid) {
-      const formValue = this.stampFormGroup.value;
-
-      const newStamp: Stamp = {
-        date: formValue.date,
-        time: formValue.time,
-        type: formValue.type
-      };
-
-      // Salviamo nel servizio
-      // this._employeeService.listaStamp.push(newStamp);
-
-      this._employeeService.PostStamp(newStamp).subscribe((response) => {
-        console.log('Timbratura aggiunta:', response);
-        this._employeeService.GetStamp().subscribe(response => {
-          console.log('Timbrature:', response);
-          this.rows = response;
-        });
-      });
-
-
-      // Aggiorniamo solo le righe visibili (4 più recenti)
-      this.rows = this.getLastFourStamps();
-    }
-  }
+  public rows: Stamp[] = [];
 
   public columns: Column<Stamp>[] = [
     { key: 'date', label: 'Data', type: 'date' },
@@ -87,5 +33,31 @@ export class EmployeeManagementComponent implements OnInit {
     { key: 'type', label: 'Tipo di timbratura', type: 'string' }
   ];
 
-  public rows: Stamp[] = [];
+  ngOnInit(): void {
+    this.stampFormGroup = this.formBuild.group({
+      date: [new Date().toISOString().split('T')[0]],
+      time: [0],
+      type: [StampType]
+    });
+
+    this.loadStamps();
+  }
+
+  loadStamps() {
+    this._employeeService.GetStamp().subscribe(response => {
+      this.rows = [...response]
+        .sort((a, b) => new Date(`${b.date}`).getTime() - new Date(`${a.date}`).getTime())
+        .slice(0, 4);
+    });
+  }
+
+  onStamp() {
+    if (this.stampFormGroup.valid) {
+      const newStamp: Stamp = this.stampFormGroup.value;
+
+      this._employeeService.PostStamp(newStamp).subscribe(() => {
+        this.loadStamps(); // Ricarica le 4 timbrature dopo aver salvato
+      });
+    }
+  }
 }
