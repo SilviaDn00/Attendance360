@@ -7,6 +7,12 @@
   background-size: cover;
 }
 
+@media (max-width: 900px){
+  .background{
+    background-position: 80%;
+  }
+}
+
 .container {
   height: 100vh;
   display: flex;

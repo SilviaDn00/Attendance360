@@ -1,9 +1,17 @@
-<div class="container-fluid">
+<div class="container">
     <div class="row text-center my-5">
-        <div class="col-12"><h1>STORICO TIMBRATURE: {{loginService.getUsername()?.toUpperCase()}}</h1></div>
+        <div class="col-12">
+            <h1>STORICO TIMBRATURE: {{loginService.getUsername()?.toUpperCase()}}</h1>
+        </div>
     </div>
-    <div class="col-12 d-flex flex-column align-items-center">
-        <app-filter></app-filter>
-        <app-table [columns]="columns" [rows]="rows"></app-table>
+    <div class="row">
+        <div class="col-lg-3 col-12">
+            <h4>FILTRI</h4>
+            <app-filter></app-filter>
+        </div>
+        <div class="col-lg-9 col-12 mt-5 mt-lg-0 mb-5 d-flex justify-content-center">
+            <app-table [columns]="columns" [rows]="rows"></app-table>
+        </div>
     </div>
+
 </div>
