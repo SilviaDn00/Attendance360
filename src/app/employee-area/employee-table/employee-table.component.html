@@ -9,9 +9,29 @@
             <h4>FILTRI</h4>
             <app-filter></app-filter>
         </div>
-        <div class="col-lg-9 col-12 mt-5 mt-lg-0 mb-5 d-flex justify-content-center">
-            <app-table [columns]="columns" [rows]="rows"></app-table>
+        <div class="col-lg-9 col-12 mt-5 mt-lg-0 mb-5 d-flex flex-column align-items-center">
+            <app-table [columns]="columns" [rows]="paginatedRows"></app-table>
+            <div class="d-flex justify-content-center mt-4">
+                <nav>
+                  <ul class="pagination">
+                    <li class="page-item" [class.disabled]="currentPage === 1">
+                      <button class="page-link" (click)="goToPreviousPage()" [disabled]="currentPage === 1">«</button>
+                    </li>
+              
+                    @for (i of pageNumbers; track i) {
+                        <li class="page-item" [class.active]="currentPage === i + 1">
+                          <button class="page-link" (click)="goToPage(i + 1)">{{ i + 1 }}</button>
+                        </li>
+                      }
+              
+                    <li class="page-item" [class.disabled]="currentPage === totalPages">
+                      <button class="page-link" (click)="goToNextPage()" [disabled]="currentPage === totalPages">»</button>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+              
         </div>
     </div>
 
-</div>
+</div>  
