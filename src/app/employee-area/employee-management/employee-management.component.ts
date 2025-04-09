@@ -35,20 +35,37 @@ export class EmployeeManagementComponent implements OnInit {
       time: [0],
       type: [StampType],
     });
+
+    this.rows = this.getLastFourStamps();
   }
 
-  onStamp() {
-    if (this.stampFormGroup.valid) {
-      const formValue = this.stampFormGroup.value;
-      const stampData = { 
-        date: formValue.date, // La data è già nel formato 'yyyy-MM-dd'
-        time: formValue.time,
-        type: formValue.type 
-      };
-      // this.rows.push(stampData);
-      this._employeeService.PostStamp(stampData);
-    }
+  getLastFourStamps(): Stamp[] {
+    return [...this._employeeService.listaStamp]
+      .sort((a, b) => {
+        const dateA = new Date(`${a.date}`);
+        const dateB = new Date(`${b.date}`);
+        return dateB.getTime() - dateA.getTime(); // Ordina dalla più recente
+      })
+      .slice(0, 4); // Prendi le prime 4
   }
+
+onStamp() {
+  if (this.stampFormGroup.valid) {
+    const formValue = this.stampFormGroup.value;
+
+    const newStamp: Stamp = {
+      date: formValue.date,
+      time: formValue.time,
+      type: formValue.type
+    };
+
+    // Salviamo nel servizio
+    this._employeeService.listaStamp.push(newStamp);
+
+    // Aggiorniamo solo le righe visibili (4 più recenti)
+    this.rows = this.getLastFourStamps();
+  }
+} 
 
   public columns: Column<Stamp>[] = [
     { key: 'date', label: 'Data', type: 'date' },

@@ -21,5 +21,7 @@ export class EmployeeTableComponent {
     { key: 'type', label: 'Tipo di timbratura', type: 'string' }
   ];
   
-  public rows: Stamp[] = this._employeeService.listaStamp;
+  public rows: Stamp[] = [...this._employeeService.listaStamp]
+  .sort((a, b) => new Date(`${b.date}`).getTime() - new Date(`${a.date}`).getTime());
+
 }
