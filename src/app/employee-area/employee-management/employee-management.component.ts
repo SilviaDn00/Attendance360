@@ -26,7 +26,7 @@ export class EmployeeManagementComponent implements OnInit {
 
   public stampFormGroup!: FormGroup;
 
-  selected = '';
+  // selected = '';
 
   ngOnInit(): void {
     // Imposta la data iniziale formattata
@@ -34,6 +34,11 @@ export class EmployeeManagementComponent implements OnInit {
       date: [new Date().toISOString().split('T')[0]],
       time: [0],
       type: [StampType],
+    });
+
+    this._employeeService.GetStamp().subscribe(response => {
+      console.log('Timbrature:', response);
+      this.rows = response;
     });
 
     this.rows = this.getLastFourStamps();
@@ -49,23 +54,32 @@ export class EmployeeManagementComponent implements OnInit {
       .slice(0, 4); // Prendi le prime 4
   }
 
-onStamp() {
-  if (this.stampFormGroup.valid) {
-    const formValue = this.stampFormGroup.value;
+  onStamp() {
+    if (this.stampFormGroup.valid) {
+      const formValue = this.stampFormGroup.value;
 
-    const newStamp: Stamp = {
-      date: formValue.date,
-      time: formValue.time,
-      type: formValue.type
-    };
+      const newStamp: Stamp = {
+        date: formValue.date,
+        time: formValue.time,
+        type: formValue.type
+      };
 
-    // Salviamo nel servizio
-    this._employeeService.listaStamp.push(newStamp);
+      // Salviamo nel servizio
+      // this._employeeService.listaStamp.push(newStamp);
 
-    // Aggiorniamo solo le righe visibili (4 più recenti)
-    this.rows = this.getLastFourStamps();
+      this._employeeService.PostStamp(newStamp).subscribe((response) => {
+        console.log('Timbratura aggiunta:', response);
+        this._employeeService.GetStamp().subscribe(response => {
+          console.log('Timbrature:', response);
+          this.rows = response;
+        });
+      });
+
+
+      // Aggiorniamo solo le righe visibili (4 più recenti)
+      this.rows = this.getLastFourStamps();
+    }
   }
-} 
 
   public columns: Column<Stamp>[] = [
     { key: 'date', label: 'Data', type: 'date' },
@@ -73,5 +87,5 @@ onStamp() {
     { key: 'type', label: 'Tipo di timbratura', type: 'string' }
   ];
 
-  public rows: Stamp[] = this._employeeService.listaStamp;
+  public rows: Stamp[] = [];
 }

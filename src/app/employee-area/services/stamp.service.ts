@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Stamp, StampType } from '../../models/stamp';
 import { HttpClient } from '@angular/common/http';
-import { FormGroup } from '@angular/forms';
+
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +12,9 @@ export class StampService {
   listaStamp: Stamp[] = [];
 
   private _http = inject(HttpClient);
-  private _url = 'stamp.json';
+  private _urlGet = 'http://localhost:5077/api/Stamp/GetStamps'; // URL del tuo endpoint API
+  private _urlPost = 'http://localhost:5077/api/Stamp/PostStamp'; // URL del tuo endpoint API
+
 
   constructor() {
     const savedStampList = localStorage.getItem('listaStamp');
@@ -21,26 +23,22 @@ export class StampService {
     }
   }
 
-  GetStamp() {
-    return this.listaStamp;
+  // GetStamp() {
+  //   return this.listaStamp;
+  // }
+
+  // PostStamp(stampForm: Stamp): void {
+  //   this.listaStamp.push(stampForm);
+  //   localStorage.setItem('stampList', JSON.stringify(this.listaStamp))
+  // }
+
+
+  GetStamp(): Observable<Stamp[]> {
+    return this._http.get<Stamp[]>(this._urlGet);
   }
 
-  PostStamp(stampForm: Stamp): void {
-    this.listaStamp.push(stampForm);
-    localStorage.setItem('stampList', JSON.stringify(this.listaStamp))
+  PostStamp(stamp: Stamp): Observable<Stamp> { 
+    return this._http.post<Stamp>(this._urlPost, stamp);
   }
-
-
-  // PostStamp(stampFormGroup : FormGroup): void {  
-  //   this.listaStamp.push(stampFormGroup.value);
-  // }
-
-  // GetStamp(): Observable<Stamp[]> {
-  //   return this._http.get<Stamp[]>(this._url);
-  // }
-
-  // PostStamp(stamp: Stamp): Observable<Stamp> { 
-  //   return this._http.post<Stamp>(this._url, stamp);
-  // }
 
 }
