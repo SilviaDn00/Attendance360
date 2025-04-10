@@ -37,10 +37,13 @@ export class EmployeeManagementComponent implements OnInit {
     this.stampFormGroup = this.formBuild.group({
       date: [new Date().toISOString().split('T')[0]],
       time: [0],
-      type: [StampType]
+      type: [StampType],
+      username: [this.logService.getUsername()]
     });
 
     this.loadStamps();
+    console.log(this.logService.getUsername());
+    
   }
 
   loadStamps() {
