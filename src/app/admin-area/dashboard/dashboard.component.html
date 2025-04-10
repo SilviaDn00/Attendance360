@@ -3,7 +3,7 @@
     WELCOME {{ logService.getUsername()?.toUpperCase() }}
   </h3>
   <div class="row">
-    @for (item of Items; track item.title) {
+    @for (item of Items(); track item.title) {
       <div class="col-md-3 mb-4">
         <app-card>
           <div title>{{ item.title }}</div>
