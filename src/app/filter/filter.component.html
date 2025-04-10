@@ -16,11 +16,8 @@
     <mat-error>Invalid end date</mat-error>
   }
 </mat-form-field>
-    <div class="col-auto">
-      <label for="search" class="visually-hidden">Cerca</label>
-      <input type="text" class="form-control" id="search" placeholder="Cerca">
-    </div>
-    <div class="col-auto">
-      <button type="submit" class="btn btn-light mb-3">Cerca</button>
-    </div>
+<mat-radio-group aria-label="Select an option" class="my-3">
+  <mat-radio-button value="ingresso">Ingresso</mat-radio-button>
+  <mat-radio-button value="uscita">Uscita</mat-radio-button>
+</mat-radio-group>
   </form>

@@ -3,10 +3,11 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatRadioModule } from '@angular/material/radio';
 
 @Component({
   selector: 'app-filter',
-  imports: [MatFormFieldModule, MatDatepickerModule, FormsModule, ReactiveFormsModule],
+  imports: [MatFormFieldModule, MatDatepickerModule, FormsModule, ReactiveFormsModule, MatRadioModule],
   providers: [provideNativeDateAdapter()],
   templateUrl: './filter.component.html',
   styleUrl: './filter.component.scss',

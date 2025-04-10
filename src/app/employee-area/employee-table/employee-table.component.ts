@@ -25,7 +25,7 @@ export class EmployeeTableComponent implements OnInit {
   public filteredRows: Stamp[] = [];
   public rows: Stamp[] = [];
 
-  public rowsPerPage = 8;
+  public rowsPerPage = 10;
   public currentPage = 1;
 
   ngOnInit(): void {
