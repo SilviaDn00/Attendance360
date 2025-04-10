@@ -1,0 +1,15 @@
+<!-- <div class="card bg-gradient" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div> -->
+      <div class="card bg-gradient" style="width: 100%;">
+        <div class="card-body">
+          <h5><ng-content select="[card-title]"></ng-content></h5>
+          <p><ng-content select="[card-text]"></ng-content></p>
+          <ng-content select="[card-action]"></ng-content>
+        </div>
+      </div>
+      
