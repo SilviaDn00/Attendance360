@@ -30,7 +30,12 @@ export const activateAuthGuard: CanActivateFn = (route, state) => {
       return false;  // Blocca l'accesso a qualsiasi altra rotta
     }
   }
-
+ 
+  else if (role === null) {
+    console.log("Ruolo non trovato, reindirizzo a /login"); 
+    router.navigate(['/login']);  // Se non c'è ruolo, reindirizza a /login
+    return false;  // Blocca l'accesso a qualsiasi altra rotta
+  }
 
 
   // Se l'utente è loggato e ha il ruolo corretto, permettiamo l'accesso alla rotta
