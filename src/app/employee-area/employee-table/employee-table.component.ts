@@ -29,8 +29,17 @@ export class EmployeeTableComponent implements OnInit {
   public currentPage = 1;
 
   ngOnInit(): void {
+    const currentUsername = this.loginService.getUsername(); // 👈 prende l'utente loggato
+  
     this._employeeService.GetStamp().subscribe(response => {
-      this.allRows = response.sort((a, b) => new Date(`${b.date}`).getTime() - new Date(`${a.date}`).getTime());
+      // Filtra solo le timbrature di quell'utente
+      const userStamps = response.filter(stamp => stamp.username === currentUsername);
+  
+      // Ordina per data decrescente
+      this.allRows = userStamps.sort((a, b) => 
+        new Date(b.date).getTime() - new Date(a.date).getTime()
+      );
+  
       this.filteredRows = [...this.allRows];
       this.updatePaginatedRows();
     });

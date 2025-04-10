@@ -47,9 +47,12 @@ export class EmployeeManagementComponent implements OnInit {
   }
 
   loadStamps() {
+    const currentUsername = this.logService.getUsername();
+  
     this._employeeService.GetStamp().subscribe(response => {
-      this.rows = [...response]
-        .sort((a, b) => new Date(`${b.date}`).getTime() - new Date(`${a.date}`).getTime())
+      this.rows = response
+        .filter(stamp => stamp.username === currentUsername) 
+        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()) 
         .slice(0, 4);
     });
   }
