@@ -1,8 +1,8 @@
 export enum StampType {
-    checkIn = 'entrata',
+    checkIn = 'ingresso',
     checkOut = 'uscita',
 }
 
 export class Stamp {
-    constructor( public date : Date, public time : number, public type : StampType, public id?: string, public username?: string) { }
+    constructor( public date : Date, public time : string, public type : StampType, public id?: string, public username?: string) { }
 }
