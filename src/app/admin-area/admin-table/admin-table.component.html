@@ -1,1 +1,12 @@
-<p>admin-table works!</p>
+<div class="container-fluid d-flex justify-content-center">
+    <div class="row">
+        <div class="col-3 mt-4">
+            <h1 class="mb-4">FILTRI</h1>
+            <app-filter [typeOptions]="['entrata', 'uscita']"></app-filter>
+        </div>
+        <div class="col-9 mt-4">
+            <h1 class="mb-4">STORICO COMPLETO DEI DIPENDENTI</h1>
+            <app-table [columns]="columns" [rows]="rows"></app-table>
+        </div>
+    </div>
+</div>

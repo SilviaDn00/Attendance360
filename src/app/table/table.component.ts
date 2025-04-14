@@ -16,7 +16,7 @@ export type Column<T> = {
   styleUrl: './table.component.scss',
   standalone: true,
 })
-export class TableComponent<T extends User | Stamp > {
+export class TableComponent<T> {
 
   @Input() public columns: Column<T>[] = [];
 
