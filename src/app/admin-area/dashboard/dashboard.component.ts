@@ -44,11 +44,11 @@ export class DashboardComponent {
     { key: 'role', label: 'Ruolo', type: 'string' },
     { key: 'date', label: 'Data', type: 'date' },
     { key: 'time', label: 'Orario', type: 'string' },
-    { key: 'type', label: 'Tipo', type: 'string' }
+    { key: 'type', label: 'Tipo', type: 'stampType' }
   ];
 
-  protected readonly rows = computed<IEnrichedStamp[]>(() =>
-    this.stampList().map(s => {
+  protected readonly rows = computed(() =>
+    this.stampList().map<IEnrichedStamp>(s => {
       const user = this.userList().find(u => 
         u.id?.trim().toLowerCase() === s.userID?.trim().toLowerCase()
       );
@@ -65,16 +65,20 @@ export class DashboardComponent {
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .slice(0, 10))
   
+
+
   // CARD "NUMERO TOTALE DEI DIPENDENTI"
   protected readonly totalEmployees = computed(() =>
     this.userList().filter(user => user.role === 'employee').length
   );
+
 
   // CARD "TIMBRATURE DI OGGI"
   protected readonly todayStampsCount = computed(() => {
     const stamps = this.stampList();
     return stamps.filter(stamp => this.isStampToday(stamp)).length;
   });
+
 
   // CARD "PERCENTUALE DI PRESENZA"
   protected readonly todayPresencePercentage = computed(() => {
@@ -92,6 +96,7 @@ export class DashboardComponent {
 
     return Math.round((presentUsers.size / total) * 100);
   });
+
 
   // CARD "ALERT SULLE ANOMALIE"
   protected readonly anomalyCount = computed(() => {
@@ -131,10 +136,10 @@ export class DashboardComponent {
         }
       });
     }
-
     return anomalies;
   });
 
+  
   // Funzione per verificare se una timbratura è avvenuta oggi
   private isStampToday(stamp: Stamp): boolean {
     const today = new Date();

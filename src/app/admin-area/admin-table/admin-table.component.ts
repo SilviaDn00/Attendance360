@@ -27,7 +27,7 @@ export class AdminTableComponent implements OnInit {
     { key: 'role', label: 'Ruolo', type: 'string' },
     { key: 'date', label: 'Data', type: 'date' },
     { key: 'time', label: 'Orario', type: 'string' },
-    { key: 'type', label: 'Tipo', type: 'string' }
+    { key: 'type', label: 'Tipo', type: 'stampType' }
   ];
   public rows: IEnrichedStamp[] = [];
 

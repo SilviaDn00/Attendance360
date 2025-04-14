@@ -7,7 +7,7 @@ import { FilterComponent } from '../filter/filter.component';
 export type Column<T> = {
   key: keyof T;
   label: string;
-  type: 'number' | 'date' | 'string' | 'boolean';
+  type: 'number' | 'date' | 'string' | 'boolean' | 'stampType' | 'userID' | 'department' | 'role' | 'time';
 }
 
 @Component({
