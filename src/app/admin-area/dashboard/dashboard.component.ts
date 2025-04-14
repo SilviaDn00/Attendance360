@@ -5,19 +5,20 @@ import { UsersService } from '../../login-area/services/users.service';
 import { User } from '../../models/users';
 import { Stamp, StampType } from '../../models/stamp';
 import { StampService } from '../../employee-area/services/stamp.service';
+import { IEnrichedStamp } from '../../models/IEnrichedStamp';
+import { Column, TableComponent } from '../../table/table.component';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CardComponent],
+  imports: [CardComponent, TableComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent {
 
   public logService = inject(LoginService);
-  public userService = inject(UsersService);
-  public stampService = inject(StampService);
-
+  private _userService = inject(UsersService);
+  private _stampService = inject(StampService);
 
   protected readonly userList = signal<User[]>([]);
   protected readonly stampList = signal<Stamp[]>([]);
@@ -28,28 +29,52 @@ export class DashboardComponent {
   }
 
   public loadData() {
-    this.userService.getUsers().subscribe(userData => {
+    this._userService.getUsers().subscribe(userData => {
       this.userList.set(userData);
     });
 
-    this.stampService.GetStamp().subscribe(stampData => {
+    this._stampService.GetStamp().subscribe(stampData => {
       this.stampList.set(stampData);
     });
   }
 
+  public columns: Column<IEnrichedStamp>[] = [
+    { key: 'username', label: 'Dipendente', type: 'string' },
+    { key: 'department', label: 'Reparto', type: 'string' },
+    { key: 'role', label: 'Ruolo', type: 'string' },
+    { key: 'date', label: 'Data', type: 'date' },
+    { key: 'time', label: 'Orario', type: 'string' },
+    { key: 'type', label: 'Tipo', type: 'string' }
+  ];
+
+  protected readonly rows = computed<IEnrichedStamp[]>(() =>
+    this.stampList().map(s => {
+      const user = this.userList().find(u => 
+        u.id?.trim().toLowerCase() === s.userID?.trim().toLowerCase()
+      );
+    
+      return {
+        username: user ? `${user.name} ${user.surname}` : s.userID ?? 'N/A',
+        role: user?.role ?? 'N/A',
+        department: user?.department ?? 'N/A',
+        date: s.date,
+        time: s.time,
+        type: s.type
+      };
+    })
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .slice(0, 10))
+  
   // CARD "NUMERO TOTALE DEI DIPENDENTI"
   protected readonly totalEmployees = computed(() =>
     this.userList().filter(user => user.role === 'employee').length
   );
-
-
 
   // CARD "TIMBRATURE DI OGGI"
   protected readonly todayStampsCount = computed(() => {
     const stamps = this.stampList();
     return stamps.filter(stamp => this.isStampToday(stamp)).length;
   });
-
 
   // CARD "PERCENTUALE DI PRESENZA"
   protected readonly todayPresencePercentage = computed(() => {
@@ -68,8 +93,6 @@ export class DashboardComponent {
     return Math.round((presentUsers.size / total) * 100);
   });
 
-
-
   // CARD "ALERT SULLE ANOMALIE"
   protected readonly anomalyCount = computed(() => {
     const users = this.userList();
@@ -81,8 +104,6 @@ export class DashboardComponent {
 
       users.forEach(user => {
         if (user.role !== 'employee') return;
-
-        console.log(`\nAnalizzando timbrature per ${user.name} ${user.surname}`);
 
         const userStamps = todayStamps
           .filter(stamp => stamp.userID === user.id)
@@ -100,24 +121,17 @@ export class DashboardComponent {
             const checkOutMinutes = this.parseTimeInMinutes(checkOut.time);
             const diffInMinutes = checkOutMinutes - checkInMinutes;
 
-            console.log(`  - Ingresso alle ${checkIn.time}, Uscita alle ${checkOut.time}`);
-            console.log(`    → Differenza: ${diffInMinutes / 60} ore`);
-
             totalMinutes += diffInMinutes;
             validPairs++;
           }
         }
 
-        console.log(`  → Totale ore per ${user.name} ${user.surname}: ${(totalMinutes / 60).toFixed(2)} ore`);
-
         if (validPairs > 0 && totalMinutes < 240) {
-          console.log(`  ⚠️ Anomalia: meno di 4 ore lavorate`);
           anomalies++;
         }
       });
     }
 
-    console.log(`\n✅ Totale anomalie rilevate: ${anomalies}`);
     return anomalies;
   });
 
@@ -146,4 +160,7 @@ export class DashboardComponent {
     { title: 'Percentuale presenti:', text: `${this.todayPresencePercentage()}%`, action: 'pulsante' },
     { title: 'Alert sulle anomalie', text: this.anomalyCount(), action: 'pulsante' },
   ]);
+
+   
+  
 }

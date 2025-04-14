@@ -3,7 +3,7 @@
     CIAO, {{ logService.getUsername()?.toUpperCase() }}
   </h3>
   <div class="row">
-    @for (item of Items(); track item.title) {
+    @for (item of items(); track item.title) {
       <div class="col-md-3 mb-4">
         <app-card>
           <div title>{{ item.title }}</div>
@@ -14,3 +14,8 @@
     }
   </div>
 </div>
+
+<button (click)="loadData()"> UPDATE</button>
+
+<app-table [columns]="columns" [rows]="rows()"></app-table>
+

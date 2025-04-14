@@ -15,16 +15,6 @@ export class UsersService {
     return this._http.get<User[]>(this._url);
   }
 
-  // getAllRoles(): Observable<string[]> {
-  //   return this.getUsers().pipe(
-  //     map(users => Array.from(new Set(users.map(user => user.role))))
-  //   );
-  // }
 
-  // getAllDepartments(): Observable<string[]> {
-  //   return this.getUsers().pipe(
-  //     map(users => Array.from(new Set(users.map(user => user.department))))
-  //   );
-  // }
   
 }
