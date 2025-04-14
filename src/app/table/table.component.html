@@ -1,31 +1,47 @@
-<table>
-    <thead class="bg-secondary">
-      <tr class="text-center">
-        @for (col of columns; track col) {
-          <th class="py-2 px-lg-5 px-3 border-2">{{ col.label }}</th>
-        }
-      </tr>
-    </thead>
-    <tbody>
-      @for (row of rows; track row) {
-        <tr class="text-center">
-          @for (col of columns; track col) {
-            @let value = row[col.key];
-            @switch (col.type) {
-              @case('date') {
-                <ng-container *ngTemplateOutlet="valueTemplate; context: { $implicit: $any(value) | date: 'dd-MM-yyyy' }" /> 
-              }
-              @default {
-                <ng-container *ngTemplateOutlet="valueTemplate; context: { $implicit: value  }" /> 
-              }
-            }
-          }
-        </tr>
+<table class="overflow-auto">
+  <thead class="bg-secondary">
+    <tr class="text-center">
+      @for (col of columns; track col) {
+      <th class="py-2 px-lg-5 px-3 border-2">{{ col.label }}</th>
       }
-    </tbody>
-  </table>
-
-  <ng-template #valueTemplate let-value>
-    <td class="py-2 px-lg-5 px-3 border-2">{{ value }}</td>
-  </ng-template>
-   
+    </tr>
+  </thead>
+  <tbody>
+    @for (row of paginatedRows; track row) {
+    <tr class="text-center">
+      @for (col of columns; track col) {
+      @let value = row[col.key];
+      @switch (col.type) {
+      @case('date') {
+      <ng-container *ngTemplateOutlet="valueTemplate; context: { $implicit: $any(value) | date: 'dd-MM-yyyy' }" />
+      }
+      @default {
+      <ng-container *ngTemplateOutlet="valueTemplate; context: { $implicit: value  }" />
+      }
+      }
+      }
+    </tr>
+    }
+  </tbody>
+</table>
+<ng-template #valueTemplate let-value>
+  <td class="py-2 px-lg-5 px-3 border-2">{{ value }}</td>
+</ng-template>
+<!-- PAGINATION -->
+<div class="mt-4" *ngIf="totalPages > 1">
+  <nav>
+    <ul class="pagination">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <button class="page-link" (click)="goToPreviousPage()" [disabled]="currentPage === 1">«</button>
+      </li>
+      @for (i of pageNumbers; track i) {
+      <li class="page-item" [class.active]="currentPage === i">
+        <button class="page-link" (click)="goToPage(i)">{{ i }}</button>
+      </li>
+      }
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <button class="page-link" (click)="goToNextPage()" [disabled]="currentPage === totalPages">»</button>
+      </li>
+    </ul>
+  </nav>
+</div>

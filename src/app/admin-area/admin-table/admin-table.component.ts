@@ -6,6 +6,7 @@ import { User } from '../../models/users';
 import { Stamp } from '../../models/stamp';
 import { IEnrichedStamp } from '../../models/IEnrichedStamp';
 import { FilterComponent } from '../../filter/filter.component';
+import { IFilters } from '../../models/IFilter';
 
 
 @Component({
@@ -18,6 +19,7 @@ export class AdminTableComponent implements OnInit {
 
   private _stampService = inject(StampService);
   private _userService = inject(UsersService);
+  public currentFilters: IFilters | null = null;
 
   public columns: Column<IEnrichedStamp>[] = [
     { key: 'username', label: 'Dipendente', type: 'string' },
@@ -33,18 +35,12 @@ export class AdminTableComponent implements OnInit {
     this.loadData();
   }
 
-
   private loadData(): void {
     this._userService.getUsers().subscribe((users: User[]) => {
       console.log('Users ricevuti:', users);
       this._stampService.GetStamp().subscribe((stamps: Stamp[]) => {
         this.rows = stamps.map(stamp => {
-          // console.log('Stamp username:', `"${stamp.username}"`);
-          // console.log('Tutti gli username utenti:', users.map(u => `"${u.username}"`));
-          const user = users.find(u =>u.id?.trim().toLowerCase() === stamp.userID?.trim().toLowerCase());
-          // console.log('---');
-          // console.log('Stamp username:', stamp.username);
-          // console.log('User trovato:', user);
+          const user = users.find(u => u.id?.trim().toLowerCase() === stamp.userID?.trim().toLowerCase());
           return {
             username: user ? `${user.name} ${user.surname}` : stamp.userID ?? 'N/A',
             role: user?.role ?? 'N/A',
@@ -56,5 +52,9 @@ export class AdminTableComponent implements OnInit {
         }).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
       });
     });
+  }
+
+  onFiltersChanged(filters: IFilters) {
+    this.currentFilters = filters;
   }
 }

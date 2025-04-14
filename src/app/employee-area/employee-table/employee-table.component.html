@@ -7,29 +7,10 @@
     <div class="row">
         <div class="col-lg-3 col-12">
             <h4>FILTRI</h4>
-            <app-filter [typeOptions]="['entrata', 'uscita']" (filtersChanged)="applyFilters($event)"></app-filter>
+            <app-filter [typeOptions]="['entrata', 'uscita']" (filtersChanged)="onFiltersChanged($event)"></app-filter>
         </div>
         <div class="col-lg-9 col-12 mt-5 mt-lg-0 mb-5 d-flex flex-column align-items-center">
-            <app-table [columns]="columns" [rows]="rows"></app-table>
-            <div class="d-flex justify-content-center mt-4">
-                <nav>
-                  <ul class="pagination">
-                    <li class="page-item" [class.disabled]="currentPage === 1">
-                      <button class="page-link" (click)="goToPreviousPage()" [disabled]="currentPage === 1">«</button>
-                    </li>
-              
-                    @for (i of pageNumbers; track i) {
-                      <li class="page-item" [class.active]="currentPage === i">
-                        <button class="page-link" (click)="goToPage(i)">{{ i }}</button>
-                      </li>
-                    }                    
-              
-                    <li class="page-item" [class.disabled]="currentPage === totalPages">
-                      <button class="page-link" (click)="goToNextPage()" [disabled]="currentPage === totalPages">»</button>
-                    </li>
-                  </ul>
-                </nav>
-              </div>
+            <app-table [columns]="columns" [rows]="allRows" [rowsPerPage]="10" [filters]="currentFilters" [typeOptions]="['ingresso', 'uscita']"></app-table>
         </div>
     </div>
 </div>  
