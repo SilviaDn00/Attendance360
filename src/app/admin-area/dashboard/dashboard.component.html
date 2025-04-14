@@ -1,7 +1,7 @@
 <div class="container mt-5">
-  <h3 class="text-center mb-5">
+  <h1 class="text-center mb-5">
     CIAO, {{ logService.getUsername()?.toUpperCase() }}
-  </h3>
+  </h1>
   <div class="row">
     @for (item of items(); track item.title) {
       <div class="col-md-3 mb-4">
@@ -13,9 +13,15 @@
       </div>
     }
   </div>
+  <div class="row">
+    <div class="col-12 d-flex justify-content-center">
+      <button class="btn btn-primary mb-4" (click)="loadData()"> RELOAD</button>
+    </div>
+  </div>
+  <div class="row">
+    <h3 class="text-center my-4">TIMBRATURE RECENTI</h3>
+    <div class="col-12 overflow-x-auto justify-content-center mb-5">
+      <app-table [columns]="columns" [rows]="rows()"></app-table>
+    </div>
+  </div>
 </div>
-
-<button (click)="loadData()"> UPDATE</button>
-
-<app-table [columns]="columns" [rows]="rows()"></app-table>
-
