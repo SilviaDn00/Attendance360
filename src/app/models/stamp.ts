@@ -4,5 +4,5 @@ export enum StampType {
 }
 
 export class Stamp {
-    constructor( public date : Date, public time : string, public type : StampType, public id?: string, public username?: string) { }
+    constructor( public date : Date, public time : string, public type : StampType, public id?: string, public userID?: string) { }
 }

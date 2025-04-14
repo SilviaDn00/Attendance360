@@ -38,20 +38,21 @@ export class EmployeeManagementComponent implements OnInit {
       date: [new Date().toISOString().split('T')[0]],
       time: [0],
       type: [StampType],
-      username: [this.logService.getUsername()]
+      userID: [this.logService.getUserID()]
     });
 
     this.loadStamps();
     console.log(this.logService.getUsername());
+    console.log(this.logService.getUserID());
     
   }
 
   loadStamps() {
-    const currentUsername = this.logService.getUsername();
+    const currentUserID = this.logService.getUserID();
   
     this._employeeService.GetStamp().subscribe(response => {
       this.rows = response
-        .filter(stamp => stamp.username === currentUsername) 
+        .filter(stamp => stamp.userID === currentUserID) 
         .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()) 
         .slice(0, 4);
     });

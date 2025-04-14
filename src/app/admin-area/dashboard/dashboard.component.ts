@@ -68,9 +68,9 @@ export class DashboardComponent {
     const presentUsers = new Set<string>();
   
     todayStamps.forEach(stamp => {
-      if (!stamp.username) return;
-      if (stamp.type === 'ingresso') presentUsers.add(stamp.username);
-      else if (stamp.type === 'uscita') presentUsers.delete(stamp.username);
+      if (!stamp.userID) return;
+      if (stamp.type === 'ingresso') presentUsers.add(stamp.userID);
+      else if (stamp.type === 'uscita') presentUsers.delete(stamp.userID);
     });
   
     return Math.round((presentUsers.size / total) * 100);
@@ -97,7 +97,7 @@ export class DashboardComponent {
       console.log(`\nAnalizzando timbrature per ${user.name} ${user.surname}`);
   
       const userStamps = todayStamps
-        .filter(stamp => stamp.username === `${user.name} ${user.surname}`)
+        .filter(stamp => stamp.userID === `${user.name} ${user.surname}`)
         .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
   
       let totalMinutes = 0;

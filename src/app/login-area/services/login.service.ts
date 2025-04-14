@@ -38,6 +38,10 @@ export class LoginService {
     return localStorage.getItem('role') || null;
   }
 
+  getUserID(): string | null {
+    return localStorage.getItem('id') || null;
+  }
+
   getUsername(): string | null {
     let n = this._users.find(u => u.id === localStorage.getItem('id'))?.name || null;
     let s = this._users.find(u => u.id === localStorage.getItem('id'))?.surname || null;

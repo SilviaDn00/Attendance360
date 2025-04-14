@@ -41,12 +41,12 @@ export class AdminTableComponent implements OnInit {
         this.rows = stamps.map(stamp => {
           // console.log('Stamp username:', `"${stamp.username}"`);
           // console.log('Tutti gli username utenti:', users.map(u => `"${u.username}"`));
-          const user = users.find(u =>u.surname?.trim().toLowerCase() === stamp.username?.trim().toLowerCase());
+          const user = users.find(u =>u.id?.trim().toLowerCase() === stamp.userID?.trim().toLowerCase());
           // console.log('---');
           // console.log('Stamp username:', stamp.username);
           // console.log('User trovato:', user);
           return {
-            username: user ? `${user.name} ${user.surname}` : stamp.username ?? 'N/A',
+            username: user ? `${user.name} ${user.surname}` : stamp.userID ?? 'N/A',
             role: user?.role ?? 'N/A',
             department: user?.department ?? 'N/A',
             date: stamp.date,
