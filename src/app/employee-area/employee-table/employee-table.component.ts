@@ -4,6 +4,9 @@ import { StampService } from '../services/stamp.service';
 import { Column, TableComponent } from '../../table/table.component';
 import { LoginService } from '../../login-area/services/login.service';
 import { FilterComponent } from '../../filter/filter.component';
+import { IFilters } from '../../models/IFilter';
+
+
 
 @Component({
   selector: 'app-employee-table',
@@ -29,7 +32,7 @@ export class EmployeeTableComponent implements OnInit {
   public currentPage = 1;
 
   ngOnInit(): void {
-    const currentUsername = this.loginService.getUsername(); // 👈 prende l'utente loggato
+    const currentUsername = this.loginService.getUsername();
   
     this._employeeService.GetStamp().subscribe(response => {
       // Filtra solo le timbrature di quell'utente
@@ -44,6 +47,8 @@ export class EmployeeTableComponent implements OnInit {
       this.updatePaginatedRows();
     });
   }
+
+  //pagination
 
   updatePaginatedRows() {
     const start = (this.currentPage - 1) * this.rowsPerPage;
@@ -76,19 +81,25 @@ export class EmployeeTableComponent implements OnInit {
       this.updatePaginatedRows();
     }
   }
+  //end-pagination
 
-  applyFilters(filters: { start: Date | null, end: Date | null, type: string | null }) {
+
+  applyFilters(filters: IFilters) {
     this.filteredRows = this.allRows.filter(row => {
-      const rowDate = new Date(`${row.date}`);
-
-      const matchStart = !filters.start || rowDate >= filters.start;
-      const matchEnd = !filters.end || rowDate <= filters.end;
+      const rowDate = new Date(row.date);
+      const normalizedRowDate = new Date(rowDate.getFullYear(), rowDate.getMonth(), rowDate.getDate());
+      const normalizedStart = filters.start ? new Date(filters.start.getFullYear(), filters.start.getMonth(), filters.start.getDate()) : null;
+      const normalizedEnd = filters.end ? new Date(filters.end.getFullYear(), filters.end.getMonth(), filters.end.getDate()) : null;
+  
+      const matchStart = !normalizedStart || normalizedRowDate >= normalizedStart;
+      const matchEnd = !normalizedEnd || normalizedRowDate <= normalizedEnd;
       const matchType = !filters.type || row.type === filters.type;
-
+  
       return matchStart && matchEnd && matchType;
     });
-
+  
     this.currentPage = 1;
     this.updatePaginatedRows();
   }
+  
 }

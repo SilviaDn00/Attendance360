@@ -33,11 +33,11 @@ export class StampService {
   // }
 
 
-    GetStamp(): Observable<Stamp[]> {
+  GetStamp(): Observable<Stamp[]> {
     return this._http.get<Stamp[]>(this._urlGet);
   }
 
-  PostStamp(stamp: Stamp): Observable<Stamp> { 
+  PostStamp(stamp: Stamp): Observable<Stamp> {
     return this._http.post<Stamp>(this._urlPost, stamp);
   }
 
