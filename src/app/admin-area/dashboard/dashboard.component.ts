@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal, untracked } from '@angular/core';
 import { LoginService } from '../../login-area/services/login.service';
 import { CardComponent } from '../../card/card.component';
 import { UsersService } from '../../login-area/services/users.service';
@@ -19,28 +19,27 @@ export class DashboardComponent {
   public stampService = inject(StampService);
 
 
-  protected readonly users = signal<User[]>([]);
-  protected readonly stamps = signal<Stamp[]>([]);
-
+  protected readonly userList = signal<User[] | null>(null);
+  protected readonly stampList = signal<Stamp[] | null>(null);
 
   constructor() {
     // Carica utenti e timbrature in modo asincrono
     this.userService.getUsers().subscribe(userData => {
-      this.users.set(userData);
+      this.userList.set(userData);
     });
 
     this.stampService.GetStamp().subscribe(stampData => {
-      this.stamps.set(stampData);
+      this.stampList.set(stampData);
     });
   }
 
 
-   // CARD "NUMERO TOTALE DEI DIPENDENTI"
-   protected readonly totalEmployees = computed(() =>
-    this.users().filter(user => user.role === 'employee').length
+  // CARD "NUMERO TOTALE DEI DIPENDENTI"
+  protected readonly totalEmployees = computed(() =>
+    (this.userList() ?? []).filter(user => user.role === 'employee').length
   );
 
-
+  
   // Funzione per verificare se una timbratura è avvenuta oggi
   private isStampToday(stamp: Stamp): boolean {
     const today = new Date();
@@ -55,26 +54,26 @@ export class DashboardComponent {
 
   // CARD "TIMBRATURE DI OGGI"
   protected readonly todayStampsCount = computed(() => {
-    const allStamps = this.stamps();
-    return allStamps?.filter(stamp => this.isStampToday(stamp)).length || 0;
+    const stamps = this.stampList() ?? [];
+    return stamps.filter(stamp => this.isStampToday(stamp)).length;
   });
 
 
-  // CARD "PERCENTUALE DI PRESENZA" 
+  // CARD "PERCENTUALE DI PRESENZA"
   protected readonly todayPresencePercentage = computed(() => {
-    const totalEmployees = this.totalEmployees();
-    if (totalEmployees === 0) return 0;
-
-    const stampsToday = this.stamps().filter(stamp => this.isStampToday(stamp));
+    const total = this.totalEmployees();
+    if (total === 0) return 0;
+  
+    const todayStamps = (this.stampList() ?? []).filter(stamp => this.isStampToday(stamp));
     const presentUsers = new Set<string>();
-
-    stampsToday.forEach(stamp => {
+  
+    todayStamps.forEach(stamp => {
       if (!stamp.username) return;
       if (stamp.type === 'ingresso') presentUsers.add(stamp.username);
       else if (stamp.type === 'uscita') presentUsers.delete(stamp.username);
     });
-
-    return Math.round((presentUsers.size / totalEmployees) * 100);
+  
+    return Math.round((presentUsers.size / total) * 100);
   });
 
 
@@ -85,57 +84,59 @@ export class DashboardComponent {
   }
 
 
-  // CARD "ALERT SULLE ANOMALIE" 
-  protected readonly anomalyAlerts = computed(() => {
-    const users = this.users();
-    const stampsToday = this.stamps().filter(stamp => this.isStampToday(stamp));
-    let anomalie = 0;
-
+  // CARD "ALERT SULLE ANOMALIE"
+  protected readonly anomalyCount = computed(() => {
+    const users = this.userList() ?? [];
+    const stamps = this.stampList() ?? [];
+    const todayStamps = stamps.filter(stamp => this.isStampToday(stamp));
+    let anomalies = 0;
+  
     users.forEach(user => {
       if (user.role !== 'employee') return;
-
-      console.log(`Analizzando le timbrature per ${user.name} ${user.surname}`);
-
-      const userStamps = stampsToday.filter(stamp => stamp.username === `${user.name} ${user.surname}`)
+  
+      console.log(`\nAnalizzando timbrature per ${user.name} ${user.surname}`);
+  
+      const userStamps = todayStamps
+        .filter(stamp => stamp.username === `${user.name} ${user.surname}`)
         .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-
+  
       let totalMinutes = 0;
-
+      let validPairs = 0;
+  
       for (let i = 0; i < userStamps.length - 1; i += 2) {
-        const ingresso = userStamps[i];
-        const uscita = userStamps[i + 1];
-
-        if (ingresso.type === 'ingresso' && uscita.type === 'uscita') {
-          const ingressoTime = this.parseTimeInMinutes(ingresso.time);
-          const uscitaTime = this.parseTimeInMinutes(uscita.time);
-          const diffInMinutes = uscitaTime - ingressoTime;
-
-          console.log(`Timbratura ingresso: ${ingresso.time} - tipo: ingresso`);
-          console.log(`Timbratura uscita: ${uscita.time} - tipo: uscita`);
-          console.log(`Differenza ore: ${diffInMinutes / 60} ore`);
-
+        const checkIn = userStamps[i];
+        const checkOut = userStamps[i + 1];
+  
+        if (checkIn.type === 'ingresso' && checkOut.type === 'uscita') {
+          const checkInMinutes = this.parseTimeInMinutes(checkIn.time);
+          const checkOutMinutes = this.parseTimeInMinutes(checkOut.time);
+          const diffInMinutes = checkOutMinutes - checkInMinutes;
+  
+          console.log(`  - Ingresso alle ${checkIn.time}, Uscita alle ${checkOut.time}`);
+          console.log(`    → Differenza: ${diffInMinutes / 60} ore`);
+  
           totalMinutes += diffInMinutes;
+          validPairs++;
         }
       }
-
-      console.log(`Totale ore per ${user.name} ${user.surname}: ${totalMinutes / 60} ore`);
-
-      // Se le ore totali sono meno di 240 minuti (4 ore), conta come anomalia
-      if (totalMinutes < 240 && userStamps.length > 0) {
-        console.log(`Anomalia per ${user.name} ${user.surname}: totale ore < 4`);
-        anomalie++;
+  
+      console.log(`  → Totale ore per ${user.name} ${user.surname}: ${(totalMinutes / 60).toFixed(2)} ore`);
+  
+      if (validPairs > 0 && totalMinutes < 240) {
+        console.log(`  ⚠️ Anomalia: meno di 4 ore lavorate`);
+        anomalies++;
       }
     });
-
-    console.log(`Totale anomalie: ${anomalie}`);
-    return anomalie;
+  
+    console.log(`\n✅ Totale anomalie rilevate: ${anomalies}`);
+    return anomalies;
   });
-
+  
 
   protected readonly Items = computed(() => [
     { title: 'Numero totale dei dipendenti:', text: this.totalEmployees(), action: 'pulsante' },
     { title: 'Timbrature di oggi:', text: this.todayStampsCount(), action: 'pulsante' },
     { title: 'Percentuale presenti:', text: `${this.todayPresencePercentage()}%`, action: 'pulsante' },
-    { title: 'Alert sulle anomalie', text: this.anomalyAlerts(), action: 'pulsante' },
+    { title: 'Alert sulle anomalie', text: this.anomalyCount(), action: 'pulsante' },
   ]);
 }
