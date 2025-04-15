@@ -1,21 +1,27 @@
+@let controls = loginFormGroup.controls;
 <div class="background">
     <div class="container">
         <div class="row justify-content-center">
-        <div class="col-lg-6 col-12">
-            <h2 class="text-center mb-5 text-white">ACCEDI</h2>
-            <form [formGroup]="loginFormGroup" (ngSubmit)="onLogin()" class="text-white">
-                <div class="mb-3 ">
-                    <label for="email" class="form-label">Email</label>
-                    <input [formControlName]="'email'" class="form-control" id="email"
-                    placeholder="name@example.com">
-                </div>
-                <label for="password" class="form-label">Password</label>
-                <input  [formControlName]="'password'" type="password" id="password" class="form-control" aria-describedby="passwordHelpBlock">
-                <div id="passwordHelpBlock" class="form-text text-white">
-                </div>
-                <button type="submit" class="btn btn-success mt-3">Accedi</button>
-            </form>
+            <div class="col-lg-6 col-12">
+                <h2 class="text-center mb-5 text-white">ACCEDI</h2>
+                <form [formGroup]="loginFormGroup" (ngSubmit)="onLogin()" class="text-white">
+                    <div class="mb-3 ">
+                        <label for="email" class="form-label">Email</label>
+                        
+                        <input [formControlName]="'email'" class="form-control" id="email"
+                            placeholder="name@example.com" [class]="controls['email'].pristine ? '' : (controls['email'].valid ? 'is-valid' : 'is-invalid')">
+
+                    </div>
+                    <label for="password" class="form-label">Password</label>
+
+                    <input [formControlName]="'password'" type="password" id="password" class="form-control"
+                        aria-describedby="passwordHelpBlock" [class]="controls['password'].pristine ? '' : (controls['password'].valid ? 'is-valid' : 'is-invalid')">
+
+                    <div id="passwordHelpBlock" class="form-text text-white">
+                    </div>
+                    <button type="submit" class="btn btn-success mt-3">Accedi</button>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 </div>

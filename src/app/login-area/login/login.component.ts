@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { User } from '../../models/users';
 import { UsersService } from '../../service/users.service';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { LoginService } from '../services/login.service';
@@ -21,8 +21,8 @@ export class LoginComponent {
 
   constructor() {
     this.loginFormGroup = this.formBuild.group({
-      email: [''],
-      password: [''],
+      email: ['', [ Validators.required]],
+      password: ['', [ Validators.required]],
     });
   }
 
@@ -30,7 +30,7 @@ export class LoginComponent {
     if (this.loginFormGroup.value.email && this.loginFormGroup.value.password) {
       if (this._loginService.login(this.loginFormGroup.value.email.trim(), this.loginFormGroup.value.password))
         this._router.navigate(['/dashboard']);
-      else alert('login fallito');
+      else alert('Login fallito. Email o Password errati');
     }
   }
 }

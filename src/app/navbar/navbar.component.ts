@@ -20,6 +20,7 @@ export class NavbarComponent {
   protected readonly adminItems = [
     { displayName: 'DASHBOARD', link: 'dashboard' },
     { displayName: 'TABELLA', link: 'dashboard/admin-table' },
+    { displayName: 'GESTIONE DIPENDENTI', link: 'dashboard/team-management' },
   ]
 
   get menuItems() {

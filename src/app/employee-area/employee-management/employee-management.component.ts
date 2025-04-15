@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -10,10 +10,11 @@ import { LoginService } from '../../login-area/services/login.service';
 import { Stamp, StampType } from '../../models/stamp';
 import { Column, TableComponent } from '../../table/table.component';
 import { StampService } from '../services/stamp.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-employee-management',
-  imports: [MatRadioModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, ReactiveFormsModule, MatSelectModule, TableComponent],
+  imports: [MatRadioModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, ReactiveFormsModule, MatSelectModule, TableComponent, CommonModule],
   providers: [provideNativeDateAdapter()],
   templateUrl: './employee-management.component.html',
   styleUrl: './employee-management.component.scss'
@@ -35,10 +36,10 @@ export class EmployeeManagementComponent implements OnInit {
 
   ngOnInit(): void {
     this.stampFormGroup = this.formBuild.group({
-      date: [new Date().toISOString().split('T')[0]],
-      time: [0],
-      type: [StampType],
-      userID: [this.logService.getUserID()]
+      date: [new Date().toISOString().split('T')[0], [ Validators.required]],
+      time: [0, [ Validators.required]],
+      type: [StampType, [ Validators.required]],
+      userID: [this.logService.getUserID(), [ Validators.required]]
     });
 
     this.loadStamps();
