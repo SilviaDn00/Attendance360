@@ -4,9 +4,18 @@
             <h1>GESTIONE DIPENDENTI</h1>
         </div>
     </div>
+</div>
+<div class="container">
     <div class="row mt-3">
-        <div class="col-12 ">
-            <app-table [columns]="columns" [rows]="rows"></app-table>
+        <div class="col-12">
+            <div class="table-responsive">
+                <app-table [columns]="columns" [rows]="rows"></app-table>
+            </div>
+        </div>
+    </div>
+    <div class="row my-3">
+        <div class="col-12 d-flex justify-content-start">
+            <button class="btn btn-primary">Aggiungi dipendente</button>
         </div>
     </div>
 </div>
