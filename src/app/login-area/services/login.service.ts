@@ -1,5 +1,5 @@
 import { inject, Injectable, OnInit } from '@angular/core';
-import { UsersService } from './users.service';
+import { UsersService } from '../../service/users.service';
 import { User } from '../../models/users';
 
 @Injectable({
@@ -49,7 +49,7 @@ export class LoginService {
     return username;
   }
 
-  logout(): void{
+  logout(): void {
     localStorage.removeItem('id')
     localStorage.removeItem('name')
     localStorage.removeItem('surname')

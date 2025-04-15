@@ -1,16 +1,17 @@
 import { Component, computed, inject, signal, untracked } from '@angular/core';
 import { LoginService } from '../../login-area/services/login.service';
 import { CardComponent } from '../../card/card.component';
-import { UsersService } from '../../login-area/services/users.service';
+import { UsersService } from '../../service/users.service';
 import { User } from '../../models/users';
 import { Stamp, StampType } from '../../models/stamp';
 import { StampService } from '../../employee-area/services/stamp.service';
 import { IEnrichedStamp } from '../../models/IEnrichedStamp';
 import { Column, TableComponent } from '../../table/table.component';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CardComponent, TableComponent],
+  imports: [CardComponent, TableComponent, RouterModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
@@ -49,10 +50,10 @@ export class DashboardComponent {
 
   protected readonly rows = computed(() =>
     this.stampList().map<IEnrichedStamp>(s => {
-      const user = this.userList().find(u => 
+      const user = this.userList().find(u =>
         u.id?.trim().toLowerCase() === s.userID?.trim().toLowerCase()
       );
-    
+
       return {
         username: user ? `${user.name} ${user.surname}` : s.userID ?? 'N/A',
         role: user?.role ?? 'N/A',
@@ -62,9 +63,9 @@ export class DashboardComponent {
         type: s.type
       };
     })
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    .slice(0, 10))
-  
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+      .slice(0, 10))
+
 
 
   // CARD "NUMERO TOTALE DEI DIPENDENTI"
@@ -139,7 +140,7 @@ export class DashboardComponent {
     return anomalies;
   });
 
-  
+
   // Funzione per verificare se una timbratura è avvenuta oggi
   private isStampToday(stamp: Stamp): boolean {
     const today = new Date();
@@ -166,6 +167,6 @@ export class DashboardComponent {
     { title: 'Alert sulle anomalie', text: this.anomalyCount(), action: 'pulsante' },
   ]);
 
-   
-  
+
+
 }

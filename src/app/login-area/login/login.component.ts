@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { User } from '../../models/users';
-import { UsersService } from '../services/users.service';
+import { UsersService } from '../../service/users.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -27,8 +27,7 @@ export class LoginComponent {
   }
 
   onLogin() {
-    if (this.loginFormGroup.value.email && this.loginFormGroup.value.password) 
-      {
+    if (this.loginFormGroup.value.email && this.loginFormGroup.value.password) {
       if (this._loginService.login(this.loginFormGroup.value.email.trim(), this.loginFormGroup.value.password))
         this._router.navigate(['/dashboard']);
       else alert('login fallito');

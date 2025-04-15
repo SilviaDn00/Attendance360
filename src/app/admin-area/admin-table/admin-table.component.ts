@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Column, TableComponent } from '../../table/table.component';
 import { StampService } from '../../employee-area/services/stamp.service';
-import { UsersService } from '../../login-area/services/users.service';
+import { UsersService } from '../../service/users.service';
 import { User } from '../../models/users';
 import { Stamp } from '../../models/stamp';
 import { IEnrichedStamp } from '../../models/IEnrichedStamp';

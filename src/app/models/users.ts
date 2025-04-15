@@ -1,4 +1,4 @@
-export interface User {
+export interface IUser {
     id: string;
     name: string;
     surname: string;
@@ -8,6 +8,6 @@ export interface User {
     department: string;
 }
 
-export class User {      
+export class User implements IUser {      
     constructor( public id: string, public name: string, public surname: string, public email: string, public password: string, public role: string, public department : string ) {}
 }
