@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal, untracked } from '@angular/core';
+import { Component, computed, inject, OnInit, signal, untracked } from '@angular/core';
 import { LoginService } from '../../login-area/services/login.service';
 import { CardComponent } from '../../card/card.component';
 import { UsersService } from '../../service/users.service';
@@ -15,7 +15,7 @@ import { RouterModule } from '@angular/router';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
 
   public logService = inject(LoginService);
   private _userService = inject(UsersService);
@@ -24,8 +24,13 @@ export class DashboardComponent {
   protected readonly userList = signal<User[]>([]);
   protected readonly stampList = signal<Stamp[]>([]);
 
-  constructor() {
-    // Carica utenti e timbrature in modo asincrono
+  // constructor() {
+  //   // Carica utenti e timbrature in modo asincrono
+  //   this.loadData();
+  // }
+
+  ngOnInit(): void {
+    // Inizializza i dati al caricamento del componente
     this.loadData();
   }
 

@@ -25,21 +25,6 @@ export class TeamManagementComponent implements OnInit {
 
   public rows: IUser[] = [];
 
-  // ngOnInit(): void {
-  //   this._userService.getUsers().subscribe(users => {
-  //     const userList = users.filter(u => u.role === 'employee').map( u => ({
-  //       ...u,
-  //       button: [
-  //         new ButtonProperties('bi bi-pencil-square', ciao() ),
-  //         new ButtonProperties ('bi bi-person-wheelchair',''),
-  //         new ButtonProperties ('bi bi-person-vcard-fill','')
-  //       ]
-  //     }));
-  //     this.rows = userList
-  //   }
-  //   )
-  // }
-
   ngOnInit(): void {
     this._userService.getUsers().subscribe(users => {
       const userList = users
@@ -49,9 +34,10 @@ export class TeamManagementComponent implements OnInit {
           button: [
             new ButtonProperties('bi bi-pencil-square', undefined, () => this.editUser(u)),
             new ButtonProperties('bi bi-person-wheelchair', undefined, () => this.disableUser(u)),
-            new ButtonProperties('bi bi-person-vcard-fill', `dashboard/employee-details/${u.id}`)
+            new ButtonProperties('bi bi-person-vcard-fill', `/dashboard/employee-details/${u.id}`)
           ]
         }));
+
       this.rows = userList;
     });
   }
@@ -66,16 +52,6 @@ export class TeamManagementComponent implements OnInit {
     console.log('Disabling user:', user);
     // logica di disattivazione
   }
-  
-  
-
-  // public buttons: ButtonProperties[] = [ 
-  //   {icon: 'icon', link: 'jfdsh'},
-  //   {icon: 'AA', link: ''},
-  //   {icon: 'AA', link: ''},
-  // ]
-
-
 
 }
 

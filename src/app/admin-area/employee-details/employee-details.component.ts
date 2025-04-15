@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -7,14 +7,12 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './employee-details.component.html',
   styleUrl: './employee-details.component.scss'
 })
-export class EmployeeDetailsComponent {
-  public userId!: string;
-
-  constructor(private route: ActivatedRoute) {}
+export class EmployeeDetailsComponent implements OnInit {
+  
+  @Input() id: string | null = null;
 
   ngOnInit(): void {
-    this.userId = this.route.snapshot.paramMap.get('id')!;
-    console.log('Dettagli per utente con ID:', this.userId);
-    // qui puoi fare una chiamata API per caricare i dettagli dell'utente
+    console.log('ID:', this.id);
+    
   }
-}
+ }
