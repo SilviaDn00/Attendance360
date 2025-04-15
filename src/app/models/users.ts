@@ -1,3 +1,5 @@
+import { ButtonProperties } from "./buttonProperties";
+
 export interface IUser {
     id: string;
     name: string;
@@ -6,6 +8,7 @@ export interface IUser {
     password: string;
     role: string;
     department: string;
+    button?: ButtonProperties[];
 }
 
 export class User implements IUser {      

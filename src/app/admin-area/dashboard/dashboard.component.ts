@@ -161,7 +161,7 @@ export class DashboardComponent {
 
 
   protected readonly items = computed(() => [
-    { title: 'Numero totale dei dipendenti:', text: this.totalEmployees(), action: 'pulsante' },
+    { title: 'Numero totale dei dipendenti:', text: this.totalEmployees(), action: 'pulsante', link: 'team-management' },
     { title: 'Timbrature di oggi:', text: this.todayStampsCount(), action: 'pulsante' },
     { title: 'Percentuale presenti:', text: `${this.todayPresencePercentage()}%`, action: 'pulsante' },
     { title: 'Alert sulle anomalie', text: this.anomalyCount(), action: 'pulsante' },

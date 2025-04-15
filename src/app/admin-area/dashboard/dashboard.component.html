@@ -8,7 +8,7 @@
         <app-card>
           <div title>{{ item.title }}</div>
           <div text>{{ item.text }}</div>
-          <a action class="btn btn-primary">{{ item.action }}</a>
+          <a action [routerLink]="[item.link]" routerLinkActive="router-link-active"  class="btn btn-primary">{{ item.action }}</a>
         </app-card>
       </div>
     }
@@ -20,7 +20,7 @@
   </div>
   <div class="row">
     <h3 class="text-center my-4">TIMBRATURE RECENTI</h3>
-    <div class="col-12 overflow-x-auto justify-content-center mb-5">
+    <div class="col-12 overflow-x-auto d-flex justify-content-center mb-5">
       <app-table [columns]="columns" [rows]="rows()"></app-table>
     </div>
   </div>

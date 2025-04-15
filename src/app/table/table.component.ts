@@ -2,17 +2,18 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { IFilters } from '../models/IFilter';
 import { FilterComponent } from '../filter/filter.component';
+import { RouterModule } from '@angular/router';
 
 
 export type Column<T> = {
   key: keyof T;
   label: string;
-  type: 'number' | 'date' | 'string' | 'boolean' | 'stampType' | 'userID' | 'department' | 'role' | 'time';
+  type: 'number' | 'date' | 'string' | 'boolean' | 'stampType' | 'userID' | 'department' | 'role' | 'time' | 'button';
 }
 
 @Component({
   selector: 'app-table',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
   standalone: true,
@@ -94,5 +95,4 @@ export class TableComponent<T> implements OnChanges {
       this.updatePaginatedRows();
     }
   }
-  
 }

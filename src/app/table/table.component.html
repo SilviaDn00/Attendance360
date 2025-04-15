@@ -15,6 +15,9 @@
       @case('date') {
       <ng-container *ngTemplateOutlet="valueTemplate; context: { $implicit: $any(value) | date: 'dd-MM-yyyy' }" />
       }
+      @case('button') {
+        <ng-container *ngTemplateOutlet="buttonTemplate; context: { $implicit: $any(value)}" />
+        }
       @default {
       <ng-container *ngTemplateOutlet="valueTemplate; context: { $implicit: value  }" />
       }
@@ -24,9 +27,39 @@
     }
   </tbody>
 </table>
+
+
 <ng-template #valueTemplate let-value>
   <td class="py-2 px-lg-5 px-3 border-2">{{ value }}</td>
 </ng-template>
+
+
+<ng-template #buttonTemplate let-value>
+  <td class="py-2 px-lg-5 px-3 border-2">
+    @if (value?.length > 0) {
+      @for (btn of value; track btn) {
+        @if (btn.link) {
+          <button
+            class="btn btn-sm btn-outline-primary me-2"
+            [routerLink]="[btn.link]"
+            routerLinkActive="router-link-active"
+          >
+            <i [class]="btn.icon"></i>
+          </button>
+        } @else {
+          <button
+            class="btn btn-sm btn-outline-primary me-2"
+            (click)="btn.action?.()"
+          >
+            <i [class]="btn.icon"></i>
+          </button>
+        }
+      }
+    }
+  </td>
+</ng-template>
+
+
 <!-- PAGINATION -->
 <div class="mt-4" *ngIf="totalPages > 1">
   <nav>

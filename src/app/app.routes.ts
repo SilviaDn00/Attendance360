@@ -9,5 +9,6 @@ export const routes: Routes = [
 
   { path: '', loadChildren: () => import('./attendance-routes').then(c => c.attendanceRoutes), canActivate: [activateAuthGuard]},
 
-  { path: '**', redirectTo: '/login' }
+  { path: '**', redirectTo: '/login' },
+  
 ];
