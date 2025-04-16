@@ -4,11 +4,11 @@ import { IEnrichedStamp } from '../../models/IEnrichedStamp';
 import { IUser, User } from '../../models/users';
 import { UsersService } from '../../service/users.service';
 import { ButtonProperties } from '../../models/buttonProperties';
-import { UserFormComponent } from '../user-form/user-form.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-team-management',
-  imports: [TableComponent, UserFormComponent],
+  imports: [TableComponent, RouterLink],
   templateUrl: './team-management.component.html',
   styleUrl: './team-management.component.scss'
 })
