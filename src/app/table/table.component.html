@@ -2,28 +2,28 @@
   <thead class="bg-secondary">
     <tr class="text-center">
       @for (col of columns; track col) {
-      <th class="py-2 px-lg-5 px-3 border-2">{{ col.label }}</th>
+        <th class="py-2 px-lg-5 px-3 border-2">{{ col.label }}</th>
       }
     </tr>
   </thead>
   <tbody>
-    @for (row of paginatedRows; track row) {
-    <tr class="text-center">
-      @for (col of columns; track col) {
-      @let value = row[col.key];
-      @switch (col.type) {
-      @case('date') {
-      <ng-container *ngTemplateOutlet="valueTemplate; context: { $implicit: $any(value) | date: 'dd-MM-yyyy' }" />
-      }
-      @case('button') {
-        <ng-container *ngTemplateOutlet="buttonTemplate; context: { $implicit: $any(value)}" />
+    @for (row of paginatedRows; track $index) {
+      <tr class="text-center">
+          @for (col of columns; track col) {
+            @let value = row[col.key];
+            @switch (col.type) {
+              @case('date') {
+                <ng-container *ngTemplateOutlet="valueTemplate; context: { $implicit: $any(value) | date: 'dd-MM-yyyy' }" />
+              }
+              @case('button') {
+                <ng-container *ngTemplateOutlet="buttonTemplate; context: { $implicit: $any(value)}" />
+              }
+              @default {
+                <ng-container *ngTemplateOutlet="valueTemplate; context: { $implicit: value  }" />
+            }
+          }
         }
-      @default {
-      <ng-container *ngTemplateOutlet="valueTemplate; context: { $implicit: value  }" />
-      }
-      }
-      }
-    </tr>
+      </tr>
     }
   </tbody>
 </table>

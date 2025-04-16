@@ -27,10 +27,11 @@ export class LoginComponent {
   }
 
   onLogin() {
+    this.loginFormGroup.markAllAsTouched();
     if (this.loginFormGroup.value.email && this.loginFormGroup.value.password) {
-      if (this._loginService.login(this.loginFormGroup.value.email.trim(), this.loginFormGroup.value.password))
-        this._router.navigate(['/dashboard']);
-      else alert('Login fallito. Email o Password errati');
+      this._loginService.login(this.loginFormGroup.value.email.trim(), this.loginFormGroup.value.password)
+        ? this._router.navigate(['/dashboard'])
+        : alert('Login fallito. Email o Password errati');
     }
   }
 }
