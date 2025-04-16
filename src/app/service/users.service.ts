@@ -25,16 +25,16 @@ export class UsersService {
     return this._http.get<User>(`${this._urlUser}/${id}`);
   }
 
-  PostUsers(): Observable<User[]> {
-    return this._http.post<User[]>(this._urlPost, {});
+  PostUsers(user : User): Observable<User[]> {
+    return this._http.post<User[]>(this._urlPost, user);
   }
-  
+
   UpdateUsers(user: User): Observable<User[]> {
     return this._http.put<User[]>(this._urlUpdate, user);
   }
 
   UpdateUserEnabled(id: string): Observable<User> {
-    return this._http.put<User>(`${this._urlEnabled}/${id}`, {}); // body vuoto
+    return this._http.put<User>(`${this._urlEnabled}/${id}`, {}); 
   }
   
 
