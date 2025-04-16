@@ -36,10 +36,10 @@ export class EmployeeManagementComponent implements OnInit {
 
   ngOnInit(): void {
     this.stampFormGroup = this.formBuild.group({
-      date: [new Date().toISOString().split('T')[0], [ Validators.required]],
-      time: [0, [ Validators.required]],
-      type: [StampType, [ Validators.required]],
-      userID: [this.logService.getUserID(), [ Validators.required]]
+      date: [new Date().toISOString().split('T')[0]],
+      time: [0],
+      type: [StampType],
+      userID: [this.logService.getUserID()]
     });
 
     this.loadStamps();
