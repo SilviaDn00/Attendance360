@@ -31,8 +31,13 @@ export class EmployeeTableComponent implements OnInit {
 
 
   ngOnInit(): void {
+    const savedFilters = localStorage.getItem('employee-filters');
+    if (savedFilters) {
+      this.currentFilters = JSON.parse(savedFilters);
+    }
+  
     const currentUserID = this.loginService.getUserID();
-
+  
     this._employeeService.GetStamp().subscribe(response => {
       this.allRows = response
         .filter(stamp => stamp.userID === currentUserID)
@@ -40,7 +45,12 @@ export class EmployeeTableComponent implements OnInit {
     });
   }
 
+
   onFiltersChanged(filters: IFilters) {
+    console.log('FILTRI CAMBIATI:', filters);
     this.currentFilters = filters;
-  } 
+    localStorage.setItem('employee-filters', JSON.stringify(filters));
+  }
+  
+   
 }

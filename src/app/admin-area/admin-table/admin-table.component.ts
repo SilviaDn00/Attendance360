@@ -32,8 +32,10 @@ export class AdminTableComponent implements OnInit {
   public rows: IEnrichedStamp[] = [];
 
   ngOnInit(): void {
+    this.restoreSavedFilters();
     this.loadData();
   }
+  
 
   private loadData(): void {
     this._userService.getUsers().subscribe((users: User[]) => {
@@ -54,7 +56,24 @@ export class AdminTableComponent implements OnInit {
     });
   }
 
+
   onFiltersChanged(filters: IFilters) {
     this.currentFilters = filters;
+    localStorage.setItem('admin-filters', JSON.stringify(filters));
   }
+  
+  
+  private restoreSavedFilters(): void {
+    const savedFilters = localStorage.getItem('admin-filters');
+    if (savedFilters) {
+      const parsed: IFilters = JSON.parse(savedFilters);
+      // ricostruisci le date perché da JSON sono stringhe
+      this.currentFilters = {
+        start: parsed.start ? new Date(parsed.start) : null,
+        end: parsed.end ? new Date(parsed.end) : null,
+        type: parsed.type ?? null,
+      };
+    }
+  }
+  
 }

@@ -23,14 +23,19 @@ export class TableComponent<T> implements OnChanges {
   @Input() public rows: T[] = [];
   @Input() public rowsPerPage = 10;
   @Input() public typeOptions: string[] = [];
+
   @Input() set filters(value: IFilters | null) {
+    this._filters = value;
     if (value) {
       this.applyFilters(value);
     } else {
-      this.filteredRows = this.rows;
+      this.filteredRows = [...this.rows]; // Se non ci sono filtri, mostra tutto
       this.updatePaginatedRows();
     }
   }
+  
+private _filters: IFilters | null = null;
+
   
   
   public filteredRows: T[] = [];
@@ -39,11 +44,16 @@ export class TableComponent<T> implements OnChanges {
   
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['rows']) {
-      this.filteredRows = [...this.rows]; // <-- AGGIUNGI QUESTO!
-      this.currentPage = 1;
-      this.updatePaginatedRows();
+      if (this._filters) {
+        this.applyFilters(this._filters); // <-- riapplica i filtri alle nuove righe
+      } else {
+        this.filteredRows = [...this.rows];
+        this.currentPage = 1;
+        this.updatePaginatedRows();
+      }
     }
   }
+  
   
   get totalPages(): number {
     return Math.ceil(this.filteredRows.length / this.rowsPerPage);

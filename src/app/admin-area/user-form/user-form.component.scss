@@ -1,0 +1,10 @@
+.form{
+    width: 500px;
+    background-color: rgba(2, 72, 132, 0.407);
+}
+
+@media (max-width: 768px) {
+    .form{
+        width: 100%;
+    }
+}

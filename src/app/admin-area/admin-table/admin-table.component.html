@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-lg-3 col-12 mt-4">
             <h1 class="mb-4">FILTRI</h1>
-            <app-filter [typeOptions]="['entrata', 'uscita']" (filtersChanged)="onFiltersChanged($event)"></app-filter>
+            <app-filter [typeOptions]="['entrata', 'uscita']" [initialFilters]="currentFilters" (filtersChanged)="onFiltersChanged($event)"></app-filter>
         </div>
         <div class="col-lg-9 col-12 mt-4">
             <h1 class="ps-3 mb-4">STORICO COMPLETO DEI DIPENDENTI</h1>

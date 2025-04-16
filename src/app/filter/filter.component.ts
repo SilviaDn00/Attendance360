@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -22,13 +22,14 @@ interface Filters {
   styleUrl: './filter.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FilterComponent<T extends User | Stamp> {
+export class FilterComponent<T extends User | Stamp> implements OnInit {
 
   readonly range = new FormGroup({
     start: new FormControl<Date | null>(null),
     end: new FormControl<Date | null>(null),
   });
 
+  @Input() initialFilters: Filters | null = null;
   @Input() typeOptions: string[] = [];
   @Output() filtersChanged = new EventEmitter<{ start: Date | null; end: Date | null; type: string | null }>();
 
@@ -39,6 +40,25 @@ export class FilterComponent<T extends User | Stamp> {
       this.emitFilters();
     });
   }
+
+
+  ngOnInit(): void {
+    if (this.initialFilters) {
+      this.range.patchValue({
+        start: this.initialFilters.start ? new Date(this.initialFilters.start) : null,
+        end: this.initialFilters.end ? new Date(this.initialFilters.end) : null
+      });
+  
+      this.selectedType = this.initialFilters.type;
+  
+      // aspetta un tick del ciclo Angular per assicurarti che tutto sia visibile
+      setTimeout(() => {
+        this.emitFilters();
+      });
+    }
+  }
+  
+
 
   emitFilters() {
     const start = this.range.value.start ?? null;

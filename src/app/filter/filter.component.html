@@ -16,9 +16,10 @@
     <mat-error>Invalid end date</mat-error>
     }
   </mat-form-field>
-  <mat-radio-group aria-label="Select an option" class="my-3" (change)="onTypeChange($event.value)">
-    <mat-radio-button value="ingresso">Ingresso</mat-radio-button>
-    <mat-radio-button value="uscita">Uscita</mat-radio-button>
-  </mat-radio-group>
+  <mat-radio-group aria-label="Select an option" class="my-3" [value]="selectedType" (change)="onTypeChange($event.value)">
+  <mat-radio-button value="ingresso">Ingresso</mat-radio-button>
+  <mat-radio-button value="uscita">Uscita</mat-radio-button>
+</mat-radio-group>
+
   <button class="btn btn-primary" (click)="resetFilters()">Reset filtri</button>
 </form>

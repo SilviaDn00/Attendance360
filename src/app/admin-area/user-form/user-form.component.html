@@ -4,7 +4,7 @@
             <h1> AGGIUNGI UTENTE </h1>
         </div>
     </div>
-    <form [formGroup]="userFormGroup">
+    <form [formGroup]="userFormGroup" class="form p-4 rounded shadow-lg mt-3">
         <div class="mb-3">
             <label for="Name" class="form-label"> Nome </label>
             <input type="text" class="form-control" [formControlName]="'name'" id="Name" aria-describedby="nameHelp">
