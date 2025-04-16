@@ -21,7 +21,7 @@ export const activateAuthGuard: CanActivateFn = (route, state) => {
   return userService.getUserById(userId).pipe(
     switchMap(user => {
       if (!user.enabled) {
-        console.log("Utente disabilitato");
+        alert("Impossibile effettuare l'accesso: Utente disabilitato");
         router.navigate(['/login']);
         return of(false); // Blocco se disabilitato
       }
