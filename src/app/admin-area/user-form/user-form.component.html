@@ -1,7 +1,24 @@
 <div class="container d-flex flex-column align-items-center">
+
+    @if (id === null) {
+        <ng-container *ngTemplateOutlet="Form; context: {
+        $implicit: 'AGGIUNGI UTENTE', button: 'Aggiungi' }">
+        </ng-container>
+    } @else {
+        <ng-container *ngTemplateOutlet="Form; context: {
+        $implicit: 'MODIFICA UTENTE', button: 'Modifica' }">
+        </ng-container>
+    }
+
+
+</div>
+<button [routerLink]="['/dashboard/team-management']" class="btn btn-primary mt-4 shadow-lg ms-5">Indietro</button>
+
+
+<ng-template #Form let-value let-button="button">
     <div class="row mt-3">
         <div class="col-12">
-            <h1> AGGIUNGI UTENTE </h1>
+            <h1> {{ value }} </h1>
         </div>
     </div>
     <form [formGroup]="userFormGroup" class="form p-4 rounded shadow-lg mt-3">
@@ -11,11 +28,13 @@
         </div>
         <div class="mb-3">
             <label for="Surname" class="form-label"> Cognome </label>
-            <input type="text" class="form-control" [formControlName]="'surname'" id="Surname" aria-describedby="usernameHelp">
+            <input type="text" class="form-control" [formControlName]="'surname'" id="Surname"
+                aria-describedby="usernameHelp">
         </div>
         <div class="mb-3">
             <label for="Email" class="form-label"> Email </label>
-            <input type="email" class="form-control" [formControlName]="'email'" id="Email" aria-describedby="emailHelp">
+            <input type="email" class="form-control" [formControlName]="'email'" id="Email"
+                aria-describedby="emailHelp">
         </div>
         <div class="mb-3">
             <label for="Password" class="form-label"> Password </label>
@@ -23,9 +42,12 @@
         </div>
         <div class="mb-3">
             <label for="Department" class="form-label"> Reparto </label>
-            <input type="text" class="form-control" [formControlName]="'department'" id="Department" aria-describedby="usernameHelp">
+            <input type="text" class="form-control" [formControlName]="'department'" id="Department"
+                aria-describedby="usernameHelp">
         </div>
-        <button type="submit" class="btn btn-primary" (click)="AddUser()"> Aggiungi </button>
+        <div>
+            <button type="submit" class="btn btn-primary" (click)="id ? EditUser() : AddUser()"> {{ button }} </button>
+              
+        </div>
     </form>
-</div>
-<button [routerLink]="['/dashboard/team-management']" class="btn btn-primary mt-4 shadow-lg ms-5">Indietro</button>
+</ng-template>

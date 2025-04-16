@@ -18,7 +18,6 @@ export class EmployeeDetailsComponent implements OnInit {
   public user!: IUser;
 
   ngOnInit(): void {
-    console.log('ID:', this.id);
     this.loadData();
   }
 

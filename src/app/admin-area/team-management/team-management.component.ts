@@ -33,7 +33,7 @@ export class TeamManagementComponent implements OnInit {
         .map(u => ({
           ...u,
           button: [
-            new ButtonProperties('bi bi-pencil-square', undefined, () => this._userService.UpdateUsers(u)),
+            new ButtonProperties('bi bi-pencil-square', `/dashboard/user-form/${u.id}`),
             new ButtonProperties('bi bi-person-wheelchair', undefined, () => this.disableUser(u.id)),
             new ButtonProperties('bi bi-person-vcard-fill', `/dashboard/employee-details/${u.id}`)
           ]
@@ -42,20 +42,6 @@ export class TeamManagementComponent implements OnInit {
       this.rows = userList;
     });
   }
-
-  // disableUser(id: string): void {
-  //   this._userService.getUserById(id).subscribe(() => {
-  //     const userList = this.rows.filter((us : User) => us.id !== id).map(u => {
-  //       console.log(u.id);
-  //       const c= u.id === id ? { ...u, enabled: false } : u;
-  //       console.log(c);
-  //       console.log(id);        
-  //       console.log(c.enabled);
-  //      return c;
-  //     }
-  //     );
-  //   });
-  // }
 
   disableUser(id: string): void {
     this._userService.UpdateUserEnabled(id).subscribe(updatedUser => {
