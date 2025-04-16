@@ -3,3 +3,26 @@
 //     padding: 15px;
 //     border-radius: 10px;
 // }
+
+// @media (max-width: 768px) {
+//     table td,
+//     table th {
+//       padding: 0.5rem !important;
+//       font-size: 0.875rem;
+//     }
+//   }
+  
+@media (max-width: 1090px) {
+    table {
+      font-size: 0.8rem;
+    }
+  
+    td, th {
+      padding: 0.8rem !important;
+    }
+  
+    .btn-sm {
+      font-size: 0.75rem;
+    }
+  }
+  

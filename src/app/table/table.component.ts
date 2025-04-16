@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { IFilters } from '../models/IFilter';
-import { FilterComponent } from '../filter/filter.component';
 import { RouterModule } from '@angular/router';
 
 
