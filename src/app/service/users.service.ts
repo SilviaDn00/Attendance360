@@ -9,18 +9,33 @@ import { User } from '../models/users';
 export class UsersService {
   private readonly _http = inject(HttpClient);
 
-  private readonly _url = 'http://localhost:5077/api/User/GetUsers'; // URL del tuo endpoint API
+  private readonly _urlUsers = 'http://localhost:5077/api/User/GetUsers'; // URL del tuo endpoint API
+  private readonly _urlUser = 'http://localhost:5077/api/User/GetUser'; // URL del tuo endpoint API
+  private readonly _urlPost = 'http://localhost:5077/api/User/PostUser'; // URL del tuo endpoint API
+  private readonly _urlUpdate = 'http://localhost:5077/api/User/UpdateUser'; // URL del tuo endpoint API
+  private readonly _urlEnabled = 'http://localhost:5077/api/User/EnabledUser'; // URL del tuo endpoint API
+
+
 
   getUsers(): Observable<User[]> {
-    return this._http.get<User[]>(this._url);
+    return this._http.get<User[]>(this._urlUsers);
+  }
+
+  getUserById(id: string): Observable<User> {
+    return this._http.get<User>(`${this._urlUser}/${id}`);
   }
 
   PostUsers(): Observable<User[]> {
-    return this._http.post<User[]>(this._url, {});
+    return this._http.post<User[]>(this._urlPost, {});
   }
   
   UpdateUsers(user: User): Observable<User[]> {
-    return this._http.put<User[]>(this._url, user);
+    return this._http.put<User[]>(this._urlUpdate, user);
   }
+
+  UpdateUserEnabled(id: string): Observable<User> {
+    return this._http.put<User>(`${this._urlEnabled}/${id}`, {}); // body vuoto
+  }
+  
 
 }

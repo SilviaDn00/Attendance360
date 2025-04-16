@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Column, TableComponent } from '../../table/table.component';
 import { IEnrichedStamp } from '../../models/IEnrichedStamp';
-import { IUser } from '../../models/users';
+import { IUser, User } from '../../models/users';
 import { UsersService } from '../../service/users.service';
 import { ButtonProperties } from '../../models/buttonProperties';
 
@@ -32,8 +32,8 @@ export class TeamManagementComponent implements OnInit {
         .map(u => ({
           ...u,
           button: [
-            new ButtonProperties('bi bi-pencil-square', undefined, () => this.editUser(u)),
-            new ButtonProperties('bi bi-person-wheelchair', undefined, () => this.disableUser(u)),
+            new ButtonProperties('bi bi-pencil-square', undefined, () => this._userService.UpdateUsers(u)),
+            new ButtonProperties('bi bi-person-wheelchair', undefined, () => this.disableUser(u.id)),
             new ButtonProperties('bi bi-person-vcard-fill', `/dashboard/employee-details/${u.id}`)
           ]
         }));
@@ -42,17 +42,28 @@ export class TeamManagementComponent implements OnInit {
     });
   }
 
+  // disableUser(id: string): void {
+  //   this._userService.getUserById(id).subscribe(() => {
+  //     const userList = this.rows.filter((us : User) => us.id !== id).map(u => {
+  //       console.log(u.id);
+  //       const c= u.id === id ? { ...u, enabled: false } : u;
+  //       console.log(c);
+  //       console.log(id);        
+  //       console.log(c.enabled);
+  //      return c;
+  //     }
+  //     );
+  //   });
+  // }
 
-  editUser(user: IUser): void {
-    console.log('Editing user:', user);
-    // logica di modifica
+  disableUser(id: string): void {
+    this._userService.UpdateUserEnabled(id).subscribe(updatedUser => {
+      this.rows = this.rows.map(u =>
+        u.id === updatedUser.id ? { ...u, enabled: updatedUser.enabled } : u
+      );
+    });
+    
   }
   
-  disableUser(user: IUser): void {
-    console.log('Disabling user:', user);
-    // logica di disattivazione
-  }
 
 }
-
-
