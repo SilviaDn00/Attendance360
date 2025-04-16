@@ -13,7 +13,7 @@ import { LoginService } from '../services/login.service';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
-  private _loginService: LoginService = inject(LoginService);
+  private _logService: LoginService = inject(LoginService);
   private _router: Router = inject(Router);
   public formBuild = inject(FormBuilder);
 
@@ -29,9 +29,12 @@ export class LoginComponent {
   onLogin() {
     this.loginFormGroup.markAllAsTouched();
     if (this.loginFormGroup.value.email && this.loginFormGroup.value.password) {
-      this._loginService.login(this.loginFormGroup.value.email.trim(), this.loginFormGroup.value.password)
+      this._logService.login(this.loginFormGroup.value.email.trim(), this.loginFormGroup.value.password)
         ? this._router.navigate(['/dashboard'])
         : alert('Login fallito. Email o Password errati');
     }
   }
+
+  
+
 }

@@ -28,7 +28,7 @@
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" routerLink="/employee-management">Profilo</a></li>
                     <li><a class="dropdown-item" routerLink="/employee-management">Impostazioni</a></li>
-                    <li><a class="dropdown-item text-danger fw-bold" routerLink="/login" (click)="logService.logout()">Esci</a></li>
+                    <li><a class="dropdown-item text-danger fw-bold"  [routerLink]="'/logout'">Esci</a></li>
                 </ul>
             </div>
         </div>
