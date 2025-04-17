@@ -13,6 +13,7 @@ export class StampService {
 
   private _http = inject(HttpClient);
   private _urlGet = 'http://localhost:5077/api/Stamp/GetStamps'; // URL del tuo endpoint API
+  private _urlGetByID = 'http://localhost:5077/api/Stamp/GetStamp'; // URL del tuo endpoint API
   private _urlPost = 'http://localhost:5077/api/Stamp/PostStamp'; // URL del tuo endpoint API
 
 
@@ -25,6 +26,10 @@ export class StampService {
 
   GetStamp(): Observable<Stamp[]> {
     return this._http.get<Stamp[]>(this._urlGet);
+  }
+
+  GetStampById(id: string): Observable<Stamp> {
+    return this._http.get<Stamp>(`${this._urlGetByID}/${id}`);
   }
 
   PostStamp(stamp: Stamp): Observable<Stamp> {

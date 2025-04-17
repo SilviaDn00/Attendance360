@@ -9,6 +9,7 @@ export const EmployeeRoutes: Routes = [
         children: [
             { path: '', loadComponent: () => import('../employee-area/employee-management/employee-management.component').then(c => c.EmployeeManagementComponent), canDeactivate: [unsavedChangesGuard] },
             { path: 'employee-table', loadComponent: () => import('../employee-area/employee-table/employee-table.component').then(c => c.EmployeeTableComponent) },
+            { path: 'stamping-details/:id', loadComponent: () => import('../stamping-details/stamping-details.component').then(c => c.StampingDetailsComponent) },
         ]
     }
 ]  

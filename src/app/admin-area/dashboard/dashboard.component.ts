@@ -9,10 +9,11 @@ import { IEnrichedStamp } from '../../models/IEnrichedStamp';
 import { Column, TableComponent } from '../../table/table.component';
 import { RouterModule } from '@angular/router';
 import { WorkedHoursService } from '../../services/worked-hours.service';
+import { TodayStampsPipe } from '../../pipes/today-stamps.pipe';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CardComponent, TableComponent, RouterModule],
+  imports: [CardComponent, TableComponent, RouterModule, TodayStampsPipe],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
@@ -53,11 +54,12 @@ export class DashboardComponent implements OnInit {
   ];
 
   protected readonly rows = computed(() =>
-    this.stampList().map<IEnrichedStamp>(s => {
+    this.stampList().filter(s => this.isStampToday(s))
+    .map<IEnrichedStamp>(s => {
       const user = this.userList().find(u =>
         u.id?.trim().toLowerCase() === s.userID?.trim().toLowerCase()
       );
-
+  
       return {
         username: user ? `${user.name} ${user.surname}` : s.userID ?? 'N/A',
         role: user?.role ?? 'N/A',
@@ -65,13 +67,11 @@ export class DashboardComponent implements OnInit {
         date: s.date,
         time: s.time,
         type: s.type,
-        workedHours: user?.workedHours ?? 0,
+        workedHours: user ? this._workedHoursService.calculateWorkedHoursForUserOnDate(s.userID!, new Date(s.date), this.stampList()) : 0 
       };
     })
-      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-      .slice(0, 10))
-
-
+);
+      
 
   // CARD "NUMERO TOTALE DEI DIPENDENTI"
   protected readonly totalEmployees = computed(() =>
@@ -109,25 +109,21 @@ export class DashboardComponent implements OnInit {
     const users = this.userList();
     const stamps = this.stampList();
     let anomalies = 0;
-  
+
     if (users.length && stamps.length) {
       const todayStamps = stamps.filter(stamp => this.isStampToday(stamp));
-  
+
       users.forEach(user => {
         if (user.role !== 'employee') return;
-  
-        const userStamps = todayStamps
-          .filter(stamp => stamp.userID === user.id)
-          .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-  
-        const workedMinutes = this._workedHoursService.calculateWorkedMinutes(userStamps);
-  
-        if (workedMinutes < 240 && workedMinutes > 0) {
+
+        const userStamps = todayStamps.filter(stamp => stamp.userID === user.id).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+        const workedHours = this._workedHoursService.calculateWorkedHours(userStamps);
+
+        if (workedHours < 4 && workedHours > 0) {
           anomalies++;
         }
       });
     }
-  
     return anomalies;
   });
 
@@ -142,13 +138,6 @@ export class DashboardComponent implements OnInit {
       stampDate.getFullYear() === today.getFullYear()
     );
   }
-
-
-  // // Converte l'orario (HH:MM) in minuti
-  // private parseTimeInMinutes(timeString: string): number {
-  //   const [hours, minutes] = timeString.split(':').map(num => parseInt(num, 10));
-  //   return hours * 60 + minutes;
-  // }
 
 
   protected readonly items = computed(() => [

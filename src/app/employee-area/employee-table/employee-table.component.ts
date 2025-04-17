@@ -1,10 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Stamp } from '../../models/stamp';
+import { IStamp, Stamp } from '../../models/stamp';
 import { StampService } from '../services/stamp.service';
 import { Column, TableComponent } from '../../table/table.component';
 import { LoginService } from '../../login-area/services/login.service';
 import { FilterComponent } from '../../filter/filter.component';
 import { IFilters } from '../../models/IFilter';
+import { WorkedHoursService } from '../../services/worked-hours.service';
 
 
 
@@ -16,18 +17,21 @@ import { IFilters } from '../../models/IFilter';
   styleUrl: './employee-table.component.scss'
 })
 export class EmployeeTableComponent implements OnInit {
-  loginService = inject(LoginService);
+  protected _logService = inject(LoginService);
   private _employeeService = inject(StampService);
+  private _workedHoursService = inject(WorkedHoursService);
+
   public currentFilters: IFilters | null = null;
 
 
-  public columns: Column<Stamp>[] = [
+  public columns: Column<IStamp>[] = [
     { key: 'date', label: 'Data', type: 'date' },
     { key: 'time', label: 'Orario', type: 'string' },
-    { key: 'type', label: 'Tipo di timbratura', type: 'string' }
+    { key: 'type', label: 'Tipo di timbratura', type: 'string' },
+    { key: 'workedHours', label: 'Ore lavorate', type: 'number' }
   ];
 
-  public allRows: Stamp[] = [];
+  public allRows: IStamp[] = [];
 
 
   ngOnInit(): void {
@@ -36,12 +40,13 @@ export class EmployeeTableComponent implements OnInit {
       this.currentFilters = JSON.parse(savedFilters);
     }
   
-    const currentUserID = this.loginService.getUserID();
+    const currentUserID = this._logService.getUserID();
   
     this._employeeService.GetStamp().subscribe(response => {
-      this.allRows = response
-        .filter(stamp => stamp.userID === currentUserID)
-        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      const userStamps = response.filter(stamp => stamp.userID === currentUserID);
+
+      this.allRows = userStamps.map(stamp => ({...stamp, workedHours: this._workedHoursService.calculateWorkedHoursForUserOnDate( currentUserID!, new Date(stamp.date), userStamps)
+      })).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
     });
   }
 
