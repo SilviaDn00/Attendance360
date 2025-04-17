@@ -32,9 +32,10 @@ export class TeamManagementComponent implements OnInit {
         .filter(u => u.role === 'employee')
         .map(u => ({
           ...u,
+          rowClass: u.enabled ? '' : 'table-row-disabled',
           button: [
             new ButtonProperties('bi bi-pencil-square', `/dashboard/user-form/${u.id}`),
-            new ButtonProperties('bi bi-person-wheelchair', undefined, () => this.disableUser(u.id)),
+            new ButtonProperties('bi bi-person-dash', undefined, () => this.disableUser(u.id)),
             new ButtonProperties('bi bi-person-vcard-fill', `/dashboard/employee-details/${u.id}`)
           ]
         }));

@@ -9,7 +9,7 @@
   </thead>
   <tbody>
     @for (row of paginatedRows; track $index) {
-      <tr class="text-center border-black">
+      <tr class="text-center border-black" [ngClass]="{'table-row-disabled': !row}">
           @for (col of columns; track col) {
             @let value = row[col.key];
             @switch (col.type) {
@@ -17,7 +17,7 @@
                 <ng-container *ngTemplateOutlet="valueTemplate; context: { $implicit: $any(value) | date: 'dd-MM-yyyy' }" />
               }
               @case('button') {
-                <ng-container *ngTemplateOutlet="buttonTemplate; context: { $implicit: $any(value)}" />
+                <ng-container *ngTemplateOutlet="buttonTemplate; context: { $implicit: $any(value), row: row }" />
               }
               @default {
                 <ng-container *ngTemplateOutlet="valueTemplate; context: { $implicit: value  }" />
@@ -55,21 +55,22 @@
 </ng-template>
 
 
-<ng-template #buttonTemplate let-value>
+<ng-template #buttonTemplate let-buttons let-row="row">
   <td class="py-2 px-lg-5 px-lg-3 border-2 text-nowrap">
-    @if (value?.length > 0) {
-      @for (btn of value; track btn) {
+    @if (buttons?.length > 0) {
+      @for (btn of buttons; track btn) {
         @if (btn.link) {
           <button
-            class="btn btn-sm btn-outline-primary me-2"
+            class="btn btn-sm me-2"
+            [ngClass]="btn.icon === 'bi bi-person-dash' && !row.enabled ? 'btn-outline-danger' : 'btn-outline-primary'"
             [routerLink]="[btn.link]"
-            routerLinkActive="router-link-active"
           >
             <i [class]="btn.icon"></i>
           </button>
         } @else {
           <button
-            class="btn btn-sm btn-outline-primary me-2"
+            class="btn btn-sm me-2"
+            [ngClass]="btn.icon === 'bi bi-person-dash' && !row.enabled ? 'btn-outline-danger' : 'btn-outline-primary'"
             (click)="btn.action?.()"
           >
             <i [class]="btn.icon"></i>
