@@ -1,13 +1,14 @@
 import { Component, computed, inject, OnInit, signal, untracked } from '@angular/core';
 import { LoginService } from '../../login-area/services/login.service';
 import { CardComponent } from '../../card/card.component';
-import { UsersService } from '../../service/users.service';
+import { UsersService } from '../../services/users.service';
 import { User } from '../../models/users';
 import { Stamp, StampType } from '../../models/stamp';
 import { StampService } from '../../employee-area/services/stamp.service';
 import { IEnrichedStamp } from '../../models/IEnrichedStamp';
 import { Column, TableComponent } from '../../table/table.component';
 import { RouterModule } from '@angular/router';
+import { WorkedHoursService } from '../../services/worked-hours.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,6 +21,7 @@ export class DashboardComponent implements OnInit {
   public logService = inject(LoginService);
   private _userService = inject(UsersService);
   private _stampService = inject(StampService);
+  private _workedHoursService = inject(WorkedHoursService);
 
   protected readonly userList = signal<User[]>([]);
   protected readonly stampList = signal<Stamp[]>([]);
@@ -46,7 +48,8 @@ export class DashboardComponent implements OnInit {
     { key: 'role', label: 'Ruolo', type: 'string' },
     { key: 'date', label: 'Data', type: 'date' },
     { key: 'time', label: 'Orario', type: 'string' },
-    { key: 'type', label: 'Tipo', type: 'stampType' }
+    { key: 'type', label: 'Tipo', type: 'stampType' },
+    { key: 'workedHours', label: 'Ore lavorate', type: 'number' },
   ];
 
   protected readonly rows = computed(() =>
@@ -61,7 +64,8 @@ export class DashboardComponent implements OnInit {
         department: user?.department ?? 'N/A',
         date: s.date,
         time: s.time,
-        type: s.type
+        type: s.type,
+        workedHours: user?.workedHours ?? 0,
       };
     })
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
@@ -105,39 +109,25 @@ export class DashboardComponent implements OnInit {
     const users = this.userList();
     const stamps = this.stampList();
     let anomalies = 0;
-
+  
     if (users.length && stamps.length) {
       const todayStamps = stamps.filter(stamp => this.isStampToday(stamp));
-
+  
       users.forEach(user => {
         if (user.role !== 'employee') return;
-
+  
         const userStamps = todayStamps
           .filter(stamp => stamp.userID === user.id)
           .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-
-        let totalMinutes = 0;
-        let validPairs = 0;
-
-        for (let i = 0; i < userStamps.length - 1; i += 2) {
-          const checkIn = userStamps[i];
-          const checkOut = userStamps[i + 1];
-
-          if (checkIn.type === 'ingresso' && checkOut.type === 'uscita') {
-            const checkInMinutes = this.parseTimeInMinutes(checkIn.time);
-            const checkOutMinutes = this.parseTimeInMinutes(checkOut.time);
-            const diffInMinutes = checkOutMinutes - checkInMinutes;
-
-            totalMinutes += diffInMinutes;
-            validPairs++;
-          }
-        }
-
-        if (validPairs > 0 && totalMinutes < 240) {
+  
+        const workedMinutes = this._workedHoursService.calculateWorkedMinutes(userStamps);
+  
+        if (workedMinutes < 240 && workedMinutes > 0) {
           anomalies++;
         }
       });
     }
+  
     return anomalies;
   });
 
@@ -154,11 +144,11 @@ export class DashboardComponent implements OnInit {
   }
 
 
-  // Converte l'orario (HH:MM) in minuti
-  private parseTimeInMinutes(timeString: string): number {
-    const [hours, minutes] = timeString.split(':').map(num => parseInt(num, 10));
-    return hours * 60 + minutes;
-  }
+  // // Converte l'orario (HH:MM) in minuti
+  // private parseTimeInMinutes(timeString: string): number {
+  //   const [hours, minutes] = timeString.split(':').map(num => parseInt(num, 10));
+  //   return hours * 60 + minutes;
+  // }
 
 
   protected readonly items = computed(() => [

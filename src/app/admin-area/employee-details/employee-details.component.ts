@@ -1,5 +1,5 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
-import { UsersService } from '../../service/users.service';
+import { UsersService } from '../../services/users.service';
 import { IUser } from '../../models/users';
 import { RouterLink } from '@angular/router';
 
