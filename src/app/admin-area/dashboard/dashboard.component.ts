@@ -24,10 +24,6 @@ export class DashboardComponent implements OnInit {
   protected readonly userList = signal<User[]>([]);
   protected readonly stampList = signal<Stamp[]>([]);
 
-  // constructor() {
-  //   // Carica utenti e timbrature in modo asincrono
-  //   this.loadData();
-  // }
 
   ngOnInit(): void {
     // Inizializza i dati al caricamento del componente

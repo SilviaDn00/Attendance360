@@ -1,9 +1,9 @@
 <div class="container">
   <div class="row">
     <h1 class="text-center my-5"> CIAO, {{logService.getUsername()?.toUpperCase()}} </h1>
-    <div class="col-lg-6 col-12">
+    <div class="col-xl-6 col-12">
       <h2 class="text-center mt-lg-3 mb-5 pe-none">TIMBRA</h2>
-      <form class="d-flex flex-column bg-secondary bg-opacity-50 p-3 rounded-2" [formGroup]="stampFormGroup"
+      <form class="d-flex flex-column form bg-secondary bg-opacity-50 p-3 rounded-2" [formGroup]="stampFormGroup"
         (ngSubmit)="onStamp()">
 
         <mat-form-field class="my-3">
@@ -49,7 +49,7 @@
         <button type="submit" class="btn btn-success my-3">Timbra</button>
       </form>
         </div>
-    <div class="col-lg-6 col-12 mb-5 d-flex flex-column justify-content-center align-items-center">
+    <div class="col-xl-6 col-12 mb-5 d-flex flex-column justify-content-center align-items-center">
       <h2 class="text-center mt-lg-3 mt-5 mb-5 pe-none">STORICO GIORNALIERO</h2>
 
       <app-table [columns]="columns" [rows]="rows"></app-table>

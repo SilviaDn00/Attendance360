@@ -16,7 +16,6 @@ export class UsersService {
   private readonly _urlEnabled = 'http://localhost:5077/api/User/EnabledUser'; // URL del tuo endpoint API
 
 
-
   getUsers(): Observable<User[]> {
     return this._http.get<User[]>(this._urlUsers);
   }
@@ -31,8 +30,6 @@ export class UsersService {
 
   UpdateUsers( user : User): Observable<User[]> {
     console.log('user', user);   
-    console.log();
-    
     return this._http.put<User[]>(`${this._urlUpdate}/${user.id}`, user);
   }
 

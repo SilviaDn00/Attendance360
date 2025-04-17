@@ -13,14 +13,13 @@ import { CommonModule } from '@angular/common';
 })
 export class UserFormComponent implements OnInit {
 
+  private _userService = inject(UsersService);
+  public formBuild = inject(FormBuilder);
+  
   private route = inject(ActivatedRoute);
   public id: string | null = null;
 
-  private _userService = inject(UsersService);
-  public formBuild = inject(FormBuilder);
-
   public userFormGroup!: FormGroup;
-
   public user!: IUser;
 
   ngOnInit(): void {

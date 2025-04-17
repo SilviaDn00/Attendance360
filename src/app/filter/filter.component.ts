@@ -78,6 +78,8 @@ export class FilterComponent<T extends User | Stamp> implements OnInit {
     this.range.reset();
     this.selectedType = null;
     this.emitFilters();
+    localStorage.removeItem('employee-filters')
+    localStorage.removeItem('admin-filters')
   }
 
   onTypeChange(type: string | null) {

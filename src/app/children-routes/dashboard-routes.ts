@@ -11,6 +11,9 @@ export const DashboardRoutes: Routes = [
             { path: 'team-management', loadComponent: () => import('../admin-area/team-management/team-management.component').then(c => c.TeamManagementComponent) },
             { path: 'employee-details/:id', loadComponent: () => import('../admin-area/employee-details/employee-details.component').then(c => c.EmployeeDetailsComponent) },
             { path: 'user-form/:id', loadComponent: () => import('../admin-area/user-form/user-form.component').then(c => c.UserFormComponent) },
+            { path: 'user-form', loadComponent: () => import('../admin-area/user-form/user-form.component').then(c => c.UserFormComponent) },
+            
+
         ]
     }
 ]   

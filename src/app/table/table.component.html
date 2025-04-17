@@ -3,13 +3,13 @@
   <thead class="bg-secondary">
     <tr class="text-center">
       @for (col of columns; track col) {
-      <th class="py-2 px-lg-5 px-lg-3 border-2 text-nowrap">{{ col.label }}</th>
+      <th class="py-2 px-lg-5 px-lg-3 border-2 border-black text-nowrap">{{ col.label }}</th>
       }
     </tr>
   </thead>
   <tbody>
     @for (row of paginatedRows; track $index) {
-      <tr class="text-center">
+      <tr class="text-center border-black">
           @for (col of columns; track col) {
             @let value = row[col.key];
             @switch (col.type) {
@@ -28,6 +28,7 @@
     }
   </tbody>
 </table>
+</div>
 <div class="mt-4" *ngIf="totalPages > 1">
   <nav>
     <ul class="pagination">
@@ -44,7 +45,6 @@
       </li>
     </ul>
   </nav>
-</div>
 </div>
 
 
