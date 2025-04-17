@@ -12,8 +12,8 @@ export class StampService {
   listaStamp: Stamp[] = [];
 
   private _http = inject(HttpClient);
-  private _urlGet = 'http://localhost:5077/api/Stamp/GetStamps'; // URL del tuo endpoint API
-  private _urlPost = 'http://localhost:5077/api/Stamp/PostStamp'; // URL del tuo endpoint API
+  private _urlGet = 'http://192.168.16.89:5077/api/Stamp/GetStamps'; // URL del tuo endpoint API
+  private _urlPost = 'http://192.168.16.89:5077/api/Stamp/PostStamp'; // URL del tuo endpoint API
 
 
   constructor() {
@@ -22,16 +22,6 @@ export class StampService {
       this.listaStamp = JSON.parse(savedStampList);
     }
   }
-
-  // GetStamp() {
-  //   return this.listaStamp;
-  // }
-
-  // PostStamp(stampForm: Stamp): void {
-  //   this.listaStamp.push(stampForm);
-  //   localStorage.setItem('stampList', JSON.stringify(this.listaStamp))
-  // }
-
 
   GetStamp(): Observable<Stamp[]> {
     return this._http.get<Stamp[]>(this._urlGet);

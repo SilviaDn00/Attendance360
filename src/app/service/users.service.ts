@@ -9,11 +9,11 @@ import { User } from '../models/users';
 export class UsersService {
   private readonly _http = inject(HttpClient);
 
-  private readonly _urlUsers = 'http://localhost:5077/api/User/GetUsers'; // URL del tuo endpoint API
-  private readonly _urlUser = 'http://localhost:5077/api/User/GetUser'; // URL del tuo endpoint API
-  private readonly _urlPost = 'http://localhost:5077/api/User/PostUser'; // URL del tuo endpoint API
-  private readonly _urlUpdate = `http://localhost:5077/api/User/UpdateUser`; // URL del tuo endpoint API
-  private readonly _urlEnabled = 'http://localhost:5077/api/User/EnabledUser'; // URL del tuo endpoint API
+  private readonly _urlUsers = 'http://192.168.16.89:5077/api/User/GetUsers'; // URL del tuo endpoint API
+  private readonly _urlUser = 'http://192.168.16.89:5077/api/User/GetUser'; // URL del tuo endpoint API
+  private readonly _urlPost = 'http://192.168.16.89:5077/api/User/PostUser'; // URL del tuo endpoint API
+  private readonly _urlUpdate = `http://192.168.16.89:5077/api/User/UpdateUser`; // URL del tuo endpoint API
+  private readonly _urlEnabled = 'http://192.168.16.89:5077/api/User/EnabledUser'; // URL del tuo endpoint API
 
 
 
