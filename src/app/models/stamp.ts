@@ -4,6 +4,7 @@ export interface IStamp {
     type : StampType;
     id?: string;
     userID?: string;
+    workedHours?: number;
 }
 
 export enum StampType {

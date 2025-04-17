@@ -1,12 +1,14 @@
+import { ButtonProperties } from "./buttonProperties";
 import { StampType } from "./stamp";
-
+ 
 export interface IEnrichedStamp {
-    username: string;
-    role: string;
-    department: string;
+    id?: string;
+    username?: string;
+    role?: string;
+    department?: string;
     date: Date;
     time: string;
     type: StampType;
-    workedHours: number;
+    workedHours?: number;
+    button?: ButtonProperties[];
   }
-  
