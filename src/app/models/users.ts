@@ -10,6 +10,7 @@ export interface IUser {
     department: string;
     enabled: boolean;
     button?: ButtonProperties[];
+    workedHours?: number;
 }
 
 export class User implements IUser {

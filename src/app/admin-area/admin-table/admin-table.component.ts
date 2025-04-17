@@ -2,8 +2,8 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Column, TableComponent } from '../../table/table.component';
 import { StampService } from '../../employee-area/services/stamp.service';
 import { UsersService } from '../../services/users.service';
-import { User } from '../../models/users';
-import { Stamp } from '../../models/stamp';
+import { IUser } from '../../models/users';
+import { IStamp } from '../../models/stamp';
 import { IEnrichedStamp } from '../../models/IEnrichedStamp';
 import { FilterComponent } from '../../filter/filter.component';
 import { IFilters } from '../../models/IFilter';
@@ -41,8 +41,8 @@ export class AdminTableComponent implements OnInit {
 
 
   private loadData(): void {
-    this._userService.getUsers().subscribe((users: User[]) => {
-      this._stampService.GetStamp().subscribe((stamps: Stamp[]) => {
+    this._userService.getUsers().subscribe((users: IUser[]) => {
+      this._stampService.GetStamp().subscribe((stamps: IStamp[]) => {
         this.rows = stamps.map(stamp => {
           const user = users.find(u => u.id?.trim().toLowerCase() === stamp.userID?.trim().toLowerCase());
           var username =user ? `${user.name} ${user.surname}` : stamp.userID ?? 'N/A';
