@@ -21,7 +21,7 @@
   <div class="row">
     <h3 class="text-center my-4">TIMBRATURE RECENTI</h3>
     <div class="col-12 mb-5 d-lg-flex justify-content-center">
-      <app-table [columns]="columns" [rows]="rows()"></app-table>
+      <app-table [columns]="columns" [rows]="rows() | todayStamps"></app-table>
     </div>
   </div>
 </div>

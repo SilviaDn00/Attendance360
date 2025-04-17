@@ -52,7 +52,7 @@
     <div class="col-xl-6 col-12 mb-5 d-flex flex-column justify-content-center align-items-center">
       <h2 class="text-center mt-lg-3 mt-5 mb-5 pe-none">STORICO GIORNALIERO</h2>
 
-      <app-table [columns]="columns" [rows]="rows"></app-table>
+      <app-table [columns]="columns" [rows]="rows | todayStamps"></app-table>
 
     </div>
   </div>

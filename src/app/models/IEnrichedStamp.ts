@@ -1,6 +1,6 @@
 import { ButtonProperties } from "./buttonProperties";
 import { StampType } from "./stamp";
-
+ 
 export interface IEnrichedStamp {
     id?: string;
     userId?: string;
@@ -13,4 +13,3 @@ export interface IEnrichedStamp {
     workedHours?: number;
     button?: ButtonProperties[];
   }
-  

@@ -11,10 +11,11 @@ import { Stamp, StampType } from '../../models/stamp';
 import { Column, TableComponent } from '../../table/table.component';
 import { StampService } from '../services/stamp.service';
 import { CommonModule } from '@angular/common';
+import { TodayStampsPipe } from '../../pipes/today-stamps.pipe';
 
 @Component({
   selector: 'app-employee-management',
-  imports: [MatRadioModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, ReactiveFormsModule, MatSelectModule, TableComponent, CommonModule],
+  imports: [MatRadioModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, ReactiveFormsModule, MatSelectModule, TableComponent, CommonModule, TodayStampsPipe],
   providers: [provideNativeDateAdapter()],
   templateUrl: './employee-management.component.html',
   styleUrl: './employee-management.component.scss'
@@ -54,8 +55,6 @@ export class EmployeeManagementComponent implements OnInit {
     this._employeeService.GetStamp().subscribe(response => {
       this.rows = response
         .filter(stamp => stamp.userID === currentUserID) 
-        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()) 
-        .slice(0, 4);
     });
   }
 
@@ -64,7 +63,7 @@ export class EmployeeManagementComponent implements OnInit {
       const newStamp: Stamp = this.stampFormGroup.value;
 
       this._employeeService.PostStamp(newStamp).subscribe(() => {
-        this.loadStamps(); // Ricarica le 4 timbrature dopo aver salvato
+        this.loadStamps();
       });
     }
   }
