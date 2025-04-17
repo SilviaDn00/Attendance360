@@ -1,9 +1,30 @@
-.form{
-    width: 500px;
-}
 
 @media (max-width: 768px) {
-    .form{
+    .ciao{
         width: 100%;
     }
 }
+
+.ciao {
+    width: 40%;
+    background-color: #E9ECEF;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  
+    thead {
+      background-color: #0D6EFD;
+      border-radius: 10px !important;
+      color: white;
+    }
+  }
+  
+
+  input{
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  label{
+    font-weight: bold;
+    font-family: 'Arial', sans-serif;
+  }

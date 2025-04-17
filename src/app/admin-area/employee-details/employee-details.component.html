@@ -1,19 +1,33 @@
 <h1 class="text-center my-5">DETTAGLIO DIPENDENTE</h1>
+
 <div class="container">
-    <div class="row bg-transparent rounded-4 shadow-lg p-4">
-        <div class="col-lg-6 col-12 my-4 my-md-0 d-flex justify-content-center align-itme">
-            <img src="https://picsum.photos/200" alt="immagine profilo" class="img-fluid rounded-circle mb-4" />
-        </div>
-        @if(user){
-        <div class="col-lg-6 col-12">
-            <p><strong>Id:</strong> {{ user.id }}</p>
-            <p><strong>Nome:</strong> {{ user.name }}</p>
-            <p><strong>Cognome:</strong> {{ user.surname }}</p>
-            <p><strong>Email:</strong> {{ user.email }}</p>
-            <p><strong>Ruolo:</strong> {{ user.role }}</p>
-            <p><strong>Reparto:</strong> {{ user.department }}</p>
-        </div>
-        }
+  <div class="row bg-light rounded-4 shadow-lg p-4 border border-1 border-opacity-25 border-white">
+    
+    <div class="col-lg-6 col-12 my-4 d-flex justify-content-center align-items-center">
+      <img src="https://picsum.photos/200" alt="immagine profilo" class="img-fluid rounded-circle shadow border border-3 border-white" style="max-width: 200px;" />
     </div>
-    <button [routerLink]="['/dashboard/team-management']" class="btn btn-primary mt-4 shadow-lg">Indietro</button>
+
+    @if(user) {
+    <div class="col-lg-6 col-12 d-flex flex-column justify-content-center">
+      <div class="bg-white bg-opacity-75 p-3 rounded-3 shadow-sm">
+        <p class="mb-2"><strong>Id:</strong> {{ user.id }}</p>
+        <p class="mb-2"><strong>Nome:</strong> {{ user.name }}</p>
+        <p class="mb-2"><strong>Cognome:</strong> {{ user.surname }}</p>
+        <p class="mb-2"><strong>Email:</strong> {{ user.email }}</p>
+        <p class="mb-2"><strong>Ruolo:</strong> {{ user.role }}</p>
+        <p class="mb-0"><strong>Reparto:</strong> {{ user.department }}</p>
+      </div>
+    </div>
+    }
+
+  </div>
+
+  <div class="text-center">
+    <button
+      [routerLink]="['/dashboard/team-management']"
+      class="btn btn-primary mt-4 shadow px-4"
+    >
+      Indietro
+    </button>
+  </div>
 </div>

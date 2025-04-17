@@ -7,15 +7,15 @@
 </div>
 <div class="container">
     <div class="row mt-3">
-        <div class="col-12">
+        <div class="col-12 d-flex justify-content-center">
             <div class="table-responsive">
                 <app-table [columns]="columns" [rows]="rows"></app-table>
             </div>
         </div>
     </div>
     <div class="row my-3">
-        <div class="col-12 d-flex justify-content-start">
-            <button [routerLink]="['/dashboard/user-form']" class="btn btn-success shadow-lg">Aggiungi dipendente</button>
+        <div class="col-12 mt-2 d-flex justify-content-center">
+            <button [routerLink]="['/dashboard/user-form']" class="btn btn-primary shadow-lg">Aggiungi dipendente</button>
         </div>
     </div>
 </div>

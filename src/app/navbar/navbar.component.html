@@ -1,22 +1,22 @@
-<nav class="navbar navbar-dark bg-dark" aria-label="First navbar example">
+<nav class="navbar bg-dark navbarCustom" aria-label="First navbar example">
     <div class="container-fluid">
-        <a class="navbar-brand pe-none"> ATTENDANCE 360</a>
+        <a class="navbar-brand text-white pe-none"> ATTENDANCE 360</a>
         <button class="navbar-toggler collapsed" type="button" data-bs-toggle="offcanvas"
             data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="offcanvas offcanvas-start bg-dark justify-content-between" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+        <div class="offcanvas bg-dark text-white offcanvas-end justify-content-between" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
             <div class="offcanvas-header">
-                <h4 class="offcanvas-title text-white pe-none" id="offcanvasExampleLabel">ATTENDANCE 360</h4>
+                <h4 class="offcanvas-title  pe-none" id="offcanvasExampleLabel">ATTENDANCE 360</h4>
                 <button type="button" class="btn-close bg-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
-                <ul class="navbar-nav me-auto mb-2 text-white">
+                <ul class="navbar-nav me-auto mb-2 ">
 
                     @for (item of menuItems; track item.link) {
                     <li class="nav-item">
-                        <a class="nav-link active ps-3" [routerLink]="[item.link]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                        <a class="nav-link active ps-3 text-white" data-bs-dismiss="offcanvas" [routerLink]="[item.link]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
                             <h5><i class="bi bi-speedometer2 pe-2"></i>{{item.displayName}}</h5>
                         </a>
                     </li>
@@ -24,7 +24,7 @@
                 </ul>
             </div>
             <div class="btn-group dropup  mb-2 ms-3 me-3">
-                <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">{{logService.getUsername()}}</button>
+                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">{{logService.getUsername()}}</button>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" routerLink="/employee-management">Profilo</a></li>
                     <li><a class="dropdown-item" routerLink="/employee-management">Impostazioni</a></li>

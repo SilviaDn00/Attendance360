@@ -5,8 +5,8 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-4 col-12">
-            <h4>FILTRI</h4>
+        <div class="col-lg-4 col-12 d-flex flex-column align-items-center">
+            <h3 class="mb-4">FILTRI</h3>
             <app-filter [typeOptions]="['entrata', 'uscita']" [initialFilters]="currentFilters" (filtersChanged)="onFiltersChanged($event)"></app-filter>
         </div>
         <div class="col-lg-8 col-12 mt-5 mt-lg-0 mb-5 d-flex flex-column align-items-center">

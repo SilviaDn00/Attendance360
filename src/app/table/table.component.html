@@ -1,15 +1,15 @@
 <div class="table-responsive">
-<table class=" table-sm">
-  <thead class="bg-secondary">
+<table class="ciao table-sm mb-4">
+  <thead class="rounded-1">
     <tr class="text-center">
       @for (col of columns; track col) {
-      <th class="py-2 px-lg-5 px-lg-3 border-2 border-black text-nowrap">{{ col.label }}</th>
+      <th class="py-2 px-lg-5 text-nowrap">{{ col.label }}</th>
       }
     </tr>
   </thead>
   <tbody>
     @for (row of paginatedRows; track $index) {
-      <tr class="text-center border-black" [ngClass]="{'table-row-disabled': !row}">
+      <tr class="text-center" [ngClass]="{'table-row-disabled': !row}">
           @for (col of columns; track col) {
             @let value = row[col.key];
             @switch (col.type) {
@@ -29,17 +29,16 @@
   </tbody>
 </table>
 </div>
+<!-- PAGINATION -->
 <div class="mt-4" *ngIf="totalPages > 1">
   <nav>
     <ul class="pagination">
       <li class="page-item" [class.disabled]="currentPage === 1">
         <button class="page-link" (click)="goToPreviousPage()" [disabled]="currentPage === 1">«</button>
       </li>
-      @for (i of pageNumbers; track i) {
-      <li class="page-item" [class.active]="currentPage === i">
-        <button class="page-link" (click)="goToPage(i)">{{ i }}</button>
+      <li *ngFor="let page of visiblePages" class="page-item" [class.active]="currentPage === page">
+        <button class="page-link" (click)="goToPage(page)">{{ page }}</button>
       </li>
-      }
       <li class="page-item" [class.disabled]="currentPage === totalPages">
         <button class="page-link" (click)="goToNextPage()" [disabled]="currentPage === totalPages">»</button>
       </li>
@@ -48,15 +47,15 @@
 </div>
 
 
-<!-- PAGINATION -->
+
 
 <ng-template #valueTemplate let-value>
-  <td class="py-2 px-lg-5 px-lg-3 border-2 text-nowrap">{{ value }}</td>
+  <td class="py-2 px-lg-4 text-nowrap">{{ value }}</td>
 </ng-template>
 
 
 <ng-template #buttonTemplate let-buttons let-row="row">
-  <td class="py-2 px-lg-5 px-lg-3 border-2 text-nowrap">
+  <td class="py-2 px-lg-5  text-nowrap">
     @if (buttons?.length > 0) {
       @for (btn of buttons; track btn) {
         @if (btn.link) {

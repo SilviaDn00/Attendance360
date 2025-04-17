@@ -1,0 +1,29 @@
+.custom-card {
+    background-color: #E9ECEF;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    text-align: center;
+  
+    .card-header {
+      background-color: #0D6EFD;
+      color: white;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+      padding: 10px 15px;
+    }
+  
+    .card-body {
+      color: #212529;
+      align-items: center;
+      font-size: 1.5rem;
+      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    }
+  
+    .card-footer {
+      background-color: transparent;
+      border-top: none;
+      padding: 10px ;
+    }
+  }
+  

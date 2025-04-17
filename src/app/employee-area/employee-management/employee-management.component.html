@@ -1,59 +1,40 @@
 <div class="container">
   <div class="row">
-    <h1 class="text-center my-5"> CIAO, {{logService.getUsername()?.toUpperCase()}} </h1>
+    <h1 class="text-center my-5">CIAO, {{ logService.getUsername()?.toUpperCase() }}</h1>
+
+    <!-- FORM TIMBRA -->
     <div class="col-xl-6 col-12">
-      <h2 class="text-center mt-lg-3 mb-5 pe-none">TIMBRA</h2>
-      <form class="d-flex flex-column form bg-secondary bg-opacity-50 p-3 rounded-2" [formGroup]="stampFormGroup"
-        (ngSubmit)="onStamp()">
+      <div>
+        <h2 class="text-center mt-lg-3 mb-4">TIMBRA</h2>
+        <form class="ciao d-flex flex-column p-3" [formGroup]="stampFormGroup" (ngSubmit)="onStamp()">
+          <mat-form-field class="my-3">
+            <mat-label>Choose a date</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="date">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
 
-        <mat-form-field class="my-3">
-          <mat-label>Choose a date</mat-label>
-          <input matInput [matDatepicker]="picker" [formControlName]="'date'">
-          <mat-hint>MM/DD/YYYY</mat-hint>
-          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
+          <mat-form-field>
+            <mat-label>Select an option</mat-label>
+            <mat-select formControlName="time">
+              <mat-option *ngFor="let hour of hourOptions" [value]="hour">{{ hour }}</mat-option>
+            </mat-select>
+          </mat-form-field>
 
-        <mat-form-field>
-          <mat-label>Select an option</mat-label>
-          <mat-select [formControlName]="'time'">
-            <mat-option value="09:00">09:00</mat-option>
-            <mat-option value="09:30">09:30</mat-option>
-            <mat-option value="10:00">10:00</mat-option>
-            <mat-option value="10:30">10:30</mat-option>
-            <mat-option value="11:00">11:00</mat-option>
-            <mat-option value="11:30">11:30</mat-option>
-            <mat-option value="12:00">12:00</mat-option>
-            <mat-option value="12:30">12:30</mat-option>
-            <mat-option value="13:00">13:00</mat-option>
-            <mat-option value="13:30">13:30</mat-option>
-            <mat-option value="14:00">14:00</mat-option>
-            <mat-option value="14:30">14:30</mat-option>
-            <mat-option value="15:00">15:00</mat-option>
-            <mat-option value="15:30">15:30</mat-option>
-            <mat-option value="16:00">16:00</mat-option>
-            <mat-option value="16:30">16:30</mat-option>
-            <mat-option value="17:00">17:00</mat-option>
-            <mat-option value="17:30">17:30</mat-option>
-            <mat-option value="18:00">18:00</mat-option>
-            <mat-option value="18:30">18:30</mat-option>
-            <mat-option value="19:00">19:00</mat-option>
-          </mat-select>
-        </mat-form-field>
+          <mat-radio-group formControlName="type" aria-label="Select an option" class="my-3">
+            <mat-radio-button value="ingresso" class="me-3">Ingresso</mat-radio-button>
+            <mat-radio-button value="uscita">Uscita</mat-radio-button>
+          </mat-radio-group>
 
-        <mat-radio-group [formControlName]="'type'" aria-label="Select an option" class="my-3">
-          <mat-radio-button value="ingresso">Ingresso</mat-radio-button>
-          <mat-radio-button value="uscita">Uscita</mat-radio-button>
-        </mat-radio-group>
+          <button type="submit" class="btn btn-primary mt-3">Timbra</button>
+        </form>
+      </div>
+    </div>
 
-        <button type="submit" class="btn btn-success my-3">Timbra</button>
-      </form>
-        </div>
-    <div class="col-xl-6 col-12 mb-5 d-flex flex-column justify-content-center align-items-center">
-      <h2 class="text-center mt-lg-3 mt-5 mb-5 pe-none">STORICO GIORNALIERO</h2>
-
+    <div class="col-xl-6 col-12 mt-5 mt-xl-0 d-flex flex-column align-items-center">
+      <h2 class="text-center mt-lg-3 mb-4">STORICO GIORNALIERO</h2>
       <app-table [columns]="columns" [rows]="rows"></app-table>
-
     </div>
   </div>
 </div>

@@ -7,3 +7,15 @@
 .mat-mdc-radio-button~.mat-mdc-radio-button {
     margin-left: 16px;
 }
+
+.ciao {
+  background-color: #E9ECEF;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+  thead {
+    background-color: #0D6EFD;
+    border-radius: 10px !important;
+    color: white;
+  }
+}
