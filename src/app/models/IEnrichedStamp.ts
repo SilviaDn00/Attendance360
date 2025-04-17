@@ -7,5 +7,6 @@ export interface IEnrichedStamp {
     date: Date;
     time: string;
     type: StampType;
+    workedHours: number;
   }
   
