@@ -8,11 +8,12 @@ import { IEnrichedStamp } from '../../models/IEnrichedStamp';
 import { FilterComponent } from '../../filter/filter.component';
 import { IFilters } from '../../models/IFilter';
 import { ButtonProperties } from '../../models/buttonProperties';
+import { RouterLink } from '@angular/router';
 
 
 @Component({
   selector: 'app-admin-table',
-  imports: [TableComponent, FilterComponent,],
+  imports: [TableComponent, FilterComponent, RouterLink],
   templateUrl: './admin-table.component.html',
   styleUrl: './admin-table.component.scss'
 })

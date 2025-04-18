@@ -1,55 +1,53 @@
 <div class="container d-flex flex-column align-items-center">
-    @if (id === null) {
-      <ng-container *ngTemplateOutlet="Form; context: { $implicit: 'AGGIUNGI UTENTE', button: 'Aggiungi' }">
-      </ng-container>
-    } @else {
-      <ng-container *ngTemplateOutlet="Form; context: { $implicit: 'MODIFICA UTENTE', button: 'Modifica' }">
-      </ng-container>
-    }
-    <button [routerLink]="['/dashboard/team-management']" class="btn btn-primary mt-5 shadow-lg d-flex justify-content-center">Indietro</button>
+  @if (id === null) {
+  <ng-container *ngTemplateOutlet="Form; context: { $implicit: 'AGGIUNGI UTENTE', button: 'Aggiungi' }">
+  </ng-container>
+  } @else {
+  <ng-container *ngTemplateOutlet="Form; context: { $implicit: 'MODIFICA UTENTE', button: 'Modifica' }">
+  </ng-container>
+  }
+</div>
+
+
+<ng-template #Form let-value let-button="button">
+  <div class="row mt-3">
+
   </div>
-  
-  
-  <ng-template #Form let-value let-button="button">
-    <div class="row mt-3">
-      <div class="col-12">
-        <h1 class="text-center">{{ value }}</h1>
+
+  <div class="ciao mt-3 shadow-lg">
+    <div class="col-12">
+      <h1 class="text-center">{{ value }}</h1>
+    </div>
+    <form [formGroup]="userFormGroup" class="p-4">
+      <div class="mb-3">
+        <label for="Name" class="form-label">Nome</label>
+        <input type="text" class="form-control" [formControlName]="'name'" id="Name">
       </div>
-    </div>
-  
-    <div class="ciao mt-3 shadow-lg">
-      <form [formGroup]="userFormGroup" class="p-4">
-        <div class="mb-3">
-          <label for="Name" class="form-label">Nome</label>
-          <input type="text" class="form-control" [formControlName]="'name'" id="Name">
-        </div>
-  
-        <div class="mb-3">
-          <label for="Surname" class="form-label">Cognome</label>
-          <input type="text" class="form-control" [formControlName]="'surname'" id="Surname">
-        </div>
-  
-        <div class="mb-3">
-          <label for="Email" class="form-label">Email</label>
-          <input type="email" class="form-control" [formControlName]="'email'" id="Email">
-        </div>
-  
-        <div class="mb-3">
-          <label for="Password" class="form-label">Password</label>
-          <input type="password" class="form-control" [formControlName]="'password'" id="Password">
-        </div>
-  
-        <div class="mb-3">
-          <label for="Department" class="form-label">Reparto</label>
-          <input type="text" class="form-control" [formControlName]="'department'" id="Department">
-        </div>
-  
-        <div class="text-center">
-          <button type="submit" class="btn btn-primary mt-2" (click)="id ? EditUser() : AddUser()">
-            {{ button }}
-          </button>
-        </div>
-      </form>
-    </div>
-  </ng-template>
-  
+
+      <div class="mb-3">
+        <label for="Surname" class="form-label">Cognome</label>
+        <input type="text" class="form-control" [formControlName]="'surname'" id="Surname">
+      </div>
+
+      <div class="mb-3">
+        <label for="Email" class="form-label">Email</label>
+        <input type="email" class="form-control" [formControlName]="'email'" id="Email">
+      </div>
+
+      <div class="mb-3">
+        <label for="Password" class="form-label">Password</label>
+        <input type="password" class="form-control" [formControlName]="'password'" id="Password">
+      </div>
+
+      <div class="mb-3">
+        <label for="Department" class="form-label">Reparto</label>
+        <input type="text" class="form-control" [formControlName]="'department'" id="Department">
+      </div>
+
+      <div class="d-flex justify-content-between mt-5">
+        <button [routerLink]="['/dashboard/team-management']" class="btn btn-primary shadow-lg">Indietro</button>
+        <button type="submit" class="btn btn-primary" (click)="id ? EditUser() : AddUser()"> {{ button }} </button>
+      </div>
+    </form>
+  </div>
+</ng-template>

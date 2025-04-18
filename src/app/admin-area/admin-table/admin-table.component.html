@@ -2,11 +2,19 @@
     <div class="row">
         <div class="col-lg-4 col-12 mt-4 d-flex flex-column align-items-center justify-content-center">
             <h1 class="mb-4 text-center">FILTRI</h1>
-            <app-filter [typeOptions]="['entrata', 'uscita']" [initialFilters]="currentFilters" (filtersChanged)="onFiltersChanged($event)"></app-filter>
+            <app-filter [typeOptions]="['entrata', 'uscita']" [initialFilters]="currentFilters"
+                (filtersChanged)="onFiltersChanged($event)"></app-filter>
         </div>
         <div class="col-lg-8 col-12 mt-4">
             <h1 class="ps-3 mb-4">STORICO COMPLETO DEI DIPENDENTI</h1>
             <app-table [columns]="columns" [rows]="rows" [filters]="currentFilters"></app-table>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 mt-2 d-flex justify-content-start">
+            <button [routerLink]="['/dashboard']" class="btn btn-primary shadow-lg mb-3">Indietro</button>
         </div>
     </div>
 </div>

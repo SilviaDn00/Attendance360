@@ -1,10 +1,13 @@
-<h1 class="text-center my-5">DETTAGLIO TIMBRATURA</h1> 
 <div class="container">
-    <div class="row bg-transparent rounded-4 shadow-lg p-4">
-        <div class="col-lg-6 col-12 my-4 my-md-0 d-flex justify-content-center align-itme">
-            <img src="https://picsum.photos/200" alt="immagine profilo" class="img-fluid rounded-circle mb-4" />
-        </div>
-        @if(stamp) {
+    <div class="row mt-5 bg-light rounded-4 shadow-lg p-4 border border-1 border-opacity-25 border-white">
+      <h1 class="text-center mb-5">DETTAGLIO TIMBRATURA</h1>
+  
+      <div class="col-lg-6 col-12 my-4 d-flex justify-content-center align-items-center">
+        <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" alt="immagine profilo"
+          class="img-fluid rounded-circle shadow border border-3 border-white" style="max-width: 200px;" />
+      </div>
+  
+      @if(stamp) {
         <div class="col-lg-6 col-12">
             <p><strong>ID Timbratura:</strong> {{ stamp.id }}</p>
             <p><strong>Dipendente:</strong> {{ username }}</p>
@@ -12,7 +15,17 @@
             <p><strong>Ora:</strong> {{ stamp.time }}</p>
             <p><strong>Tipo:</strong> {{ stamp.type }}</p>
         </div>    
-        }    
+        }
+  
+      <div class="text-start">
+        <button [routerLink]="['/dashboard/admin-table']" class="btn btn-primary mt-4 shadow px-4"> Indietro </button>
+      </div>
     </div>
-    <button [routerLink]="['/dashboard/admin-table']" class="btn btn-primary mt-4 shadow-lg">Indietro</button>
- </div>
+  
+  </div>
+
+
+
+
+
+
