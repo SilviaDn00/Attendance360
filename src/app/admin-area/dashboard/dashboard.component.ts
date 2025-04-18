@@ -3,17 +3,19 @@ import { LoginService } from '../../login-area/services/login.service';
 import { CardComponent } from '../../card/card.component';
 import { UsersService } from '../../services/users.service';
 import { User } from '../../models/users';
-import { Stamp, StampType } from '../../models/stamp';
+import { Stamp } from '../../models/stamp';
 import { StampService } from '../../employee-area/services/stamp.service';
 import { IEnrichedStamp } from '../../models/IEnrichedStamp';
 import { Column, TableComponent } from '../../table/table.component';
 import { RouterModule } from '@angular/router';
 import { WorkedHoursService } from '../../services/worked-hours.service';
 import { TodayStampsPipe } from '../../pipes/today-stamps.pipe';
+import { IModal } from '../../models/IModal';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CardComponent, TableComponent, RouterModule, TodayStampsPipe],
+  imports: [CardComponent, TableComponent, RouterModule, TodayStampsPipe, CommonModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
@@ -23,6 +25,8 @@ export class DashboardComponent implements OnInit {
   private _userService = inject(UsersService);
   private _stampService = inject(StampService);
   private _workedHoursService = inject(WorkedHoursService);
+
+  public modal : IModal | null =  null; 
 
   protected readonly userList = signal<User[]>([]);
   protected readonly stampList = signal<Stamp[]>([]);
@@ -135,10 +139,27 @@ export class DashboardComponent implements OnInit {
   }
 
   protected readonly items = computed(() => [
-    { title: 'Numero totale dei dipendenti:', text: this.totalEmployees(), action: 'Gestione dipendenti', link: 'team-management' },
-    { title: 'Timbrature di oggi:', text: this.todayStampsCount(), action: 'pulsante' },
-    { title: 'Percentuale presenti:', text: `${this.todayPresencePercentage()}%`, action: 'pulsante' },
-    { title: 'Alert sulle anomalie', text: this.anomalyCount(), action: 'pulsante' },
+    { 
+      title: 'Numero totale dei dipendenti:', 
+      text: this.totalEmployees(), 
+      action: { type: 'link', label: 'Gestione dipendenti', link: 'team-management' } 
+    },
+    { 
+      title: 'Timbrature di oggi:', 
+      text: this.todayStampsCount(), 
+      action: { type: 'button', label: 'pulsante' } 
+    },
+    { 
+      title: 'Percentuale presenti:', 
+      text: `${this.todayPresencePercentage()}%`, 
+      action: { type: 'modal', label: 'Dettagli', modalId: 'AttendanceRateModal' } 
+    },
+    { 
+      title: 'Anomalie:', 
+      text: this.anomalyCount(), 
+      action: { type: 'modal', label: 'Dettagli', modalId: 'AnomalyModal' } 
+    },
   ]);
+  
 
 }
