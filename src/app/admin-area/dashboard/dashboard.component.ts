@@ -10,7 +10,6 @@ import { Column, TableComponent } from '../../table/table.component';
 import { RouterModule } from '@angular/router';
 import { WorkedHoursService } from '../../services/worked-hours.service';
 import { TodayStampsPipe } from '../../pipes/today-stamps.pipe';
-import { IModal } from '../../models/IModal';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -26,7 +25,9 @@ export class DashboardComponent implements OnInit {
   private _stampService = inject(StampService);
   private _workedHoursService = inject(WorkedHoursService);
 
-  public modal : IModal | null =  null; 
+  public modalContext: { title: string; body: string } | null = null;
+  public anomalyresult: string[] = [];
+
 
   protected readonly userList = signal<User[]>([]);
   protected readonly stampList = signal<Stamp[]>([]);
@@ -103,13 +104,13 @@ export class DashboardComponent implements OnInit {
 
     return Math.round((presentUsers.size / total) * 100);
   });
-
+  
   // CARD "ALERT SULLE ANOMALIE"
   protected readonly anomalyCount = computed(() => {
     const users = this.userList();
     const stamps = this.stampList();
     let anomalies = 0;
-
+    
     if (users.length && stamps.length) {
       const todayStamps = stamps.filter(stamp => this.isStampToday(stamp));
 
@@ -121,11 +122,16 @@ export class DashboardComponent implements OnInit {
 
         if (workedHours < 4 && workedHours > 0) {
           anomalies++;
+          this.anomalyresult.push(`Anomalia per ${user.name} ${user.surname}: ore lavorate = ${workedHours}`);          
+          console.log(`Anomalia per ${user.name} ${user.surname}: ore lavorate = ${workedHours}`);
+          
         }
       });
     }
     return anomalies;
   });
+
+  
 
   // Funzione per verificare se una timbratura è avvenuta oggi
   private isStampToday(stamp: Stamp): boolean {
@@ -147,7 +153,7 @@ export class DashboardComponent implements OnInit {
     { 
       title: 'Timbrature di oggi:', 
       text: this.todayStampsCount(), 
-      action: { type: 'button', label: 'pulsante' } 
+      action: { type: 'button', label: 'Disabled'} 
     },
     { 
       title: 'Percentuale presenti:', 
@@ -161,5 +167,52 @@ export class DashboardComponent implements OnInit {
     },
   ]);
   
+  protected readonly anomalyList = computed(() => {
+    const users = this.userList();
+    const stamps = this.stampList();
+    const result: string[] = [];
+  
+    if (users.length && stamps.length) {
+      const todayStamps = stamps.filter(stamp => this.isStampToday(stamp));
+  
+      users.forEach(user => {
+        if (user.role !== 'employee') return;
+  
+        const userStamps = todayStamps
+          .filter(stamp => stamp.userID === user.id)
+          .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+  
+        const workedHours = this._workedHoursService.calculateWorkedHours(userStamps);
+  
+        if (workedHours < 4 && workedHours > 0) {
+          result.push(`Anomalia per ${user.name} ${user.surname}: ore lavorate = ${workedHours}.`);
+        }
+      });
+    }
+  
+    return result;
+  });
+  
+  
 
+  getModalContext(modalId: string): any {
+    switch (modalId) {
+      case 'AnomalyModal':
+        return {
+          title: 'Dettagli Anomalia',
+          body: this.anomalyList().join('\n') // o mostrare come elenco se il template lo supporta
+        };
+  
+      case 'AttendanceRateModal':
+        return {
+          title: 'Presenze di oggi',
+          body: `Percentuale di presenza oggi: ${this.todayPresencePercentage()}%`
+        };
+  
+      default:
+        return { title: 'N/A', body: 'N/A' };
+    }
+  }
+  
+  
 }

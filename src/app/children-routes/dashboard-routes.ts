@@ -13,7 +13,6 @@ export const DashboardRoutes: Routes = [
             { path: 'user-form/:id', loadComponent: () => import('../admin-area/user-form/user-form.component').then(c => c.UserFormComponent) },
             { path: 'user-form', loadComponent: () => import('../admin-area/user-form/user-form.component').then(c => c.UserFormComponent) },
             { path: 'stamping-details/:id/:username', loadComponent: () => import('../stamping-details/stamping-details.component').then(c => c.StampingDetailsComponent) },
-            {path: 'modal/:modalId', loadComponent: () => import('../admin-area/modal/modal.component').then(c => c.ModalComponent) },
         ]
     }
 ]   

@@ -30,7 +30,7 @@
                     </button>
                   }  
                   @case ('button') {
-                    <button class="btn btn-primary">
+                    <button class="btn btn-primary" disabled>
                       {{ item.action.label }}
                     </button>
                   }
@@ -61,18 +61,23 @@
 
 <!-- MODALE -->
 @for (item of items(); track $index) {  
-<div class="modal fade" [id]="item.action.modalId" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    @switch (item.action.modalId) {
-      @case ('AnomalyModal') {
-        <ng-template *ngTemplateOutlet="AnomalyTemplate;  context: { title: 'sesso', body: 'cazzo di anomalia' }" ></ng-template>
+  <div class="modal fade" [id]="item.action.modalId" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      @switch (item.action.modalId) {
+        @case ('AnomalyModal') {
+          <ng-template 
+            *ngTemplateOutlet="AnomalyTemplate; context: getModalContext(item.action.modalId)">
+          </ng-template>
+        }
+  
+        @case ('AttendanceRateModal') {
+          <ng-template 
+            *ngTemplateOutlet="AttendanceRateTemplate; context: getModalContext(item.action.modalId)">
+          </ng-template>
+        }
       }
-      @case ('AttendanceRateModal') {
-        <ng-template *ngTemplateOutlet="AttendanceRateTemplate;  context: { title: 'sesso', body: 'vagina di %' }" ></ng-template>
-      }
-    }
+    </div>
   </div>
-</div>
 }
 
 
@@ -82,7 +87,7 @@
       <h1 class="modal-title fs-5" id="exampleModalLabel">{{title}}</h1>
     </div>
     <div class="modal-body">
-      {{body}}
+      <pre ><p>{{body}}</p></pre>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
