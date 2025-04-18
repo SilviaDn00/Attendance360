@@ -55,9 +55,10 @@ export class AdminTableComponent implements OnInit {
             type: stamp.type,
             workedHours: user?.workedHours ?? 0,
             button: [
-              new ButtonProperties('bi bi-person-vcard-fill', `/dashboard/stamping-details/${stamp.id}?username=${(username)}`),
+              new ButtonProperties('bi bi-person-vcard-fill', `/dashboard/stamping-details/${stamp.id}/${(username)}`),
             ],
           };
+          
         }).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
       });
     });

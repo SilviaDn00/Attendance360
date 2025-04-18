@@ -1,16 +1,18 @@
-<h1 class="text-center my-5">DETTAGLIO DIPENDENTE</h1> 
+<h1 class="text-center my-5">DETTAGLIO TIMBRATURA</h1> 
 <div class="container">
     <div class="row bg-transparent rounded-4 shadow-lg p-4">
         <div class="col-lg-6 col-12 my-4 my-md-0 d-flex justify-content-center align-itme">
             <img src="https://picsum.photos/200" alt="immagine profilo" class="img-fluid rounded-circle mb-4" />
         </div>
+        @if(stamp) {
         <div class="col-lg-6 col-12">
             <p><strong>ID Timbratura:</strong> {{ stamp.id }}</p>
             <p><strong>Dipendente:</strong> {{ username }}</p>
             <p><strong>Data:</strong> {{ stamp.date | date: 'mediumDate' }}</p>
             <p><strong>Ora:</strong> {{ stamp.time }}</p>
             <p><strong>Tipo:</strong> {{ stamp.type }}</p>
-        </div>        
+        </div>    
+        }    
     </div>
     <button [routerLink]="['/dashboard/admin-table']" class="btn btn-primary mt-4 shadow-lg">Indietro</button>
  </div>

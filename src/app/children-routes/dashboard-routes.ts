@@ -12,7 +12,7 @@ export const DashboardRoutes: Routes = [
             { path: 'employee-details/:id', loadComponent: () => import('../admin-area/employee-details/employee-details.component').then(c => c.EmployeeDetailsComponent) },
             { path: 'user-form/:id', loadComponent: () => import('../admin-area/user-form/user-form.component').then(c => c.UserFormComponent) },
             { path: 'user-form', loadComponent: () => import('../admin-area/user-form/user-form.component').then(c => c.UserFormComponent) },
-            { path: 'stamping-details/:id', loadComponent: () => import('../stamping-details/stamping-details.component').then(c => c.StampingDetailsComponent) },
+            { path: 'stamping-details/:id/:username', loadComponent: () => import('../stamping-details/stamping-details.component').then(c => c.StampingDetailsComponent) },
 
         ]
     }
