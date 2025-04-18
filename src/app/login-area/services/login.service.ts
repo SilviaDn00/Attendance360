@@ -17,7 +17,6 @@ export class LoginService {
   }
 
   login(email: string, password: string): boolean {
-    console.log('Lista degli utenti:', this._users);
     // Cerchiamo un utente con username e password che corrispondono
     const user = this._users.find(u => u.email === email && u.password === password);
 

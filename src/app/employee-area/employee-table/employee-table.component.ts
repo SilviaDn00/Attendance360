@@ -8,8 +8,6 @@ import { IFilters } from '../../models/IFilter';
 import { WorkedHoursService } from '../../services/worked-hours.service';
 
 
-
-
 @Component({
   selector: 'app-employee-table',
   imports: [TableComponent, FilterComponent],
@@ -23,7 +21,6 @@ export class EmployeeTableComponent implements OnInit {
 
   public currentFilters: IFilters | null = null;
 
-
   public columns: Column<IStamp>[] = [
     { key: 'date', label: 'Data', type: 'date' },
     { key: 'time', label: 'Orario', type: 'string' },
@@ -32,7 +29,6 @@ export class EmployeeTableComponent implements OnInit {
   ];
 
   public allRows: IStamp[] = [];
-
 
   ngOnInit(): void {
     const savedFilters = localStorage.getItem('employee-filters');
@@ -50,12 +46,9 @@ export class EmployeeTableComponent implements OnInit {
     });
   }
 
-
   onFiltersChanged(filters: IFilters) {
-    console.log('FILTRI CAMBIATI:', filters);
     this.currentFilters = filters;
     localStorage.setItem('employee-filters', JSON.stringify(filters));
   }
   
-   
 }

@@ -27,7 +27,6 @@ export class DashboardComponent implements OnInit {
   protected readonly userList = signal<User[]>([]);
   protected readonly stampList = signal<Stamp[]>([]);
 
-
   ngOnInit(): void {
     // Inizializza i dati al caricamento del componente
     this.loadData();
@@ -78,13 +77,11 @@ export class DashboardComponent implements OnInit {
     this.userList().filter(user => user.role === 'employee').length
   );
 
-
   // CARD "TIMBRATURE DI OGGI"
   protected readonly todayStampsCount = computed(() => {
     const stamps = this.stampList();
     return stamps.filter(stamp => this.isStampToday(stamp)).length;
   });
-
 
   // CARD "PERCENTUALE DI PRESENZA"
   protected readonly todayPresencePercentage = computed(() => {
@@ -102,7 +99,6 @@ export class DashboardComponent implements OnInit {
 
     return Math.round((presentUsers.size / total) * 100);
   });
-
 
   // CARD "ALERT SULLE ANOMALIE"
   protected readonly anomalyCount = computed(() => {
@@ -127,7 +123,6 @@ export class DashboardComponent implements OnInit {
     return anomalies;
   });
 
-
   // Funzione per verificare se una timbratura è avvenuta oggi
   private isStampToday(stamp: Stamp): boolean {
     const today = new Date();
@@ -139,14 +134,11 @@ export class DashboardComponent implements OnInit {
     );
   }
 
-
   protected readonly items = computed(() => [
     { title: 'Numero totale dei dipendenti:', text: this.totalEmployees(), action: 'Gestione dipendenti', link: 'team-management' },
     { title: 'Timbrature di oggi:', text: this.todayStampsCount(), action: 'pulsante' },
     { title: 'Percentuale presenti:', text: `${this.todayPresencePercentage()}%`, action: 'pulsante' },
     { title: 'Alert sulle anomalie', text: this.anomalyCount(), action: 'pulsante' },
   ]);
-
-
 
 }

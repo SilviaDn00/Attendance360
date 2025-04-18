@@ -53,7 +53,6 @@ export class UserFormComponent implements OnInit {
       const newUser: User = this.userFormGroup.value;
       this._userService.UpdateUsers(newUser).subscribe(() => {
       });
-      console.log('Utente modificato:', newUser);
       this.userFormGroup.reset(); // Reset the form after submission          
     }
     alert('Dipendente modificato con successo!');

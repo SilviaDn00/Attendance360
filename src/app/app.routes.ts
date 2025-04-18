@@ -4,7 +4,6 @@ import { LoginComponent } from './login-area/login/login.component';
 import { loginAuthGuard } from './login-area/guards/login-auth.guard';
 import { LogoutComponent } from './login-area/logout/logout.component';
 
-
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent, canActivate: [loginAuthGuard] },

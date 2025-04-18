@@ -39,7 +39,6 @@ export class AdminTableComponent implements OnInit {
     this.loadData();
   }
 
-
   private loadData(): void {
     this._userService.getUsers().subscribe((users: IUser[]) => {
       this._stampService.GetStamp().subscribe((stamps: IStamp[]) => {
@@ -68,7 +67,6 @@ export class AdminTableComponent implements OnInit {
     this.currentFilters = filters;
     localStorage.setItem('admin-filters', JSON.stringify(filters));
   }
-
 
   private restoreSavedFilters(): void {
     const savedFilters = localStorage.getItem('admin-filters');

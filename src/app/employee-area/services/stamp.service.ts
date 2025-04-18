@@ -16,7 +16,6 @@ export class StampService {
   private _urlGetByID = 'http://localhost:5077/api/Stamp/GetStamp'; // URL del tuo endpoint API
   private _urlPost = 'http://localhost:5077/api/Stamp/PostStamp'; // URL del tuo endpoint API
 
-
   constructor() {
     const savedStampList = localStorage.getItem('listaStamp');
     if (savedStampList) {

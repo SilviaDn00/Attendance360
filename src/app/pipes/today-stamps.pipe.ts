@@ -1,5 +1,4 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Stamp } from '../models/stamp';
 import { IEnrichedStamp } from '../models/IEnrichedStamp';
 
 @Pipe({

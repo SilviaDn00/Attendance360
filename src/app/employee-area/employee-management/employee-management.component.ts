@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -12,6 +12,7 @@ import { Column, TableComponent } from '../../table/table.component';
 import { StampService } from '../services/stamp.service';
 import { CommonModule } from '@angular/common';
 import { TodayStampsPipe } from '../../pipes/today-stamps.pipe';
+
 
 @Component({
   selector: 'app-employee-management',
@@ -43,10 +44,7 @@ export class EmployeeManagementComponent implements OnInit {
       userID: [this.logService.getUserID()]
     });
 
-    this.loadStamps();
-    console.log(this.logService.getUsername());
-    console.log(this.logService.getUserID());
-    
+    this.loadStamps();    
   }
 
   loadStamps() {
@@ -68,13 +66,11 @@ export class EmployeeManagementComponent implements OnInit {
     }
   }
 
-
   hourOptions: string[] = [
     '09:00', '09:30', '10:00', '10:30', '11:00', '11:30',
     '12:00', '12:30', '13:00', '13:30', '14:00', '14:30',
     '15:00', '15:30', '16:00', '16:30', '17:00', '17:30',
     '18:00', '18:30', '19:00'
   ];
-  
   
 }

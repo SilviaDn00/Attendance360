@@ -41,7 +41,6 @@ export class FilterComponent<T extends User | Stamp> implements OnInit {
     });
   }
 
-
   ngOnInit(): void {
     if (this.initialFilters) {
       this.range.patchValue({
@@ -58,7 +57,6 @@ export class FilterComponent<T extends User | Stamp> implements OnInit {
     }
   }
   
-
 
   emitFilters() {
     const start = this.range.value.start ?? null;

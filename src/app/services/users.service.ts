@@ -29,7 +29,6 @@ export class UsersService {
   }
 
   UpdateUsers( user : User): Observable<User[]> {
-    console.log('user', user);   
     return this._http.put<User[]>(`${this._urlUpdate}/${user.id}`, user);
   }
 
@@ -37,5 +36,4 @@ export class UsersService {
     return this._http.put<User>(`${this._urlEnabled}/${id}`, {}); 
   }
   
-
 }
