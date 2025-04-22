@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { IStamp, Stamp } from '../../models/stamp';
+import { IStamp } from '../../models/IStamp';
 import { StampService } from '../services/stamp.service';
 import { Column, TableComponent } from '../../table/table.component';
 import { LoginService } from '../../login-area/services/login.service';

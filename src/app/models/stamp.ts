@@ -1,11 +1,4 @@
-export interface IStamp {
-    date : Date;
-    time : string;
-    type : StampType;
-    id?: string;
-    userID?: string;
-    workedHours?: number;
-}
+import { IStamp } from "./IStamp";
 
 export enum StampType {
     checkIn = 'ingresso',

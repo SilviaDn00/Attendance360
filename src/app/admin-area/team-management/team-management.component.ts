@@ -1,7 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Column, TableComponent } from '../../table/table.component';
-import { IEnrichedStamp } from '../../models/IEnrichedStamp';
-import { IUser, User } from '../../models/users';
+import { IUser } from '../../models/IUser';
 import { UsersService } from '../../services/users.service';
 import { ButtonProperties } from '../../models/buttonProperties';
 import { RouterLink } from '@angular/router';
