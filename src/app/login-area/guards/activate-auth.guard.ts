@@ -9,36 +9,34 @@ export const activateAuthGuard: CanActivateFn = (route, state) => {
   const userService = inject(UsersService);
   const router = inject(Router);
 
-  const userId = loginService.getUserID(); // Prendi l'ID dell'utente dal service/localStorage
+  const userId = loginService.getUserID(); 
 
   if (!userId) {
-    // Se non c'è ID, reindirizza a login
     router.navigate(['/login']);
-    return of(false); // Blocco
+    return of(false); 
   }
 
-  // Chiamata HTTP per ottenere tutti i dati dell’utente
   return userService.getUserById(userId).pipe(
     switchMap(user => {
       if (!user.enabled) {
         alert("Impossibile effettuare l'accesso: Utente disabilitato");
         router.navigate(['/login']);
-        return of(false); // Blocco se disabilitato
+        return of(false); 
       }
 
       const role = user.role;
 
       if (role === 'admin' && !state.url.startsWith('/dashboard')) {
         router.navigate(['/dashboard']);
-        return of(false); // Reindirizza se non è sulla rotta giusta
+        return of(false);
       }
 
       if (role === 'employee' && !state.url.startsWith('/employee-management')) {
         router.navigate(['/employee-management']);
-        return of(false); // Reindirizza se non è sulla rotta giusta
+        return of(false);
       }
 
-      return of(true); // Permetti accesso
+      return of(true);
     })
   );
 };
