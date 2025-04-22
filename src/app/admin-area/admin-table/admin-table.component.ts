@@ -10,7 +10,6 @@ import { IFilters } from '../../models/IFilter';
 import { ButtonProperties } from '../../models/buttonProperties';
 import { RouterLink } from '@angular/router';
 
-
 @Component({
   selector: 'app-admin-table',
   imports: [TableComponent, FilterComponent, RouterLink],
@@ -30,7 +29,6 @@ export class AdminTableComponent implements OnInit {
     { key: 'date', label: 'Data', type: 'date' },
     { key: 'time', label: 'Orario', type: 'string' },
     { key: 'type', label: 'Tipo', type: 'stampType' },
-    { key: 'workedHours', label: 'Ore ', type: 'number' },
     { key: 'button', label: 'Azione', type: 'button' },
   ];
   public rows: IEnrichedStamp[] = [];
@@ -53,7 +51,6 @@ export class AdminTableComponent implements OnInit {
             date: stamp.date,
             time: stamp.time,
             type: stamp.type,
-            workedHours: user?.workedHours ?? 0,
             button: [
               new ButtonProperties('bi bi-person-vcard-fill', `/dashboard/stamping-details/${stamp.id}/${(username)}`),
             ],
