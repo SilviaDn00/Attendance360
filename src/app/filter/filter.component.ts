@@ -4,15 +4,9 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatRadioModule } from '@angular/material/radio';
-import { User } from '../models/users';
-import { Stamp } from '../models/stamp';
+import { IFilters } from '../models/IFilter';
 
 
-interface Filters {
-  start: Date | null;
-  end: Date | null;
-  type: string | null;
-}
 
 @Component({
   selector: 'app-filter',
@@ -22,14 +16,14 @@ interface Filters {
   styleUrl: './filter.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FilterComponent<T extends User | Stamp> implements OnInit {
+export class FilterComponent<T> implements OnInit {
 
   readonly range = new FormGroup({
     start: new FormControl<Date | null>(null),
     end: new FormControl<Date | null>(null),
   });
 
-  @Input() initialFilters: Filters | null = null;
+  @Input() initialFilters: IFilters | null = null;
   @Input() typeOptions: string[] = [];
   @Output() filtersChanged = new EventEmitter<{ start: Date | null; end: Date | null; type: string | null }>();
 
@@ -49,11 +43,8 @@ export class FilterComponent<T extends User | Stamp> implements OnInit {
       });
   
       this.selectedType = this.initialFilters.type;
-  
-      // aspetta un tick del ciclo Angular per assicurarti che tutto sia visibile
-      setTimeout(() => {
-        this.emitFilters();
-      });
+
+      setTimeout(() => {this.emitFilters();});
     }
   }
   
@@ -63,7 +54,7 @@ export class FilterComponent<T extends User | Stamp> implements OnInit {
     const end = this.range.value.end ?? null;
 
     // Costruire il filtro in modo condizionale, ma tipizzato
-    const filters: Filters = {
+    const filters: IFilters = {
       start: start,
       end: end,
       type: this.selectedType

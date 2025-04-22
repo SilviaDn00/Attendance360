@@ -1,11 +1,11 @@
 
-@media (max-width: 768px) {
-    .ciao{
-        width: 100%;
+@media (max-width: 1025px) {
+    #form-custom{
+        width: 100% !important;
     }
 }
 
-.ciao {
+#form-custom {
     width: 40%;
     background-color: #E9ECEF;
     padding: 20px;
