@@ -12,15 +12,13 @@ export const loginAuthGuard: CanActivateFn = (route, state) => {
 
   if (user) {
     if (role === 'admin') {
-      // Se è admin, reindirizza alla dashboard
       router.navigate(['/dashboard'])
       
     } else if (role === 'employee') {
-      // Se è un employee, reindirizza a employee-management
       router.navigate(['/employee-management']);
     }
 
-    // Blocca l'accesso alla pagina di login
+    // se il ruolo non è admin o employee, reindirizza alla pagina di login
     return false;
   }
 

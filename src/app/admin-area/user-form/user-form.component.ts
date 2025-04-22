@@ -39,6 +39,7 @@ export class UserFormComponent implements OnInit {
   }
 
   AddUser() {
+    this.userFormGroup.markAllAsTouched();
     if (this.userFormGroup.valid) {
       const newUser: User = this.userFormGroup.value;
       this._userService.PostUsers(newUser).subscribe(() => {
@@ -49,6 +50,7 @@ export class UserFormComponent implements OnInit {
   }
 
   EditUser() {
+    this.userFormGroup.markAllAsTouched();
     if (this.userFormGroup.valid) {
       const newUser: User = this.userFormGroup.value;
       this._userService.UpdateUsers(newUser).subscribe(() => {
