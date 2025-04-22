@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { CanDeactivateFn } from '@angular/router';
 
-import { unsavedChangesGuard } from './unsaved-changes.guard';
+import { unsavedUserGuard } from './unsaved-user.guard';
 
-describe('unsavedChangesGuard', () => {
+describe('unsavedUserGuard', () => {
   const executeGuard: CanDeactivateFn<unknown> = (...guardParameters) => 
-      TestBed.runInInjectionContext(() => unsavedChangesGuard(...guardParameters));
+      TestBed.runInInjectionContext(() => unsavedUserGuard(...guardParameters));
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
