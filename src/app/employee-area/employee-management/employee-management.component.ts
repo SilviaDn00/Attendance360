@@ -64,6 +64,13 @@ export class EmployeeManagementComponent implements OnInit {
       this._employeeService.PostStamp(newStamp).subscribe(() => {
         this.loadStamps();
       });
+      this.stampFormGroup.reset({
+        id: uuidv4(),
+        date: new Date().toISOString().split('T')[0],
+        time: 0,
+        type: StampType,
+        userID: this.logService.getUserID()
+      });
     }
   }
 

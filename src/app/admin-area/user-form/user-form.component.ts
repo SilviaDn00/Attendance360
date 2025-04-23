@@ -46,7 +46,11 @@ export class UserFormComponent implements OnInit {
       const newUser: User = this.userFormGroup.value;
       this._userService.PostUsers(newUser).subscribe(() => {
       });
-      this.userFormGroup.reset(); // Reset the form after submission          
+      this.userFormGroup.reset({
+        id: uuidv4(),
+        role: 'employee',
+        enabled: true
+      });          
       alert('Dipendente aggiunto con successo!');
     }
   }
