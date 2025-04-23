@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Stamp, StampType } from '../../models/stamp';
+import { Stamp, StampType } from '../../shared/models/stamp';
 import { HttpClient } from '@angular/common/http';
 
 

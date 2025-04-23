@@ -7,11 +7,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { LoginService } from '../../login-area/services/login.service';
-import { Stamp, StampType } from '../../models/stamp';
-import { Column, TableComponent } from '../../table/table.component';
+import { Stamp, StampType } from '../../shared/models/stamp';
 import { StampService } from '../services/stamp.service';
 import { CommonModule } from '@angular/common';
-import { TodayStampsPipe } from '../../pipes/today-stamps.pipe';
+import { TodayStampsPipe } from '../../shared/pipes/today-stamps.pipe';
+import { Column, TableComponent } from '../../shared/table/table.component';
 
 
 @Component({
@@ -44,15 +44,15 @@ export class EmployeeManagementComponent implements OnInit {
       userID: [this.logService.getUserID()]
     });
 
-    this.loadStamps();    
+    this.loadStamps();
   }
 
   loadStamps() {
     const currentUserID = this.logService.getUserID();
-  
+
     this._employeeService.GetStamp().subscribe(response => {
       this.rows = response
-        .filter(stamp => stamp.userID === currentUserID) 
+        .filter(stamp => stamp.userID === currentUserID)
     });
   }
 
@@ -72,5 +72,5 @@ export class EmployeeManagementComponent implements OnInit {
     '15:00', '15:30', '16:00', '16:30', '17:00', '17:30',
     '18:00', '18:30', '19:00', '19:30', '20:00', '20:30'
   ];
-  
+
 }

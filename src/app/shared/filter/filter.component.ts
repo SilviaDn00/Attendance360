@@ -4,7 +4,7 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatRadioModule } from '@angular/material/radio';
-import { IFilters } from '../models/IFilter';
+import { IFilters } from '../../shared/models/IFilter';
 
 
 
@@ -41,13 +41,13 @@ export class FilterComponent<T> implements OnInit {
         start: this.initialFilters.start ? new Date(this.initialFilters.start) : null,
         end: this.initialFilters.end ? new Date(this.initialFilters.end) : null
       });
-  
+
       this.selectedType = this.initialFilters.type;
 
-      setTimeout(() => {this.emitFilters();});
+      setTimeout(() => { this.emitFilters(); });
     }
   }
-  
+
 
   emitFilters() {
     const start = this.range.value.start ?? null;

@@ -1,6 +1,6 @@
 import { inject, Injectable, OnInit } from '@angular/core';
-import { UsersService } from '../../services/users.service';
-import { User } from '../../models/users';
+import { UsersService } from '../../shared/services/users.service';
+import { User } from '../../shared/models/users';
 
 @Injectable({
   providedIn: 'root',

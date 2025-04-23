@@ -1,8 +1,8 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { UsersService } from '../../services/users.service';
-import { User } from '../../models/users';
-import { IUser } from '../../models/IUser';
+import { UsersService } from '../../shared/services/users.service';
+import { User } from '../../shared/models/users';
+import { IUser } from '../../shared/models/IUser';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
@@ -16,7 +16,7 @@ export class UserFormComponent implements OnInit {
 
   private _userService = inject(UsersService);
   public formBuild = inject(FormBuilder);
-  
+
   private route = inject(ActivatedRoute);
   public id: string | null = null;
 
@@ -26,14 +26,14 @@ export class UserFormComponent implements OnInit {
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
     this.userFormGroup = this.formBuild.group({
-      id : [],
-      name: [, [ Validators.required,  Validators.minLength(1), Validators.maxLength(30)]],
-      surname: [, [ Validators.required,  Validators.minLength(1), Validators.maxLength(30)]],
+      id: [],
+      name: [, [Validators.required, Validators.minLength(1), Validators.maxLength(30)]],
+      surname: [, [Validators.required, Validators.minLength(1), Validators.maxLength(30)]],
       username: [],
-      password:[, [ Validators.required,  Validators.minLength(3), Validators.maxLength(30)]],
+      password: [, [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
       email: [, [Validators.required, Validators.minLength(1), Validators.maxLength(30), Validators.pattern(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/)]],
       role: ['employee'],
-      department: [, [ Validators.required,  Validators.minLength(1), Validators.maxLength(30)]],
+      department: [, [Validators.required, Validators.minLength(1), Validators.maxLength(30)]],
       enabled: [true],
     });
     this.loadData();
@@ -55,19 +55,19 @@ export class UserFormComponent implements OnInit {
     if (this.userFormGroup.valid) {
       const newUser: User = this.userFormGroup.value;
       this._userService.UpdateUsers(newUser).subscribe(() => {
-      });       
+      });
       alert('Dipendente modificato con successo!');
     }
   }
 
-  
-    private loadData(): void {
-      if (!this.id) return;
-  
-      this._userService.getUserById(this.id).subscribe(user => {
-        this.user = user;
-        this.userFormGroup.patchValue(user);
-      });
-    }
+
+  private loadData(): void {
+    if (!this.id) return;
+
+    this._userService.getUserById(this.id).subscribe(user => {
+      this.user = user;
+      this.userFormGroup.patchValue(user);
+    });
+  }
 
 }

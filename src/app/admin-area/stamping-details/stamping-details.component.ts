@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { StampService } from '../employee-area/services/stamp.service';
-import { IEnrichedStamp } from '../models/IEnrichedStamp';
+import { StampService } from '../../employee-area/services/stamp.service';
+import { IEnrichedStamp } from '../../shared/models/IEnrichedStamp';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
@@ -16,7 +16,7 @@ export class StampingDetailsComponent implements OnInit {
   public username: string | null = null;
 
   private _stampService = inject(StampService);
-  
+
   private _route = inject(ActivatedRoute);
 
   public stamp!: IEnrichedStamp;
@@ -25,7 +25,7 @@ export class StampingDetailsComponent implements OnInit {
     this._route.paramMap.subscribe(params => {
       this.id = params.get('id');
       this.username = params.get('username');
-     
+
       this.loadData();
     });
   }

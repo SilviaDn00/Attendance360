@@ -8,11 +8,11 @@ export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent, canActivate: [loginAuthGuard] },
 
-  { path: '', loadChildren: () => import('./children-routes/attendance-routes').then(c => c.attendanceRoutes), canActivate: [activateAuthGuard] },
+  { path: '', loadChildren: () => import('./shared/attendance-routes').then(c => c.attendanceRoutes), canActivate: [activateAuthGuard] },
 
   { path: 'logout', component: LogoutComponent },
-  
-  
+
+
   { path: '**', redirectTo: '/login' },
 
 ];

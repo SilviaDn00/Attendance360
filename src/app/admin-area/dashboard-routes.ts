@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
-import { DashboardIndexComponent } from '../index/dashboard-index/dashboard-index.component';
 import { activateAuthGuard } from '../login-area/guards/activate-auth.guard';
 import { unsavedUserGuard } from '../admin-area/guards/unsaved-user.guard';
+import { DashboardIndexComponent } from './dashboard-index/dashboard-index.component';
 
 export const DashboardRoutes: Routes = [
     {
@@ -13,7 +13,7 @@ export const DashboardRoutes: Routes = [
             { path: 'employee-details/:id', loadComponent: () => import('../admin-area/employee-details/employee-details.component').then(c => c.EmployeeDetailsComponent) },
             { path: 'user-form/:id', loadComponent: () => import('../admin-area/user-form/user-form.component').then(c => c.UserFormComponent), canDeactivate: [unsavedUserGuard] },
             { path: 'user-form', loadComponent: () => import('../admin-area/user-form/user-form.component').then(c => c.UserFormComponent), canDeactivate: [unsavedUserGuard] },
-            { path: 'stamping-details/:id/:username', loadComponent: () => import('../stamping-details/stamping-details.component').then(c => c.StampingDetailsComponent) },
+            { path: 'stamping-details/:id/:username', loadComponent: () => import('./stamping-details/stamping-details.component').then(c => c.StampingDetailsComponent) },
         ]
     }
 ]   

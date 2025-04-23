@@ -1,8 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Column, TableComponent } from '../../table/table.component';
-import { IUser } from '../../models/IUser';
-import { UsersService } from '../../services/users.service';
-import { ButtonProperties } from '../../models/buttonProperties';
+import { Column, TableComponent } from '../../shared/table/table.component';
+import { IUser } from '../../shared/models/IUser';
+import { UsersService } from '../../shared/services/users.service';
+import { ButtonProperties } from '../../shared/models/buttonProperties';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -49,8 +49,8 @@ export class TeamManagementComponent implements OnInit {
         u.id === updatedUser.id ? { ...u, enabled: updatedUser.enabled } : u
       );
     });
-    
+
   }
-  
+
 
 }

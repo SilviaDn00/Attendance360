@@ -1,13 +1,13 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Column, TableComponent } from '../../table/table.component';
+import { Column, TableComponent } from '../../shared/table/table.component';
 import { StampService } from '../../employee-area/services/stamp.service';
-import { UsersService } from '../../services/users.service';
-import { IUser } from '../../models/IUser';
-import { IStamp } from '../../models/IStamp';
-import { IEnrichedStamp } from '../../models/IEnrichedStamp';
-import { FilterComponent } from '../../filter/filter.component';
-import { IFilters } from '../../models/IFilter';
-import { ButtonProperties } from '../../models/buttonProperties';
+import { UsersService } from '../../shared/services/users.service';
+import { IUser } from '../../shared/models/IUser';
+import { IStamp } from '../../shared/models/IStamp';
+import { IEnrichedStamp } from '../../shared/models/IEnrichedStamp';
+import { FilterComponent } from '../../shared/filter/filter.component';
+import { IFilters } from '../../shared/models/IFilter';
+import { ButtonProperties } from '../../shared/models/buttonProperties';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -43,7 +43,7 @@ export class AdminTableComponent implements OnInit {
       this._stampService.GetStamp().subscribe((stamps: IStamp[]) => {
         this.rows = stamps.map(stamp => {
           const user = users.find(u => u.id?.trim().toLowerCase() === stamp.userID?.trim().toLowerCase());
-          var username =user ? `${user.name} ${user.surname}` : stamp.userID ?? 'N/A';
+          var username = user ? `${user.name} ${user.surname}` : stamp.userID ?? 'N/A';
           return {
             username: user ? `${user.name} ${user.surname}` : stamp.userID ?? 'N/A',
             role: user?.role ?? 'N/A',
@@ -55,7 +55,7 @@ export class AdminTableComponent implements OnInit {
               new ButtonProperties('bi bi-person-vcard-fill', `/dashboard/stamping-details/${stamp.id}/${(username)}`),
             ],
           };
-          
+
         }).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
       });
     });
