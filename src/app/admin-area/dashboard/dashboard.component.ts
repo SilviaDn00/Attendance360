@@ -1,12 +1,12 @@
 import { Component, computed, inject, OnInit, signal, untracked } from '@angular/core';
 import { LoginService } from '../../login-area/services/login.service';
-import { CardComponent } from '../../shared/card/card.component';
+import { CardComponent } from '../../shared/components/card/card.component';
 import { UsersService } from '../../shared/services/users.service';
 import { User } from '../../shared/models/users';
 import { Stamp } from '../../shared/models/stamp';
 import { StampService } from '../../employee-area/services/stamp.service';
 import { IEnrichedStamp } from '../../shared/models/IEnrichedStamp';
-import { Column, TableComponent } from '../../shared/table/table.component';
+import { Column, TableComponent } from '../../shared/components/table/table.component';
 import { RouterModule } from '@angular/router';
 import { WorkedHoursService } from '../../shared/services/worked-hours.service';
 import { TodayStampsPipe } from '../../shared/pipes/today-stamps.pipe';
@@ -119,24 +119,24 @@ export class DashboardComponent implements OnInit {
     );
   }
 
-// Funzione per ottenere le anomalie di oggi
+  // Funzione per ottenere le anomalie di oggi
   private getTodayAnomalies(): string[] {
     const users = this.userList();
     const stamps = this.stampList();
     const result: string[] = [];
-  
+
     if (users.length && stamps.length) {
       const todayStamps = stamps.filter(stamp => this.isStampToday(stamp));
-  
+
       users.forEach(user => {
         if (user.role !== 'employee') return;
-  
+
         const userStamps = todayStamps
           .filter(stamp => stamp.userID === user.id)
           .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-  
+
         const workedHours = this._workedHoursService.calculateWorkedHours(userStamps);
-  
+
         if (workedHours < 4 && workedHours > 0) {
           result.push(`Anomalia per ${user.name} ${user.surname}: ore lavorate = ${workedHours}.`);
         }
@@ -167,9 +167,9 @@ export class DashboardComponent implements OnInit {
       action: { type: 'modal', label: 'Dettagli', modalId: 'AnomalyModal' }
     },
   ]);
-  
+
   protected readonly anomalyList = computed(() => this.getTodayAnomalies());
-  
+
   // Funzione per aprire il modal
   getModalContext(modalId: string): any {
     switch (modalId) {

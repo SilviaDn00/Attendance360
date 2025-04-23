@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Column, TableComponent } from '../../shared/table/table.component';
+import { Column, TableComponent } from '../../shared/components/table/table.component';
 import { IUser } from '../../shared/models/IUser';
 import { UsersService } from '../../shared/services/users.service';
 import { ButtonProperties } from '../../shared/models/buttonProperties';

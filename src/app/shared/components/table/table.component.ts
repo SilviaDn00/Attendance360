@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { IFilters } from '../models/IFilter';
+import { IFilters } from '../../models/IFilter';
 import { RouterModule } from '@angular/router';
 
 export type Column<T> = {
@@ -80,7 +80,7 @@ export class TableComponent<T> implements OnChanges {
 
   updateVisiblePages(): void {
     const totalPages = this.totalPages;
-  
+
     // Se ci sono meno di 5 pagine totali, mostriamo tutte le pagine
     if (totalPages <= 5) {
       this.visiblePages = Array.from({ length: totalPages }, (_, i) => i + 1);
@@ -88,11 +88,11 @@ export class TableComponent<T> implements OnChanges {
     }
     // Prima pagina fissa
     const pages = [1];
-  
+
     // Se la pagina corrente è troppo vicina alla prima o all'ultima, dobbiamo limitare il numero di pagine centrali visibili
     let startPage = Math.max(2, this.currentPage - 2);  // Almeno 2 pagine prima della pagina corrente
     let endPage = Math.min(totalPages - 1, this.currentPage + 2);  // Almeno 2 pagine dopo la pagina corrente
-  
+
     // Se siamo alle prime o ultime pagine, dobbiamo aggiustare il range
     if (this.currentPage <= 3) {
       startPage = 2;  // Spostiamo la pagina centrale più in basso
@@ -101,15 +101,15 @@ export class TableComponent<T> implements OnChanges {
       startPage = Math.max(2, totalPages - 4);  // Limitiamo a 5 le pagine finali
       endPage = totalPages - 1;
     }
-  
+
     // Aggiungi le 3 pagine centrali
     for (let i = startPage; i <= endPage; i++) {
       pages.push(i);
     }
-  
+
     // Ultima pagina fissa
     pages.push(totalPages);
-  
+
     // Imposta la visibilità delle pagine centrali
     this.visiblePages = pages;
   }

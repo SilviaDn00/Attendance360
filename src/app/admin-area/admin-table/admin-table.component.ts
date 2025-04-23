@@ -1,11 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Column, TableComponent } from '../../shared/table/table.component';
+import { Column, TableComponent } from '../../shared/components/table/table.component';
 import { StampService } from '../../employee-area/services/stamp.service';
 import { UsersService } from '../../shared/services/users.service';
 import { IUser } from '../../shared/models/IUser';
 import { IStamp } from '../../shared/models/IStamp';
 import { IEnrichedStamp } from '../../shared/models/IEnrichedStamp';
-import { FilterComponent } from '../../shared/filter/filter.component';
+import { FilterComponent } from '../../shared/components/filter/filter.component';
 import { IFilters } from '../../shared/models/IFilter';
 import { ButtonProperties } from '../../shared/models/buttonProperties';
 import { RouterLink } from '@angular/router';

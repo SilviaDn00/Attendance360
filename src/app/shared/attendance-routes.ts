@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { AttendanceIndexComponent } from './attendance-index/attendance-index.component';
+import { AttendanceIndexComponent } from './components/attendance-index/attendance-index.component';
 import { activateAuthGuard } from '../login-area/guards/activate-auth.guard';
 
 export const attendanceRoutes: Routes = [

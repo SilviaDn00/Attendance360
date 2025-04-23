@@ -11,7 +11,7 @@ import { Stamp, StampType } from '../../shared/models/stamp';
 import { StampService } from '../services/stamp.service';
 import { CommonModule } from '@angular/common';
 import { TodayStampsPipe } from '../../shared/pipes/today-stamps.pipe';
-import { Column, TableComponent } from '../../shared/table/table.component';
+import { Column, TableComponent } from '../../shared/components/table/table.component';
 
 
 @Component({

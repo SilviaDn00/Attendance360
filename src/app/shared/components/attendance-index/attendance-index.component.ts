@@ -8,4 +8,4 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './attendance-index.component.html',
   styleUrl: './attendance-index.component.scss',
 })
-export class AttendanceIndexComponent {}
+export class AttendanceIndexComponent { }
