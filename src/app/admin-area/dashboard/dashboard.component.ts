@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit, signal, untracked } from '@angular/core';
+import { Component, computed, DestroyRef, inject, OnInit, signal, untracked } from '@angular/core';
 import { LoginService } from '../../login-area/services/login.service';
 import { CardComponent } from '../../shared/components/card/card.component';
 import { UsersService } from '../../shared/services/users.service';
@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
 import { WorkedHoursService } from '../../shared/services/worked-hours.service';
 import { TodayStampsPipe } from '../../shared/pipes/today-stamps.pipe';
 import { CommonModule } from '@angular/common';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-dashboard',
@@ -26,11 +27,11 @@ export class DashboardComponent implements OnInit {
   private _workedHoursService = inject(WorkedHoursService);
 
   public modalContext: { title: string; body: string } | null = null;
-  public anomalyresult: string[] = [];
-
 
   protected readonly userList = signal<User[]>([]);
   protected readonly stampList = signal<Stamp[]>([]);
+
+  private readonly destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
     // Inizializza i dati al caricamento del componente
@@ -38,11 +39,11 @@ export class DashboardComponent implements OnInit {
   }
 
   public loadData() {
-    this._userService.getUsers().subscribe(userData => {
+    this._userService.getUsers().pipe(takeUntilDestroyed(this.destroyRef)).subscribe(userData => {
       this.userList.set(userData);
     });
 
-    this._stampService.GetStamp().subscribe(stampData => {
+    this._stampService.GetStamp().pipe(takeUntilDestroyed(this.destroyRef)).subscribe(stampData => {
       this.stampList.set(stampData);
     });
   }
@@ -71,7 +72,7 @@ export class DashboardComponent implements OnInit {
           date: s.date,
           time: s.time,
           type: s.type,
-          workedHours: user ? this._workedHoursService.calculateWorkedHoursForUserOnDate(s.userID!, new Date(s.date), this.stampList()) : 0
+          workedHours: user ? this._workedHoursService.getUserWorkedHours(s.userID!, new Date(s.date), this.stampList()) : 0
         };
       })
   );

@@ -42,7 +42,7 @@ export class EmployeeTableComponent implements OnInit {
       const userStamps = response.filter(stamp => stamp.userID === currentUserID);
 
       this.allRows = userStamps.map(stamp => ({
-        ...stamp, workedHours: this._workedHoursService.calculateWorkedHoursForUserOnDate(currentUserID!, new Date(stamp.date), userStamps)
+        ...stamp, workedHours: this._workedHoursService.getUserWorkedHours(currentUserID!, new Date(stamp.date), userStamps)
       })).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
     });
   }
@@ -51,5 +51,4 @@ export class EmployeeTableComponent implements OnInit {
     this.currentFilters = filters;
     localStorage.setItem('employee-filters', JSON.stringify(filters));
   }
-
 }
