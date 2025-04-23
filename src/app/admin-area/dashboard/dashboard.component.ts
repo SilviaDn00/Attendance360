@@ -106,32 +106,7 @@ export class DashboardComponent implements OnInit {
   });
 
   // CARD "ALERT SULLE ANOMALIE"
-  protected readonly anomalyCount = computed(() => {
-    const users = this.userList();
-    const stamps = this.stampList();
-    let anomalies = 0;
-
-    if (users.length && stamps.length) {
-      const todayStamps = stamps.filter(stamp => this.isStampToday(stamp));
-
-      users.forEach(user => {
-        if (user.role !== 'employee') return;
-
-        const userStamps = todayStamps.filter(stamp => stamp.userID === user.id).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-        const workedHours = this._workedHoursService.calculateWorkedHours(userStamps);
-
-        if (workedHours < 4 && workedHours > 0) {
-          anomalies++;
-          this.anomalyresult.push(`Anomalia per ${user.name} ${user.surname}: ore lavorate = ${workedHours}`);
-          console.log(`Anomalia per ${user.name} ${user.surname}: ore lavorate = ${workedHours}`);
-
-        }
-      });
-    }
-    return anomalies;
-  });
-
-
+  protected readonly anomalyCount = computed(() => this.getTodayAnomalies().length);
 
   // Funzione per verificare se una timbratura è avvenuta oggi
   private isStampToday(stamp: Stamp): boolean {
@@ -142,6 +117,32 @@ export class DashboardComponent implements OnInit {
       stampDate.getMonth() === today.getMonth() &&
       stampDate.getFullYear() === today.getFullYear()
     );
+  }
+
+// Funzione per ottenere le anomalie di oggi
+  private getTodayAnomalies(): string[] {
+    const users = this.userList();
+    const stamps = this.stampList();
+    const result: string[] = [];
+  
+    if (users.length && stamps.length) {
+      const todayStamps = stamps.filter(stamp => this.isStampToday(stamp));
+  
+      users.forEach(user => {
+        if (user.role !== 'employee') return;
+  
+        const userStamps = todayStamps
+          .filter(stamp => stamp.userID === user.id)
+          .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+  
+        const workedHours = this._workedHoursService.calculateWorkedHours(userStamps);
+  
+        if (workedHours < 4 && workedHours > 0) {
+          result.push(`Anomalia per ${user.name} ${user.surname}: ore lavorate = ${workedHours}.`);
+        }
+      });
+    }
+    return result;
   }
 
   protected readonly items = computed(() => [
@@ -166,35 +167,10 @@ export class DashboardComponent implements OnInit {
       action: { type: 'modal', label: 'Dettagli', modalId: 'AnomalyModal' }
     },
   ]);
-
-  protected readonly anomalyList = computed(() => {
-    const users = this.userList();
-    const stamps = this.stampList();
-    const result: string[] = [];
-
-    if (users.length && stamps.length) {
-      const todayStamps = stamps.filter(stamp => this.isStampToday(stamp));
-
-      users.forEach(user => {
-        if (user.role !== 'employee') return;
-
-        const userStamps = todayStamps
-          .filter(stamp => stamp.userID === user.id)
-          .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-
-        const workedHours = this._workedHoursService.calculateWorkedHours(userStamps);
-
-        if (workedHours < 4 && workedHours > 0) {
-          result.push(`Anomalia per ${user.name} ${user.surname}: ore lavorate = ${workedHours}.`);
-        }
-      });
-    }
-
-    return result;
-  });
-
-
-
+  
+  protected readonly anomalyList = computed(() => this.getTodayAnomalies());
+  
+  // Funzione per aprire il modal
   getModalContext(modalId: string): any {
     switch (modalId) {
       case 'AnomalyModal':
@@ -213,6 +189,4 @@ export class DashboardComponent implements OnInit {
         return { title: 'N/A', body: 'N/A' };
     }
   }
-
-
 }

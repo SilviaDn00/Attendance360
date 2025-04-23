@@ -32,7 +32,7 @@ export class WorkedHoursService {
       }
     }
   
-    return +(totalMinutes / 60).toFixed(2); // ritorna ore in decimale (es. 6.5 ore)
+    return +(totalMinutes / 60).toFixed(2); // ritorna ore in decimale
   }
 
   // Calcola le ore lavorate per un utente in una data specifica
