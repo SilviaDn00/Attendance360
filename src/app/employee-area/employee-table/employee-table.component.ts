@@ -1,9 +1,9 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { IStamp } from '../../shared/models/IStamp';
+import { IStamp } from '../../shared/models/stamp.interface';
 import { StampService } from '../services/stamp.service';
 import { LoginService } from '../../login-area/services/login.service';
 import { FilterComponent } from '../../shared/components/filter/filter.component';
-import { IFilters } from '../../shared/models/IFilter';
+import { IFilters } from '../../shared/models/filter.interface';
 import { WorkedHoursService } from '../../shared/services/worked-hours.service';
 import { Column, TableComponent } from '../../shared/components/table/table.component';
 

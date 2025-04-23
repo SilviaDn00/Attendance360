@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Column, TableComponent } from '../../shared/components/table/table.component';
-import { IUser } from '../../shared/models/IUser';
+import { IUser } from '../../shared/models/user.interface';
 import { UsersService } from '../../shared/services/users.service';
 import { ButtonProperties } from '../../shared/models/buttonProperties';
 import { RouterLink } from '@angular/router';
@@ -26,19 +26,16 @@ export class TeamManagementComponent implements OnInit {
   public rows: IUser[] = [];
 
   ngOnInit(): void {
-    this._userService.getUsers().subscribe(users => {
-      const userList = users
-        .filter(u => u.role === 'employee')
-        .map(u => ({
-          ...u,
-          rowClass: u.enabled ? '' : 'table-row-disabled',
-          button: [
-            new ButtonProperties('bi bi-pencil-square', `/dashboard/user-form/${u.id}`),
-            new ButtonProperties('bi bi-person-dash', undefined, () => this.disableUser(u.id)),
-            new ButtonProperties('bi bi-person-vcard-fill', `/dashboard/employee-details/${u.id}`)
-          ]
-        }));
-
+    this._userService.getUsers(true).subscribe(users => {
+      const userList = users.map(u => ({
+        ...u,
+        rowClass: u.enabled ? '' : 'table-row-disabled',
+        button: [
+          new ButtonProperties('bi bi-pencil-square', `/dashboard/user-form/${u.id}`),
+          new ButtonProperties('bi bi-person-dash', undefined, () => this.disableUser(u.id)),
+          new ButtonProperties('bi bi-person-vcard-fill', `/dashboard/employee-details/${u.id}`)
+        ]
+      }));
       this.rows = userList;
     });
   }

@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { StampService } from '../../employee-area/services/stamp.service';
-import { IEnrichedStamp } from '../../shared/models/IEnrichedStamp';
+import { IEnrichedStamp } from '../../shared/models/enrichedStamp.interface';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 

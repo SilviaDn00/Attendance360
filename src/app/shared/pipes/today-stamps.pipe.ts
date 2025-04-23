@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { IEnrichedStamp } from '../models/IEnrichedStamp';
+import { IEnrichedStamp } from '../models/enrichedStamp.interface';
 
 @Pipe({
   name: 'todayStamps'

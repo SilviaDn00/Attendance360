@@ -1,6 +1,6 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { UsersService } from '../../shared/services/users.service';
-import { IUser } from '../../shared/models/IUser';
+import { IUser } from '../../shared/models/user.interface';
 import { RouterLink } from '@angular/router';
 
 @Component({

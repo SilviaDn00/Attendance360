@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { User } from '../models/users';
+import { User } from '../models/user.DTO';
 
 @Injectable({
   providedIn: 'root',
@@ -10,28 +10,32 @@ export class UsersService {
   private readonly _http = inject(HttpClient);
 
   private readonly _url = 'http://localhost:5077/api/User'; // URL del tuo endpoint API
-  private readonly _urlUser = 'http://localhost:5077/api/User/GetUser'; // URL del tuo endpoint API
-  private readonly _urlEnabled = 'http://localhost:5077/api/User/EnabledUser'; // URL del tuo endpoint API
 
+  // getUsers(): Observable<User[]> {
+  //   return this._http.get<User[]>(this._url);
+  // }
 
-  getUsers(): Observable<User[]> {
-    return this._http.get<User[]>(this._url);
+  getUsers(onlyEmployees: boolean = false): Observable<User[]> {
+    const url = onlyEmployees
+      ? `${this._url}?onlyEmployees=true`
+      : this._url;
+    return this._http.get<User[]>(url);
   }
 
   getUserById(id: string): Observable<User> {
-    return this._http.get<User>(`${this._urlUser}/${id}`);
+    return this._http.get<User>(`${this._url}/${id}`);
   }
 
-  PostUsers(user : User): Observable<User[]> {
+  PostUsers(user: User): Observable<User[]> {
     return this._http.post<User[]>(this._url, user);
   }
 
-  UpdateUsers( user : User): Observable<User[]> {
+  UpdateUsers(user: User): Observable<User[]> {
     return this._http.put<User[]>(`${this._url}/${user.id}`, user);
   }
 
   UpdateUserEnabled(id: string): Observable<User> {
-    return this._http.put<User>(`${this._urlEnabled}/${id}`, {}); 
+    return this._http.put<User>(`${this._url}/${id}`, {});
   }
-  
+
 }

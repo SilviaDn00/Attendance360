@@ -2,10 +2,10 @@ import { Component, computed, DestroyRef, inject, OnInit, signal, untracked } fr
 import { LoginService } from '../../login-area/services/login.service';
 import { CardComponent } from '../../shared/components/card/card.component';
 import { UsersService } from '../../shared/services/users.service';
-import { User } from '../../shared/models/users';
-import { Stamp } from '../../shared/models/stamp';
+import { User } from '../../shared/models/user.DTO';
+import { Stamp } from '../../shared/models/stamp.DTO';
 import { StampService } from '../../employee-area/services/stamp.service';
-import { IEnrichedStamp } from '../../shared/models/IEnrichedStamp';
+import { IEnrichedStamp } from '../../shared/models/enrichedStamp.interface';
 import { Column, TableComponent } from '../../shared/components/table/table.component';
 import { RouterModule } from '@angular/router';
 import { WorkedHoursService } from '../../shared/services/worked-hours.service';

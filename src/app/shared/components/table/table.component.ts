@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { IFilters } from '../../models/IFilter';
+import { IFilters } from '../../models/filter.interface';
 import { RouterModule } from '@angular/router';
 
 export type Column<T> = {

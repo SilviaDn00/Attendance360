@@ -1,10 +1,11 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UsersService } from '../../shared/services/users.service';
-import { User } from '../../shared/models/users';
-import { IUser } from '../../shared/models/IUser';
+import { User } from '../../shared/models/user.DTO';
+import { IUser } from '../../shared/models/user.interface';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'app-user-form',
@@ -26,7 +27,7 @@ export class UserFormComponent implements OnInit {
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
     this.userFormGroup = this.formBuild.group({
-      id: [],
+      id: [uuidv4()],
       name: [, [Validators.required, Validators.minLength(1), Validators.maxLength(30)]],
       surname: [, [Validators.required, Validators.minLength(1), Validators.maxLength(30)]],
       username: [],

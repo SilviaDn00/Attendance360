@@ -7,12 +7,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { LoginService } from '../../login-area/services/login.service';
-import { Stamp, StampType } from '../../shared/models/stamp';
+import { Stamp, StampType } from '../../shared/models/stamp.DTO';
 import { StampService } from '../services/stamp.service';
 import { CommonModule } from '@angular/common';
 import { TodayStampsPipe } from '../../shared/pipes/today-stamps.pipe';
 import { Column, TableComponent } from '../../shared/components/table/table.component';
-
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'app-employee-management',
@@ -38,6 +38,7 @@ export class EmployeeManagementComponent implements OnInit {
 
   ngOnInit(): void {
     this.stampFormGroup = this.formBuild.group({
+      id: [uuidv4()],
       date: [new Date().toISOString().split('T')[0]],
       time: [0],
       type: [StampType],
