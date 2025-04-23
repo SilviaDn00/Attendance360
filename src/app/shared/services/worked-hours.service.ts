@@ -31,23 +31,17 @@ export class WorkedHoursService {
         }
       }
     }
-  
     return +(totalMinutes / 60).toFixed(2); // ritorna ore in decimale
   }
 
   // Calcola le ore lavorate per un utente in una data specifica
-  calculateWorkedHoursForUserOnDate(userId: string, date: Date, allStamps: Stamp[]): number {
+  getUserWorkedHours(userId: string, date: Date, allStamps: Stamp[]): number {
     const dateOnly = date.toISOString().slice(0, 10);
     const stampsForUserAndDate = allStamps
-      .filter(s =>
-        s.userID === userId &&
-        new Date(s.date).toISOString().slice(0, 10) === dateOnly
-      )
-      .sort((a, b) =>
-        this.parseTimeInMinutes(a.time) - this.parseTimeInMinutes(b.time)
-      );
+      .filter(s => s.userID === userId && new Date(s.date).toISOString().slice(0, 10) === dateOnly)
+      .sort((a, b) => this.parseTimeInMinutes(a.time) - this.parseTimeInMinutes(b.time));
   
     return this.calculateWorkedHours(stampsForUserAndDate);
   }
-  
 }
+ 

@@ -1,7 +1,7 @@
 import { CanActivateFn, Router } from '@angular/router';
 import { LoginService } from '../services/login.service';
 import { inject } from '@angular/core';
-import { of, switchMap } from 'rxjs';
+import { map } from 'rxjs';
 import { UsersService } from '../../shared/services/users.service';
 
 export const activateAuthGuard: CanActivateFn = (route, state) => {
@@ -13,30 +13,30 @@ export const activateAuthGuard: CanActivateFn = (route, state) => {
 
   if (!userId) {
     router.navigate(['/login']);
-    return of(false); 
+    return false; 
   }
 
   return userService.getUserById(userId).pipe(
-    switchMap(user => {
+    map(user => {
       if (!user.enabled) {
         alert("Impossibile effettuare l'accesso: Utente disabilitato");
         router.navigate(['/login']);
-        return of(false); 
+        return false; 
       }
 
       const role = user.role;
 
       if (role === 'admin' && !state.url.startsWith('/dashboard')) {
         router.navigate(['/dashboard']);
-        return of(false);
+        return false;
       }
 
       if (role === 'employee' && !state.url.startsWith('/employee-management')) {
         router.navigate(['/employee-management']);
-        return of(false);
+        return false;
       }
 
-      return of(true);
+      return true;
     })
   );
 };
