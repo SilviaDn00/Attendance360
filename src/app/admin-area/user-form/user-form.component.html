@@ -8,48 +8,25 @@
   }
 </div>
 
-
 <ng-template #Form let-value let-button="button">
+
   @let controls = userFormGroup.controls;
   <div class="form-control mt-3 shadow-lg">
     <div class="col-12">
       <h1 class="text-center">{{ value }}</h1>
     </div>
     <form [formGroup]="userFormGroup" class="p-4">
-      <div class="mb-3">
-        <label for="Name" class="form-label">Nome</label>
-        <input type="text" class="form-control" [formControlName]="'name'" id="Name"
-          [class]="controls['name'].untouched ? '' : (controls['name'].valid ? 'is-valid' : 'is-invalid')">
-      </div>
-
-      <div class="mb-3">
-        <label for="Surname" class="form-label">Cognome</label>
-        <input type="text" class="form-control" [formControlName]="'surname'" id="Surname"
-          [class]="controls['surname'].untouched ? '' : (controls['surname'].valid ? 'is-valid' : 'is-invalid')">
-      </div>
-
-      <div class="mb-3">
-        <label for="Email" class="form-label">Email</label>
-        <input type="email" class="form-control" [formControlName]="'email'" id="Email"  
-        [class]="controls['email'].untouched ? '' : (controls['email'].valid ? 'is-valid' : 'is-invalid')">
-      </div>
-
-      <div class="mb-3">
-        <label for="Password" class="form-label">Password</label>
-        <input type="password" class="form-control" [formControlName]="'password'" id="Password"
-          [class]="controls['password'].untouched ? '' : (controls['password'].valid ? 'is-valid' : 'is-invalid')">
-      </div>
-
-      <div class="mb-3">
-        <label for="Department" class="form-label">Reparto</label>
-        <input type="text" class="form-control" [formControlName]="'department'" id="Department"
-          [class]="controls['department'].untouched ? '' : (controls['department'].valid ? 'is-valid' : 'is-invalid')">
-      </div>
-
+      <app-text id="name" label="Nome" type="text" formControlName="name" [control]="controls['name']" />
+      <app-text id="surname" label="Cognome" type="text" formControlName="surname" [control]="controls['surname']"/>
+      <app-text id="email" label="Email" type="email" formControlName="email" [control]="controls['email']"/>
+      <app-text id="password" label="Password" type="password" formControlName="password" [control]="controls['password']"/>
+      <app-text id="department" label="Reparto" type="text" formControlName="department" [control]="controls['department']"/>
+      
       <div class="d-flex justify-content-between mt-5">
         <button [routerLink]="['/dashboard/team-management']" class="btn btn-primary shadow-lg">Indietro</button>
         <button type="submit" class="btn btn-primary" (click)="id ? EditUser() : AddUser()"> {{ button }} </button>
       </div>
+   
     </form>
   </div>
 </ng-template>

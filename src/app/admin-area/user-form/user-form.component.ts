@@ -6,10 +6,11 @@ import { IUser } from '../../shared/models/user.interface';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { v4 as uuidv4 } from 'uuid';
+import { TextComponent } from '../../shared/components/text/text.component';
 
 @Component({
   selector: 'app-user-form',
-  imports: [ReactiveFormsModule, RouterLink, CommonModule],
+  imports: [ReactiveFormsModule, RouterLink, CommonModule, TextComponent],
   templateUrl: './user-form.component.html',
   styleUrl: './user-form.component.scss'
 })
