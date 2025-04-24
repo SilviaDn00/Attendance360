@@ -1,8 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { StampService } from '../../employee-area/services/stamp.service';
 import { IEnrichedStamp } from '../../shared/models/enrichedStamp.interface';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { EnrichedStampService } from '../services/enriched-stamp.service';
 
 @Component({
   selector: 'app-stamping-details',
@@ -15,7 +15,8 @@ export class StampingDetailsComponent implements OnInit {
   public id: string | null = null;
   public username: string | null = null;
 
-  private _stampService = inject(StampService);
+  private _enrichedStampService = inject(EnrichedStampService);
+
 
   private _route = inject(ActivatedRoute);
 
@@ -30,11 +31,19 @@ export class StampingDetailsComponent implements OnInit {
     });
   }
 
+  // private loadData(): void {
+  //   if (!this.id) return;
+
+  //   this._stampService.GetStampById(this.id).subscribe(stamp => {
+  //     this.stamp = stamp;
+  //   });
+  // }
+
   private loadData(): void {
     if (!this.id) return;
-
-    this._stampService.GetStampById(this.id).subscribe(stamp => {
+    this._enrichedStampService.getEnrichedStampById(this.id).subscribe(stamp => {
       this.stamp = stamp;
     });
   }
+
 }

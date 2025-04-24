@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Stamp } from '../../shared/models/stamp.DTO';
 import { HttpClient } from '@angular/common/http';
+import { IEnrichedStamp } from '../../shared/models/enrichedStamp.interface';
 
 
 @Injectable({

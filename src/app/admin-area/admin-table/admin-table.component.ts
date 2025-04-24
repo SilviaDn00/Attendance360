@@ -1,14 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Column, TableComponent } from '../../shared/components/table/table.component';
-import { StampService } from '../../employee-area/services/stamp.service';
-import { UsersService } from '../../shared/services/users.service';
-import { IUser } from '../../shared/models/user.interface';
-import { IStamp } from '../../shared/models/stamp.interface';
 import { IEnrichedStamp } from '../../shared/models/enrichedStamp.interface';
 import { FilterComponent } from '../../shared/components/filter/filter.component';
 import { IFilters } from '../../shared/models/filter.interface';
 import { ButtonProperties } from '../../shared/models/buttonProperties';
 import { RouterLink } from '@angular/router';
+import { EnrichedStampService } from '../services/enriched-stamp.service';
 
 @Component({
   selector: 'app-admin-table',
@@ -18,8 +15,7 @@ import { RouterLink } from '@angular/router';
 })
 export class AdminTableComponent implements OnInit {
 
-  private _stampService = inject(StampService);
-  private _userService = inject(UsersService);
+  private _enrichedStampService = inject(EnrichedStampService);
   public currentFilters: IFilters | null = null;
 
   public columns: Column<IEnrichedStamp>[] = [
@@ -39,27 +35,16 @@ export class AdminTableComponent implements OnInit {
   }
 
   private loadData(): void {
-    this._userService.getUsers().subscribe((users: IUser[]) => {
-      this._stampService.GetStamp().subscribe((stamps: IStamp[]) => {
-        this.rows = stamps.map(stamp => {
-          const user = users.find(u => u.id?.trim().toLowerCase() === stamp.userID?.trim().toLowerCase());
-          var username = user ? `${user.name} ${user.surname}` : stamp.userID ?? 'N/A';
-          return {
-            username: user ? `${user.name} ${user.surname}` : stamp.userID ?? 'N/A',
-            role: user?.role ?? 'N/A',
-            department: user?.department ?? 'N/A',
-            date: stamp.date,
-            time: stamp.time,
-            type: stamp.type,
-            button: [
-              new ButtonProperties('bi bi-person-vcard-fill', `/dashboard/stamping-details/${stamp.id}/${(username)}`),
-            ],
-          };
-
-        }).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-      });
+    this._enrichedStampService.getEnrichedStamps().subscribe((enrichedStamps: IEnrichedStamp[]) => {
+      this.rows = enrichedStamps.map(stamp => ({
+        ...stamp,
+        button: [
+          new ButtonProperties('bi bi-person-vcard-fill', `/dashboard/stamping-details/${stamp.id}/${stamp.username}`)
+        ]
+      }));
     });
   }
+
 
   onFiltersChanged(filters: IFilters) {
     this.currentFilters = filters;

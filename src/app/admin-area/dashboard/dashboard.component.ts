@@ -12,6 +12,7 @@ import { WorkedHoursService } from '../../shared/services/worked-hours.service';
 import { TodayStampsPipe } from '../../shared/pipes/today-stamps.pipe';
 import { CommonModule } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { EnrichedStampService } from '../services/enriched-stamp.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,18 +24,17 @@ export class DashboardComponent implements OnInit {
 
   public logService = inject(LoginService);
   private _userService = inject(UsersService);
-  private _stampService = inject(StampService);
+  private _enrichedStampService = inject(EnrichedStampService);
   private _workedHoursService = inject(WorkedHoursService);
 
   public modalContext: { title: string; body: string } | null = null;
 
   protected readonly userList = signal<User[]>([]);
-  protected readonly stampList = signal<Stamp[]>([]);
+  protected readonly enrichedStampList = signal<IEnrichedStamp[]>([]);
 
   private readonly destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
-    // Inizializza i dati al caricamento del componente
     this.loadData();
   }
 
@@ -43,8 +43,8 @@ export class DashboardComponent implements OnInit {
       this.userList.set(userData);
     });
 
-    this._stampService.GetStamp().pipe(takeUntilDestroyed(this.destroyRef)).subscribe(stampData => {
-      this.stampList.set(stampData);
+    this._enrichedStampService.getTodayEnrichedStamps().pipe(takeUntilDestroyed(this.destroyRef)).subscribe(data => {
+      this.enrichedStampList.set(data);
     });
   }
 
@@ -58,82 +58,42 @@ export class DashboardComponent implements OnInit {
     { key: 'workedHours', label: 'Ore lavorate', type: 'number' },
   ];
 
-  protected readonly rows = computed(() =>
-    this.stampList().filter(s => this.isStampToday(s))
-      .map<IEnrichedStamp>(s => {
-        const user = this.userList().find(u =>
-          u.id?.trim().toLowerCase() === s.userID?.trim().toLowerCase()
-        );
+  protected readonly rows = computed(() => this.enrichedStampList());
 
-        return {
-          username: user ? `${user.name} ${user.surname}` : s.userID ?? 'N/A',
-          role: user?.role ?? 'N/A',
-          department: user?.department ?? 'N/A',
-          date: s.date,
-          time: s.time,
-          type: s.type,
-          workedHours: user ? this._workedHoursService.getUserWorkedHours(s.userID!, new Date(s.date), this.stampList()) : 0
-        };
-      })
-  );
-
-
-  // CARD "NUMERO TOTALE DEI DIPENDENTI"
   protected readonly totalEmployees = computed(() =>
     this.userList().filter(user => user.role === 'employee').length
   );
 
-  // CARD "TIMBRATURE DI OGGI"
-  protected readonly todayStampsCount = computed(() => {
-    const stamps = this.stampList();
-    return stamps.filter(stamp => this.isStampToday(stamp)).length;
-  });
+  protected readonly todayStampsCount = computed(() => this.enrichedStampList().length);
 
-  // CARD "PERCENTUALE DI PRESENZA"
   protected readonly todayPresencePercentage = computed(() => {
     const total = this.totalEmployees();
     if (total === 0) return 0;
 
-    const todayStamps = this.stampList().filter(stamp => this.isStampToday(stamp));
     const presentUsers = new Set<string>();
 
-    todayStamps.forEach(stamp => {
-      if (!stamp.userID) return;
-      if (stamp.type === 'ingresso') presentUsers.add(stamp.userID);
-      else if (stamp.type === 'uscita') presentUsers.delete(stamp.userID);
+    this.enrichedStampList().forEach(stamp => {
+      if (!stamp.userId) return;
+      if (stamp.type === 'ingresso') presentUsers.add(stamp.userId);
+      else if (stamp.type === 'uscita') presentUsers.delete(stamp.userId);
     });
 
     return Math.round((presentUsers.size / total) * 100);
   });
 
-  // CARD "ALERT SULLE ANOMALIE"
   protected readonly anomalyCount = computed(() => this.getTodayAnomalies().length);
 
-  // Funzione per verificare se una timbratura è avvenuta oggi
-  private isStampToday(stamp: Stamp): boolean {
-    const today = new Date();
-    const stampDate = new Date(stamp.date);
-    return (
-      stampDate.getDate() === today.getDate() &&
-      stampDate.getMonth() === today.getMonth() &&
-      stampDate.getFullYear() === today.getFullYear()
-    );
-  }
-
-  // Funzione per ottenere le anomalie di oggi
   private getTodayAnomalies(): string[] {
     const users = this.userList();
-    const stamps = this.stampList();
+    const stamps = this.enrichedStampList();
     const result: string[] = [];
 
     if (users.length && stamps.length) {
-      const todayStamps = stamps.filter(stamp => this.isStampToday(stamp));
-
       users.forEach(user => {
         if (user.role !== 'employee') return;
 
-        const userStamps = todayStamps
-          .filter(stamp => stamp.userID === user.id)
+        const userStamps = stamps
+          .filter(stamp => stamp.userId === user.id)
           .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
         const workedHours = this._workedHoursService.calculateWorkedHours(userStamps);
@@ -143,6 +103,7 @@ export class DashboardComponent implements OnInit {
         }
       });
     }
+
     return result;
   }
 
@@ -171,13 +132,12 @@ export class DashboardComponent implements OnInit {
 
   protected readonly anomalyList = computed(() => this.getTodayAnomalies());
 
-  // Funzione per aprire il modal
   getModalContext(modalId: string): any {
     switch (modalId) {
       case 'AnomalyModal':
         return {
           title: 'Dettagli Anomalia',
-          body: this.anomalyList().join('\n') // o mostrare come elenco se il template lo supporta
+          body: this.anomalyList().join('\n')
         };
 
       case 'AttendanceRateModal':
