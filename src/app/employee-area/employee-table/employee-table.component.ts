@@ -13,20 +13,22 @@ import { Column, TableComponent } from '../../shared/components/table/table.comp
   styleUrl: './employee-table.component.scss'
 })
 export class EmployeeTableComponent implements OnInit {
-  protected _logService = inject(LoginService);
-  private _employeeService = inject(StampService);
+  
+  public allRows: IStamp[] = [];
 
-  public currentFilters: IFilters | null = null;
-
-  public columns: Column<IStamp>[] = [
+  public readonly columns: Column<IStamp>[] = [
     { key: 'date', label: 'Data', type: 'date' },
     { key: 'time', label: 'Orario', type: 'string' },
     { key: 'type', label: 'Tipo di timbratura', type: 'string' }
   ];
 
-  public allRows: IStamp[] = [];
+  public currentFilters: IFilters | null = null;
 
-  ngOnInit(): void {
+  protected readonly _logService = inject(LoginService);
+
+  private readonly _employeeService = inject(StampService);
+
+  public ngOnInit(): void {
     const savedFilters = localStorage.getItem('employee-filters');
     if (savedFilters) {
       this.currentFilters = JSON.parse(savedFilters);
@@ -41,7 +43,7 @@ export class EmployeeTableComponent implements OnInit {
     });
   }
 
-  onFiltersChanged(filters: IFilters) {
+  public onFiltersChanged(filters: IFilters) {
     this.currentFilters = filters;
     localStorage.setItem('employee-filters', JSON.stringify(filters));
   }

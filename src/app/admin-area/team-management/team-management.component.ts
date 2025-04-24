@@ -1,9 +1,9 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, Injectable, OnInit } from '@angular/core';
 import { Column, TableComponent } from '../../shared/components/table/table.component';
 import { IUser } from '../../shared/models/user.interface';
 import { UsersService } from '../../shared/services/users.service';
-import { ButtonProperties } from '../../shared/models/buttonProperties';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { CommandService } from '../services/commands.service';
 
 @Component({
   selector: 'app-team-management',
@@ -14,6 +14,7 @@ import { RouterLink } from '@angular/router';
 export class TeamManagementComponent implements OnInit {
 
   private _userService = inject(UsersService);
+  private _router = inject(Router);
 
   public columns: Column<IUser>[] = [
     { key: 'name', label: 'Nome', type: 'string' },
@@ -25,29 +26,54 @@ export class TeamManagementComponent implements OnInit {
 
   public rows: IUser[] = [];
 
-  ngOnInit(): void {
+  constructor() {
+    const commandService = inject(CommandService);
+
+    commandService.registerCommand('navigateToUserForm', {
+      icon: 'bi bi-pencil-square',
+      action: (user: IUser) => this.navigateToUserForm(user.id),
+      family: 'user'
+    });
+
+    commandService.registerCommand('disableUser', {
+      icon: 'bi bi-person-dash',
+      action: (user: IUser) => this.disableUser(user.id),
+      family: 'user'
+    });
+
+    commandService.registerCommand('navigateToEmployeeDetails', {
+      icon: 'bi bi-person-vcard-fill',
+      action: (user: IUser) => this.navigateToEmployeeDetails(user.id),
+      family: 'user'
+    });
+  }
+
+
+ public ngOnInit(): void {
     this._userService.getUsers(true).subscribe(users => {
       const userList = users.map(u => ({
         ...u,
-        rowClass: u.enabled ? '' : 'table-row-disabled',
-        button: [
-          new ButtonProperties('bi bi-pencil-square', `/dashboard/user-form/${u.id}`),
-          new ButtonProperties('bi bi-person-dash', undefined, () => this.disableUser(u.id)),
-          new ButtonProperties('bi bi-person-vcard-fill', `/dashboard/employee-details/${u.id}`)
-        ]
+        rowClass: u.enabled ? '' : 'table-row-disabled'
       }));
       this.rows = userList;
     });
   }
 
-  disableUser(id: string): void {
+  public navigateToUserForm(id: string): void {
+    this._router.navigate([`/dashboard/user-form/${id}`]);
+  }
+
+  public disableUser(id: string): void {
     this._userService.UpdateUserEnabled(id).subscribe(updatedUser => {
       this.rows = this.rows.map(u =>
         u.id === updatedUser.id ? { ...u, enabled: updatedUser.enabled } : u
       );
     });
-
   }
-
-
+  
+  public navigateToEmployeeDetails(id: string): void {
+    this._router.navigate([`/dashboard/employee-details/${id}`]);
+  }
 }
+
+

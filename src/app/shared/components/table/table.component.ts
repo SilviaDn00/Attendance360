@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, inject, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { IFilters } from '../../models/filter.interface';
 import { RouterModule } from '@angular/router';
+import { CommandService } from '../../../admin-area/services/commands.service';
 
 export type Column<T> = {
   key: keyof T;
@@ -18,13 +19,15 @@ export type Column<T> = {
 })
 export class TableComponent<T> implements OnChanges {
 
+  protected commandsService = inject(CommandService);
+  @Input() public family: string = '';
+
   @Input() public columns: Column<T>[] = [];
   @Input() public rows: T[] = [];
   @Input() public rowsPerPage = 10;
   @Input() public typeOptions: string[] = [];
 
   @Input() public showFilters: boolean = true;  // Imposta la visibilità dei filtri
-
 
   @Input() set filters(value: IFilters | null) {
     this._filters = value;
@@ -69,20 +72,20 @@ export class TableComponent<T> implements OnChanges {
       const normalizedRowDate = new Date(rowDate.getFullYear(), rowDate.getMonth(), rowDate.getDate());
       const normalizedStart = filters.start ? new Date(filters.start.getFullYear(), filters.start.getMonth(), filters.start.getDate()) : null;
       const normalizedEnd = filters.end ? new Date(filters.end.getFullYear(), filters.end.getMonth(), filters.end.getDate()) : null;
-  
+
       const matchStart = !normalizedStart || normalizedRowDate >= normalizedStart;
       const matchEnd = !normalizedEnd || normalizedRowDate <= normalizedEnd;
       const matchType = !filters.type || (row as any)['type'] === filters.type;
       const matchUsername = !filters.username || (row as any)['username']?.toLowerCase().includes(filters.username.toLowerCase());
       const matchDepartment = !filters.department || (row as any)['department']?.toLowerCase().includes(filters.department.toLowerCase());
-  
+
       return matchStart && matchEnd && matchType && matchUsername && matchDepartment;
     });
-  
+
     this.currentPage = 1;
     this.updatePaginatedRows();
   }
-  
+
 
   updateVisiblePages(): void {
     const totalPages = this.totalPages;

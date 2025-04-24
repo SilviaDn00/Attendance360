@@ -3,9 +3,9 @@ import { Column, TableComponent } from '../../shared/components/table/table.comp
 import { IEnrichedStamp } from '../../shared/models/enrichedStamp.interface';
 import { FilterComponent } from '../../shared/components/filter/filter.component';
 import { IFilters } from '../../shared/models/filter.interface';
-import { ButtonProperties } from '../../shared/models/buttonProperties';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { EnrichedStampService } from '../services/enriched-stamp.service';
+import { CommandService } from '../services/commands.service';
 
 @Component({
   selector: 'app-admin-table',
@@ -15,7 +15,9 @@ import { EnrichedStampService } from '../services/enriched-stamp.service';
 })
 export class AdminTableComponent implements OnInit {
 
+  private _router = inject(Router);
   private _enrichedStampService = inject(EnrichedStampService);
+
   public currentFilters: IFilters | null = null;
 
   public columns: Column<IEnrichedStamp>[] = [
@@ -27,9 +29,20 @@ export class AdminTableComponent implements OnInit {
     { key: 'type', label: 'Tipo', type: 'stampType' },
     { key: 'button', label: 'Azione', type: 'button' },
   ];
+
   public rows: IEnrichedStamp[] = [];
 
-  ngOnInit(): void {
+  constructor() {
+    const commandService = inject(CommandService);
+
+    commandService.registerCommand('navigateToStampDetails', {
+      icon: 'bi bi-person-vcard-fill',
+      action: (stamp: IEnrichedStamp) => this.navigateToStampDetails(stamp.id, stamp.username),
+      family: 'stamp'
+    });
+  }
+
+  public ngOnInit(): void {
     this.restoreSavedFilters();
     this.loadData();
   }
@@ -37,16 +50,17 @@ export class AdminTableComponent implements OnInit {
   private loadData(): void {
     this._enrichedStampService.getEnrichedStamps().subscribe((enrichedStamps: IEnrichedStamp[]) => {
       this.rows = enrichedStamps.map(stamp => ({
-        ...stamp,
-        button: [
-          new ButtonProperties('bi bi-person-vcard-fill', `/dashboard/stamping-details/${stamp.id}/${stamp.username}`)
-        ]
+        ...stamp
       }));
     });
   }
 
+  public navigateToStampDetails(id: string, username: string): void {
+    this._router.navigate([`/dashboard/stamping-details/${id}/${username}`]);
+  }
 
-  onFiltersChanged(filters: IFilters) {
+
+  public onFiltersChanged(filters: IFilters) {
     this.currentFilters = filters;
     localStorage.setItem('admin-filters', JSON.stringify(filters));
   }
@@ -63,5 +77,4 @@ export class AdminTableComponent implements OnInit {
       };
     }
   }
-
 }
