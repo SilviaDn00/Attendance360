@@ -2,9 +2,9 @@ import { ButtonProperties } from "./buttonProperties";
 import { StampType } from "./stamp.DTO";
 
 export interface IEnrichedStamp {
-  id: string;
+  id?: string;
   userId?: string;
-  username: string;
+  username?: string;
   role?: string;
   department?: string;
   date: Date;

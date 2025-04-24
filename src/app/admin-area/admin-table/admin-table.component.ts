@@ -37,7 +37,7 @@ export class AdminTableComponent implements OnInit {
 
     commandService.registerCommand('navigateToStampDetails', {
       icon: 'bi bi-person-vcard-fill',
-      action: (stamp: IEnrichedStamp) => this.navigateToStampDetails(stamp.id, stamp.username),
+      action: (stamp: IEnrichedStamp) => this.navigateToStampDetails(stamp.id!, stamp.username!),
       family: 'stamp'
     });
   }

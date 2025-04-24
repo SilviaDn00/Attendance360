@@ -31,14 +31,6 @@ export class StampingDetailsComponent implements OnInit {
     });
   }
 
-  // private loadData(): void {
-  //   if (!this.id) return;
-
-  //   this._stampService.GetStampById(this.id).subscribe(stamp => {
-  //     this.stamp = stamp;
-  //   });
-  // }
-
   private loadData(): void {
     if (!this.id) return;
     this._enrichedStampService.getEnrichedStampById(this.id).subscribe(stamp => {
