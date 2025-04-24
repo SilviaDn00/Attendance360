@@ -5,7 +5,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatRadioModule } from '@angular/material/radio';
 import { IFilters } from '../../models/filter.interface';
-
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 
 @Component({
@@ -16,24 +16,20 @@ import { IFilters } from '../../models/filter.interface';
   styleUrl: './filter.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FilterComponent<T> implements OnInit {
 
+export class FilterComponent implements OnInit {
   readonly range = new FormGroup({
     start: new FormControl<Date | null>(null),
     end: new FormControl<Date | null>(null),
   });
 
+  public selectedType: string | null = null;
+  public usernameControl = new FormControl<string | null>(null);
+  public departmentControl = new FormControl<string | null>(null);
+
   @Input() initialFilters: IFilters | null = null;
   @Input() typeOptions: string[] = [];
-  @Output() filtersChanged = new EventEmitter<{ start: Date | null; end: Date | null; type: string | null }>();
-
-  public selectedType: string | null = null;
-
-  constructor() {
-    this.range.valueChanges.subscribe(() => {
-      this.emitFilters();
-    });
-  }
+  @Output() filtersChanged = new EventEmitter<IFilters>();
 
   ngOnInit(): void {
     if (this.initialFilters) {
@@ -43,33 +39,45 @@ export class FilterComponent<T> implements OnInit {
       });
 
       this.selectedType = this.initialFilters.type;
+      this.usernameControl.setValue(this.initialFilters.username ?? null);
+      this.departmentControl.setValue(this.initialFilters.department ?? null);
 
-      setTimeout(() => { this.emitFilters(); });
+      setTimeout(() => this.emitFilters());
     }
+
+    this.range.valueChanges.subscribe(() => this.emitFilters());
+
+    this.usernameControl.valueChanges.pipe(
+      debounceTime(1000),
+      distinctUntilChanged()
+    ).subscribe(() => this.emitFilters());
+
+    this.departmentControl.valueChanges.pipe(
+      debounceTime(1000),
+      distinctUntilChanged()
+    ).subscribe(() => this.emitFilters());
   }
 
-
   emitFilters() {
-    const start = this.range.value.start ?? null;
-    const end = this.range.value.end ?? null;
-
-    // Costruire il filtro in modo condizionale, ma tipizzato
     const filters: IFilters = {
-      start: start,
-      end: end,
-      type: this.selectedType
+      start: this.range.value.start ?? null,
+      end: this.range.value.end ?? null,
+      type: this.selectedType,
+      username: this.usernameControl.value ?? null,
+      department: this.departmentControl.value ?? null,
     };
 
-    this.filtersChanged.emit(filters); // Emissione con tipo specifico
+    this.filtersChanged.emit(filters);
   }
 
   resetFilters() {
     this.range.reset();
     this.selectedType = null;
+    this.usernameControl.reset();
+    this.departmentControl.reset();
     this.emitFilters();
-    localStorage.removeItem('employee-filters')
-    localStorage.removeItem('admin-filters')
-
+    localStorage.removeItem('employee-filters');
+    localStorage.removeItem('admin-filters');
   }
 
   onTypeChange(type: string | null) {

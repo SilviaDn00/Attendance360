@@ -23,6 +23,9 @@ export class TableComponent<T> implements OnChanges {
   @Input() public rowsPerPage = 10;
   @Input() public typeOptions: string[] = [];
 
+  @Input() public showFilters: boolean = true;  // Imposta la visibilità dei filtri
+
+
   @Input() set filters(value: IFilters | null) {
     this._filters = value;
     if (value) {
@@ -66,17 +69,20 @@ export class TableComponent<T> implements OnChanges {
       const normalizedRowDate = new Date(rowDate.getFullYear(), rowDate.getMonth(), rowDate.getDate());
       const normalizedStart = filters.start ? new Date(filters.start.getFullYear(), filters.start.getMonth(), filters.start.getDate()) : null;
       const normalizedEnd = filters.end ? new Date(filters.end.getFullYear(), filters.end.getMonth(), filters.end.getDate()) : null;
-
+  
       const matchStart = !normalizedStart || normalizedRowDate >= normalizedStart;
       const matchEnd = !normalizedEnd || normalizedRowDate <= normalizedEnd;
       const matchType = !filters.type || (row as any)['type'] === filters.type;
-
-      return matchStart && matchEnd && matchType;
+      const matchUsername = !filters.username || (row as any)['username']?.toLowerCase().includes(filters.username.toLowerCase());
+      const matchDepartment = !filters.department || (row as any)['department']?.toLowerCase().includes(filters.department.toLowerCase());
+  
+      return matchStart && matchEnd && matchType && matchUsername && matchDepartment;
     });
-
+  
     this.currentPage = 1;
     this.updatePaginatedRows();
   }
+  
 
   updateVisiblePages(): void {
     const totalPages = this.totalPages;

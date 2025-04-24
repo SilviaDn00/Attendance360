@@ -1,4 +1,4 @@
-<div class="ciao shadow-sm mb-4">
+<div class="filter-custom shadow-sm mb-4">
   <form class="row g-3 p-3">
     <mat-form-field appearance="fill" class="w-100">
       <mat-label>Inserisci un intervallo di date</mat-label>
@@ -18,15 +18,18 @@
       }
     </mat-form-field>
 
-    <mat-radio-group
-      aria-label="Select an option"
-      class="my-2"
-      [value]="selectedType"
-      (change)="onTypeChange($event.value)"
-    >
+    <mat-radio-group aria-label="Select an option" class="my-2" [value]="selectedType" (change)="onTypeChange($event.value)">
       <mat-radio-button value="ingresso" class="me-3">Ingresso</mat-radio-button>
       <mat-radio-button value="uscita">Uscita</mat-radio-button>
     </mat-radio-group>
+
+      <mat-label>Nome dipendente</mat-label>
+      <input class="form-control" [formControl]="usernameControl" placeholder="Es. Mario Rossi">
+    
+
+      <mat-label>Reparto</mat-label>
+      <input class="form-control" matInput [formControl]="departmentControl" placeholder="Es. IT, HR, ecc.">
+    
 
     <div class="text-end">
       <button class="btn btn-primary mt-2" type="button" (click)="resetFilters()">Reset filtri</button>
