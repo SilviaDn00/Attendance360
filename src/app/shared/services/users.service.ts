@@ -11,10 +11,6 @@ export class UsersService {
 
   private readonly _url = 'http://localhost:5077/api/User'; // URL del tuo endpoint API
 
-  // getUsers(): Observable<User[]> {
-  //   return this._http.get<User[]>(this._url);
-  // }
-
   getUsers(onlyEmployees: boolean = false): Observable<User[]> {
     const url = onlyEmployees
       ? `${this._url}?onlyEmployees=true`

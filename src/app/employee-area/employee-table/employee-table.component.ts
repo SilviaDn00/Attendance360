@@ -4,9 +4,7 @@ import { StampService } from '../services/stamp.service';
 import { LoginService } from '../../login-area/services/login.service';
 import { FilterComponent } from '../../shared/components/filter/filter.component';
 import { IFilters } from '../../shared/models/filter.interface';
-import { WorkedHoursService } from '../../shared/services/worked-hours.service';
 import { Column, TableComponent } from '../../shared/components/table/table.component';
-
 
 @Component({
   selector: 'app-employee-table',
@@ -17,15 +15,13 @@ import { Column, TableComponent } from '../../shared/components/table/table.comp
 export class EmployeeTableComponent implements OnInit {
   protected _logService = inject(LoginService);
   private _employeeService = inject(StampService);
-  private _workedHoursService = inject(WorkedHoursService);
 
   public currentFilters: IFilters | null = null;
 
   public columns: Column<IStamp>[] = [
     { key: 'date', label: 'Data', type: 'date' },
     { key: 'time', label: 'Orario', type: 'string' },
-    { key: 'type', label: 'Tipo di timbratura', type: 'string' },
-    { key: 'workedHours', label: 'Ore lavorate', type: 'number' }
+    { key: 'type', label: 'Tipo di timbratura', type: 'string' }
   ];
 
   public allRows: IStamp[] = [];
@@ -39,11 +35,9 @@ export class EmployeeTableComponent implements OnInit {
     const currentUserID = this._logService.getUserID();
 
     this._employeeService.GetStamp().subscribe(response => {
-      const userStamps = response.filter(stamp => stamp.userID === currentUserID);
-
-      this.allRows = userStamps.map(stamp => ({
-        ...stamp, workedHours: this._workedHoursService.getUserWorkedHours(currentUserID!, new Date(stamp.date), userStamps)
-      })).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      this.allRows = response
+        .filter(stamp => stamp.userID === currentUserID)
+        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
     });
   }
 

@@ -1,14 +1,11 @@
-import { Component, computed, DestroyRef, inject, OnInit, signal, untracked } from '@angular/core';
+import { Component, computed, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { LoginService } from '../../login-area/services/login.service';
 import { CardComponent } from '../../shared/components/card/card.component';
 import { UsersService } from '../../shared/services/users.service';
 import { User } from '../../shared/models/user.DTO';
-import { Stamp } from '../../shared/models/stamp.DTO';
-import { StampService } from '../../employee-area/services/stamp.service';
 import { IEnrichedStamp } from '../../shared/models/enrichedStamp.interface';
 import { Column, TableComponent } from '../../shared/components/table/table.component';
 import { RouterModule } from '@angular/router';
-import { WorkedHoursService } from '../../shared/services/worked-hours.service';
 import { TodayStampsPipe } from '../../shared/pipes/today-stamps.pipe';
 import { CommonModule } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -25,7 +22,6 @@ export class DashboardComponent implements OnInit {
   public logService = inject(LoginService);
   private _userService = inject(UsersService);
   private _enrichedStampService = inject(EnrichedStampService);
-  private _workedHoursService = inject(WorkedHoursService);
 
   public modalContext: { title: string; body: string } | null = null;
 
@@ -81,31 +77,28 @@ export class DashboardComponent implements OnInit {
     return Math.round((presentUsers.size / total) * 100);
   });
 
-  protected readonly anomalyCount = computed(() => this.getTodayAnomalies().length);
+  protected readonly anomalyCount = computed(() => this.anomalyList().length);
 
-  private getTodayAnomalies(): string[] {
+  protected readonly anomalyList = computed(() => {
     const users = this.userList();
     const stamps = this.enrichedStampList();
-    const result: string[] = [];
+    const anomalies: string[] = [];
 
     if (users.length && stamps.length) {
       users.forEach(user => {
         if (user.role !== 'employee') return;
 
-        const userStamps = stamps
-          .filter(stamp => stamp.userId === user.id)
-          .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+        const userStamps = stamps.filter(s => s.userId === user.id);
+        const totalWorked = userStamps.reduce((acc, s) => acc + (s.workedHours ?? 0), 0);
 
-        const workedHours = this._workedHoursService.calculateWorkedHours(userStamps);
-
-        if (workedHours < 4 && workedHours > 0) {
-          result.push(`Anomalia per ${user.name} ${user.surname}: ore lavorate = ${workedHours}.`);
+        if (totalWorked > 0 && totalWorked < 4) {
+          anomalies.push(`Anomalia per ${user.name} ${user.surname}: ore lavorate = ${totalWorked.toFixed(2)}.`);
         }
       });
     }
 
-    return result;
-  }
+    return anomalies;
+  });
 
   protected readonly items = computed(() => [
     {
@@ -129,8 +122,6 @@ export class DashboardComponent implements OnInit {
       action: { type: 'modal', label: 'Dettagli', modalId: 'AnomalyModal' }
     },
   ]);
-
-  protected readonly anomalyList = computed(() => this.getTodayAnomalies());
 
   getModalContext(modalId: string): any {
     switch (modalId) {
