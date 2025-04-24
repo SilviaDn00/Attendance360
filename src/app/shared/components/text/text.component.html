@@ -7,13 +7,20 @@
     <input
       [type]="type"
       class="form-control"
-      [attr.id]="id"
-      [attr.placeholder]="placeholder"
+      [attr.placeholder]="control?.touched && control?.errors?.['required'] ? 'Il campo è obbligatorio' : placeholder"
       [disabled]="disabled"
+      [attr.id]="id"
       [value]="value"
       (input)="onInput($event)"
       (blur)="onTouched()"
       [class.is-valid]="control && control.touched && control.valid"
       [class.is-invalid]="control && control.touched && control.invalid"
-    />
+    /> 
+    
+   <!-- @if (control?.errors?.['required'] && control?.touched)  {
+     <p class="text-danger"> Il campo è obbligatorio. </p>
+   } -->
+       
   </div>
+
+ 
