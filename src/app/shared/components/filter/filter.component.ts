@@ -6,11 +6,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatRadioModule } from '@angular/material/radio';
 import { IFilters } from '../../models/filter.interface';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { CommonModule } from '@angular/common';
 
 
 @Component({
   selector: 'app-filter',
-  imports: [MatFormFieldModule, MatDatepickerModule, FormsModule, ReactiveFormsModule, MatRadioModule],
+  imports: [MatFormFieldModule, MatDatepickerModule, FormsModule, ReactiveFormsModule, MatRadioModule, CommonModule],
   providers: [provideNativeDateAdapter()],
   templateUrl: './filter.component.html',
   styleUrl: './filter.component.scss',
@@ -29,6 +30,10 @@ export class FilterComponent implements OnInit {
 
   @Input() initialFilters: IFilters | null = null;
   @Input() typeOptions: string[] = [];
+
+  @Input() showUsernameFilter = true;
+  @Input() showDepartmentFilter = true;
+
   @Output() filtersChanged = new EventEmitter<IFilters>();
 
   ngOnInit(): void {
