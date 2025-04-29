@@ -1,12 +1,11 @@
-<div class="container-fluid d-lg-flex justify-content-center">
-    <div class="row">
-        <div class="col-lg-4 col-12 mt-4 d-flex flex-column align-items-center justify-content-center">
-            <h1 class="mb-4 text-center">FILTRI</h1>
+<h1 class="ps-3 mb-4 d-flex justify-content-center my-5 text-center">STORICO COMPLETO DEI DIPENDENTI</h1>
+<div class="container-fluid d-lg-flex ">
+    <div class="row mt-4">
+        <div class="col-lg-3 col-12">
             <app-filter [typeOptions]="['entrata', 'uscita']" [initialFilters]="currentFilters"
                 (filtersChanged)="onFiltersChanged($event)"></app-filter>
         </div>
-        <div class="col-lg-8 col-12 mt-4">
-            <h1 class="ps-3 mb-4">STORICO COMPLETO DEI DIPENDENTI</h1>
+        <div class="col-lg-9 col-12">
             <app-table [columns]="columns" [rows]="rows" [filters]="currentFilters" family="stamp"></app-table>
         </div>
     </div>

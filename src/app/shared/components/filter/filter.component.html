@@ -1,4 +1,5 @@
 <div class="filter-custom shadow-sm mb-4">
+  <h1 class="py-3 text-center">FILTRI</h1>
   <form class="row g-3 p-3">
     <mat-form-field appearance="fill" class="w-100">
       <mat-label>Inserisci un intervallo di date</mat-label>
@@ -11,25 +12,31 @@
       <mat-date-range-picker #picker></mat-date-range-picker>
 
       @if (range.controls.start.hasError('matStartDateInvalid')) {
-        <mat-error>Invalid start date</mat-error>
+      <mat-error>Invalid start date</mat-error>
       }
       @if (range.controls.end.hasError('matEndDateInvalid')) {
-        <mat-error>Invalid end date</mat-error>
+      <mat-error>Invalid end date</mat-error>
       }
     </mat-form-field>
 
-    <mat-radio-group aria-label="Select an option" class="my-2" [value]="selectedType" (change)="onTypeChange($event.value)">
+    <mat-radio-group aria-label="Select an option" class="my-2" [value]="selectedType"
+      (change)="onTypeChange($event.value)">
       <mat-radio-button value="ingresso" class="me-3">Ingresso</mat-radio-button>
       <mat-radio-button value="uscita">Uscita</mat-radio-button>
     </mat-radio-group>
 
+    <div *ngIf="showUsernameFilter">
       <mat-label>Nome dipendente</mat-label>
       <input class="form-control" [formControl]="usernameControl" placeholder="Es. Mario Rossi">
-    
+    </div>
 
+
+    <div *ngIf="showDepartmentFilter">
       <mat-label>Reparto</mat-label>
       <input class="form-control" matInput [formControl]="departmentControl" placeholder="Es. IT, HR, ecc.">
-    
+    </div>
+
+
 
     <div class="text-end">
       <button class="btn btn-primary mt-2" type="button" (click)="resetFilters()">Reset filtri</button>
