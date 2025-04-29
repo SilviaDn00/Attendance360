@@ -10,6 +10,7 @@ import { TodayStampsPipe } from '../../shared/pipes/today-stamps.pipe';
 import { CommonModule } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { EnrichedStampService } from '../services/enriched-stamp.service';
+import { AnomaliesService } from '../services/anomalies.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -22,13 +23,14 @@ export class DashboardComponent implements OnInit {
   public logService = inject(LoginService);
   private _userService = inject(UsersService);
   private _enrichedStampService = inject(EnrichedStampService);
+  private _anomaliesService = inject(AnomaliesService); // Assuming this is the correct service for worked hours calculation
+  private readonly destroyRef = inject(DestroyRef);
 
   public modalContext: { title: string; body: string } | null = null;
 
   protected readonly userList = signal<User[]>([]);
+  protected readonly anomalyList = signal<string[]>([]);
   protected readonly enrichedStampList = signal<IEnrichedStamp[]>([]);
-
-  private readonly destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
     this.loadData();
@@ -40,10 +42,15 @@ export class DashboardComponent implements OnInit {
     });
 
     this._enrichedStampService.getTodayEnrichedStamps().pipe(takeUntilDestroyed(this.destroyRef)).subscribe(data => {
-      this.enrichedStampList.set(data);
-    });
+      this.enrichedStampList.set(data)
+    })
+
+    this._anomaliesService.GetTodayAnomalies().pipe(takeUntilDestroyed(this.destroyRef)).subscribe(anomaliesList => {
+      this.anomalyList.set(anomaliesList)
+    })
   }
 
+  //tabella con le timbrature
   public columns: Column<IEnrichedStamp>[] = [
     { key: 'username', label: 'Dipendente', type: 'string' },
     { key: 'department', label: 'Reparto', type: 'string' },
@@ -56,12 +63,15 @@ export class DashboardComponent implements OnInit {
 
   protected readonly rows = computed(() => this.enrichedStampList());
 
-  protected readonly totalEmployees = computed(() =>
-    this.userList().filter(user => user.role === 'employee').length
+
+  //card sul numero totale dei dipendenti
+  protected readonly totalEmployees = computed(() => this.userList().filter(user => user.role === 'employee').length
   );
 
+  //card sul numero di timbrature di oggi
   protected readonly todayStampsCount = computed(() => this.enrichedStampList().length);
 
+  //card su % di presenza
   protected readonly todayPresencePercentage = computed(() => {
     const total = this.totalEmployees();
     if (total === 0) return 0;
@@ -77,28 +87,11 @@ export class DashboardComponent implements OnInit {
     return Math.round((presentUsers.size / total) * 100);
   });
 
-  protected readonly anomalyCount = computed(() => this.anomalyList().length);
+  // card sul numero di anomalie
+  protected readonly anomaliesCount = computed(() => this.anomalyList().length);
 
-  protected readonly anomalyList = computed(() => {
-    const users = this.userList();
-    const stamps = this.enrichedStampList();
-    const anomalies: string[] = [];
-
-    if (users.length && stamps.length) {
-      users.forEach(user => {
-        if (user.role !== 'employee') return;
-
-        const userStamps = stamps.filter(s => s.userId === user.id);
-        const totalWorked = userStamps.reduce((acc, s) => acc + (s.workedHours ?? 0), 0);
-
-        if (totalWorked > 0 && totalWorked < 4) {
-          anomalies.push(`Anomalia per ${user.name} ${user.surname}: ore lavorate = ${totalWorked.toFixed(2)}.`);
-        }
-      });
-    }
-
-    return anomalies;
-  });
+  // lista delle anomalie
+  protected readonly anomaliesList = computed(() => this.anomalyList());
 
   protected readonly items = computed(() => [
     {
@@ -118,17 +111,23 @@ export class DashboardComponent implements OnInit {
     },
     {
       title: 'Anomalie:',
-      text: this.anomalyCount(),
+      text: this.anomaliesCount(),
       action: { type: 'modal', label: 'Dettagli', modalId: 'AnomalyModal' }
     },
   ]);
 
+  // Funzione per aprire il modal
   getModalContext(modalId: string): any {
     switch (modalId) {
       case 'AnomalyModal':
+        const anomalies = this.anomalyList(); // <-- prendo direttamente la lista
+        const anomalyDetails = anomalies.length
+          ? anomalies.map(anomaly => `Anomalia: ${anomaly}`).join('\n')
+          : 'Nessuna anomalia rilevata.';
+
         return {
           title: 'Dettagli Anomalia',
-          body: this.anomalyList().join('\n')
+          body: anomalyDetails
         };
 
       case 'AttendanceRateModal':
@@ -141,4 +140,5 @@ export class DashboardComponent implements OnInit {
         return { title: 'N/A', body: 'N/A' };
     }
   }
+  
 }
