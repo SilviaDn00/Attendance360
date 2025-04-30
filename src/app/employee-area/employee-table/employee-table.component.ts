@@ -5,6 +5,7 @@ import { LoginService } from '../../login-area/services/login.service';
 import { FilterComponent } from '../../shared/components/filter/filter.component';
 import { IFilters } from '../../shared/models/filter.interface';
 import { Column, TableComponent } from '../../shared/components/table/table.component';
+import { FilterService } from '../../shared/services/filter.service';
 
 @Component({
   selector: 'app-employee-table',
@@ -28,6 +29,8 @@ export class EmployeeTableComponent implements OnInit {
 
   private readonly _employeeService = inject(StampService);
 
+  private readonly _filterService = inject(FilterService);
+
   public ngOnInit(): void {
     const savedFilters = localStorage.getItem('employee-filters');
     if (savedFilters) {
@@ -41,10 +44,15 @@ export class EmployeeTableComponent implements OnInit {
         .filter(stamp => stamp.userID === currentUserID)
         .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
     });
+    this.restoreSavedFilters();
   }
 
   public onFiltersChanged(filters: IFilters) {
     this.currentFilters = filters;
-    localStorage.setItem('employee-filters', JSON.stringify(filters));
+    this._filterService.saveFilters(filters);
+  }
+
+  private restoreSavedFilters(): void {
+    this.currentFilters = this._filterService.loadFilters();
   }
 }

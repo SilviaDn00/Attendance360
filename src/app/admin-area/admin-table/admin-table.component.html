@@ -1,6 +1,6 @@
 <h1 class="ps-3 mb-4 d-flex justify-content-center my-5 text-center">STORICO COMPLETO DEI DIPENDENTI</h1>
-<div class="container-fluid d-lg-flex ">
-    <div class="row mt-4">
+<div class="container-fluid">
+    <div class="row mt-4" style="width: 100%;">
         <div class="col-lg-3 col-12">
             <app-filter [typeOptions]="['entrata', 'uscita']" [initialFilters]="currentFilters"
                 (filtersChanged)="onFiltersChanged($event)"></app-filter>

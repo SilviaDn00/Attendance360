@@ -6,6 +6,7 @@ import { IFilters } from '../../shared/models/filter.interface';
 import { Router, RouterLink } from '@angular/router';
 import { EnrichedStampService } from '../services/enriched-stamp.service';
 import { CommandService } from '../services/commands.service';
+import { FilterService } from '../../shared/services/filter.service';
 
 @Component({
   selector: 'app-admin-table',
@@ -17,6 +18,7 @@ export class AdminTableComponent implements OnInit {
 
   private _router = inject(Router);
   private _enrichedStampService = inject(EnrichedStampService);
+  private _filterService = inject(FilterService);
 
   public currentFilters: IFilters | null = null;
 
@@ -62,19 +64,12 @@ export class AdminTableComponent implements OnInit {
 
   public onFiltersChanged(filters: IFilters) {
     this.currentFilters = filters;
-    localStorage.setItem('admin-filters', JSON.stringify(filters));
+    this._filterService.saveFilters(filters);
   }
+  
 
   private restoreSavedFilters(): void {
-    const savedFilters = localStorage.getItem('admin-filters');
-    if (savedFilters) {
-      const parsed: IFilters = JSON.parse(savedFilters);
-      // ricostruisci le date perché da JSON sono stringhe
-      this.currentFilters = {
-        start: parsed.start ? new Date(parsed.start) : null,
-        end: parsed.end ? new Date(parsed.end) : null,
-        type: parsed.type ?? null,
-      };
-    }
+    this.currentFilters = this._filterService.loadFilters();
   }
+  
 }
