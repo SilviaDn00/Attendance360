@@ -11,6 +11,7 @@ import { TextComponent } from '../../shared/components/text/text.component';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
+
 export class LoginComponent {
   private _logService: LoginService = inject(LoginService);
   private _router: Router = inject(Router);

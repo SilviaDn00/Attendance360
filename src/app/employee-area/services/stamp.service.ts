@@ -31,6 +31,10 @@ export class StampService {
     return this._http.get<Stamp>(`${this._url}/${id}`);
   }
 
+  GetStampByUserId(userId: string | null): Observable<Stamp[]> {
+    return this._http.get<Stamp[]>(`${this._url}/Get/${userId}`);
+  }
+
   PostStamp(stamp: Stamp): Observable<Stamp> {
     return this._http.post<Stamp>(this._url, stamp);
   }

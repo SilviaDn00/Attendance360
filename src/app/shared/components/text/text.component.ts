@@ -64,4 +64,5 @@ export class TextComponent implements ControlValueAccessor {
     this.onChange(this.value);
     // this.onValidatorChange();
   }
+  
 }
