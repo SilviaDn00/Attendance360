@@ -13,10 +13,8 @@ import { EnrichedStampService } from '../services/enriched-stamp.service';
 export class StampingDetailsComponent implements OnInit {
 
   public id: string | null = null;
-  public username: string | null = null;
 
   private _enrichedStampService = inject(EnrichedStampService);
-
 
   private _route = inject(ActivatedRoute);
 
@@ -24,8 +22,7 @@ export class StampingDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this._route.paramMap.subscribe(params => {
-      this.id = params.get('id');
-      this.username = params.get('username');
+      this.id = params.get('id');      
 
       this.loadData();
     });

@@ -56,7 +56,7 @@ export class AdminTableComponent implements OnInit {
   }
 
   public navigateToStampDetails(id: string, username: string): void {
-    this._router.navigate([`/dashboard/stamping-details/${id}/${username}`]);
+    this._router.navigate([`/dashboard/stamping-details/${id}`]);
   }
 
 

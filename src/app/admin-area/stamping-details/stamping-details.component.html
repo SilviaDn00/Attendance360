@@ -10,7 +10,7 @@
       @if(stamp) {
         <div class="col-lg-6 col-12">
             <p><strong>ID Timbratura:</strong> {{ stamp.id }}</p>
-            <p><strong>Dipendente:</strong> {{ username }}</p>
+            <p><strong>Dipendente:</strong> {{ stamp.username }}</p>
             <p><strong>Data:</strong> {{ stamp.date | date: 'mediumDate' }}</p>
             <p><strong>Ora:</strong> {{ stamp.time }}</p>
             <p><strong>Tipo:</strong> {{ stamp.type }}</p>
