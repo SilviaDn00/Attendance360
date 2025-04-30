@@ -32,10 +32,6 @@ export class EmployeeTableComponent implements OnInit {
   private readonly _filterService = inject(FilterService);
 
   public ngOnInit(): void {
-    const savedFilters = localStorage.getItem('employee-filters');
-    if (savedFilters) {
-      this.currentFilters = JSON.parse(savedFilters);
-    }
 
     const currentUserID = this._logService.getUserID();
 
@@ -44,6 +40,7 @@ export class EmployeeTableComponent implements OnInit {
         .filter(stamp => stamp.userID === currentUserID)
         .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
     });
+    
     this.restoreSavedFilters();
   }
 
