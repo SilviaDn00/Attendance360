@@ -9,7 +9,7 @@ import { User } from '../models/user.DTO';
 export class UsersService {
   private readonly _http = inject(HttpClient);
 
-  private readonly _url = 'http://localhost:5077/api/User'; // URL del tuo endpoint API
+  private readonly _url = 'https://localhost:44333/api/User'; 
 
   getUsers(onlyEmployees: boolean = false): Observable<User[]> {
     const url = onlyEmployees

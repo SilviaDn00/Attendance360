@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class AnomaliesService {
   private readonly _http = inject(HttpClient);
-  private readonly _urlAnomaly = 'http://localhost:5077/api/Anomalies/today'; // URL del tuo endpoint API
+  private readonly _urlAnomaly = 'https://localhost:44333/api/Anomalies/today'; // URL del tuo endpoint API
 
   constructor() { }
 

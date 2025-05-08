@@ -13,7 +13,7 @@ export class StampService {
   listaStamp: Stamp[] = [];
 
   private _http = inject(HttpClient);
-  private _url = 'http://localhost:5077/api/Stamp'; // URL del tuo endpoint API
+  private _url = 'https://localhost:44333/api/Stamp'; 
 
 
   constructor() {

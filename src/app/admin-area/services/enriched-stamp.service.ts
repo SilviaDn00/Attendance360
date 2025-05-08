@@ -8,8 +8,8 @@ import { IEnrichedStamp } from '../../shared/models/enrichedStamp.interface';
 })
 export class EnrichedStampService {
   private _http = inject(HttpClient);
-  private _urlEnrichedStamp = 'http://localhost:5077/api/enrichedstamp'; // URL del tuo endpoint API
-  private _urlTodayEnrichedStamp = 'http://localhost:5077/api/enrichedstamp/today';
+  private _urlEnrichedStamp = 'https://localhost:44333/api/enrichedstamp'; // URL del tuo endpoint API
+  private _urlTodayEnrichedStamp = 'https://localhost:44333/api/enrichedstamp/today';
 
   constructor() { }
 
