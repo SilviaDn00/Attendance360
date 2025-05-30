@@ -7,10 +7,11 @@ import { Router, RouterLink } from '@angular/router';
 import { EnrichedStampService } from '../services/enriched-stamp.service';
 import { CommandService } from '../services/commands.service';
 import { FilterService } from '../../shared/services/filter.service';
+import { TableColumnDirective } from '../../shared/directives/table-column.directive';
 
 @Component({
   selector: 'app-admin-table',
-  imports: [TableComponent, FilterComponent, RouterLink],
+  imports: [TableComponent, FilterComponent, RouterLink, TableColumnDirective],
   templateUrl: './admin-table.component.html',
   styleUrl: './admin-table.component.scss'
 })
@@ -25,7 +26,7 @@ export class AdminTableComponent implements OnInit {
   public columns: Column<IEnrichedStamp>[] = [
     { key: 'username', label: 'Dipendente', type: 'string' },
     { key: 'department', label: 'Reparto', type: 'string' },
-    { key: 'role', label: 'Ruolo', type: 'string' },
+    { key: 'role', label: 'Ruolo', type: 'custom', cellTemplate: 'roleTemplate' },
     { key: 'date', label: 'Data', type: 'date' },
     { key: 'time', label: 'Orario', type: 'string' },
     { key: 'type', label: 'Tipo', type: 'stampType' },

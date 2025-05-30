@@ -18,6 +18,11 @@
               }
               @case('button') {
                 <ng-container *ngTemplateOutlet="buttonTemplate; context:{ $implicit: $any(value), row: row }" />
+              }    
+              @case('custom') {
+                <td class="py-2 px-lg-4 text-nowrap">
+                  <ng-container *ngTemplateOutlet="$any(col.cellTemplate); context: {$implicit: $any(value), row: row, column: columns}"/>
+                </td>
               }
               @default {
                 <ng-container *ngTemplateOutlet="valueTemplate; context: { $implicit: value  }" />

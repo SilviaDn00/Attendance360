@@ -6,7 +6,11 @@
                 (filtersChanged)="onFiltersChanged($event)"></app-filter>
         </div>
         <div class="col-lg-9 col-12">
-            <app-table [columns]="columns" [rows]="rows" [filters]="currentFilters" family="stamp"></app-table>
+            <app-table [columns]="columns" [rows]="rows" [filters]="currentFilters" family="stamp">
+                <ng-template appTableColumn="roleTemplate" let-value>
+                    <b>{{value}}</b>
+                </ng-template>
+            </app-table>
         </div>
     </div>
 </div>

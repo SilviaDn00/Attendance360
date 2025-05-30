@@ -1,14 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { AfterContentInit, Component, ContentChildren, inject, Input, OnChanges, QueryList, SimpleChanges, TemplateRef } from '@angular/core';
 import { IFilters } from '../../models/filter.interface';
 import { RouterModule } from '@angular/router';
 import { CommandService } from '../../../admin-area/services/commands.service';
+import { TableColumnDirective } from '../../directives/table-column.directive';
 
 export type Column<T> = {
   key: keyof T;
   label: string;
-  type: 'number' | 'date' | 'string' | 'boolean' | 'stampType' | 'userID' | 'department' | 'role' | 'time' | 'button';
+  type: 'number' | 'date' | 'string' | 'boolean' | 'stampType' | 'userID' | 'department' | 'role' | 'time' | 'button' | 'custom';
+  cellTemplate?: string | TemplateRef<any> ;
 }
+
 
 @Component({
   selector: 'app-table',
@@ -17,7 +20,7 @@ export type Column<T> = {
   styleUrls: ['./table.component.scss'],
   standalone: true,
 })
-export class TableComponent<T> implements OnChanges {
+export class TableComponent<T> implements OnChanges, AfterContentInit {
 
   protected commandsService = inject(CommandService);
   @Input() public family: string = '';
@@ -39,6 +42,10 @@ export class TableComponent<T> implements OnChanges {
     }
   }
 
+  //query contentChildren
+  @ContentChildren(TableColumnDirective) tableColumns!: QueryList<TableColumnDirective>;
+
+
   private _filters: IFilters | null = null;
 
   public filteredRows: T[] = [];
@@ -57,6 +64,21 @@ export class TableComponent<T> implements OnChanges {
       }
     }
   }
+
+
+  ngAfterContentInit(): void {
+    this.tableColumns.map(c => ({ //mettere le parentesi tonde prima delle graffe serve a far si che ql'arrow function restituisca un object literal
+      name: c.templateName,
+      templateRef: c.template
+    })).forEach(template => {
+      this.columns.filter(
+        col => col.cellTemplate === template.name
+      ).forEach(col =>
+        col.cellTemplate = template.templateRef
+      )
+    })
+  }
+
 
   get totalPages(): number {
     return Math.ceil(this.filteredRows.length / this.rowsPerPage);
